@@ -1,0 +1,85 @@
+<footer class="bg-[#3A5A40] text-white py-8 md:py-12 safe-area-bottom safe-area-x">
+  <div class="container mx-auto px-4 max-w-[1400px]">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+      <!-- Contact Info -->
+      <div class="text-right">
+        <h3 class="text-xl font-bold mb-4 text-[#D4A373]">{{ section.settings.contact_title }}</h3>
+        <p class="mb-2">{{ section.settings.phone }}</p>
+        <p class="mb-2">{{ section.settings.email }}</p>
+        <p>{{ section.settings.address }}</p>
+      </div>
+
+      <!-- Newsletter -->
+      <div class="text-right">
+        <h3 class="text-xl font-bold mb-4 text-[#D4A373]">{{ section.settings.newsletter_title }}</h3>
+        {% form 'customer' %}
+          <div class="flex gap-2">
+            <button type="submit" class="bg-[#D4A373] hover:bg-[#D4A373]/90 px-4 py-2 rounded-lg">{{ 'newsletter.button_label' | t }}</button>
+            <input type="email" name="contact[email]" class="bg-white/10 border-white/20 text-white placeholder:text-white/50 rounded-lg px-4" dir="rtl" placeholder="{{ 'newsletter.email_placeholder' | t }}">
+          </div>
+        {% endform %}
+      </div>
+
+      <!-- Social Links -->
+      <div class="text-right">
+        <h3 class="text-xl font-bold mb-4 text-[#D4A373]">{{ section.settings.social_title }}</h3>
+        <div class="flex gap-4 justify-end">
+          {% if settings.social_facebook_link != blank %}
+            <a href="{{ settings.social_facebook_link }}" target="_blank" rel="noopener" class="hover:text-[#D4A373] transition-colors">Facebook</a>
+          {% endif %}
+          {% if settings.social_instagram_link != blank %}
+            <a href="{{ settings.social_instagram_link }}" target="_blank" rel="noopener" class="hover:text-[#D4A373] transition-colors">Instagram</a>
+          {% endif %}
+          {% if settings.social_whatsapp_link != blank %}
+            <a href="{{ settings.social_whatsapp_link }}" target="_blank" rel="noopener" class="hover:text-[#D4A373] transition-colors">WhatsApp</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="border-t border-white/20 mt-8 pt-8 text-center text-white/60">
+      <p>© {{ 'now' | date: "%Y" }} {{ shop.name }}. {{ 'footer.copyright' | t }}</p>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "contact_title",
+      "label": "Contact Title",
+      "default": "Contact Us"
+    },
+    {
+      "type": "text",
+      "id": "phone",
+      "label": "Phone Number"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email Address"
+    },
+    {
+      "type": "text",
+      "id": "address",
+      "label": "Address"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_title",
+      "label": "Newsletter Title",
+      "default": "Newsletter"
+    },
+    {
+      "type": "text",
+      "id": "social_title",
+      "label": "Social Title",
+      "default": "Follow Us"
+    }
+  ]
+}
+{% endschema %}

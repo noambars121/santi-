@@ -1,0 +1,33 @@
+stackbitVersion: ~0.5.0
+
+ssgName: custom
+nodeVersion: 18
+
+experimental:
+  ssg:
+    name: vite
+    devCommand: npm run dev
+    buildCommand: npm run build
+    devBrowser: false
+    publishDir: dist
+
+contentSources:
+  - name: git
+    rootPath: .
+    contentDirs:
+      - content
+
+assetSources:
+  - name: git
+    rootPath: public
+    publicPath: /
+
+environment:
+  - name: VITE_TEMPO
+    value: "true"
+  - name: NODE_ENV
+    value: "development"
+  - name: HOST
+    value: "0.0.0.0"
+  - name: PORT
+    value: "3000"

@@ -1,0 +1,125 @@
+<section id="gallery" class="py-20 bg-[#3A5A40]/5" role="region" aria-label="גלריה">
+  <div class="container mx-auto px-4 max-w-[1400px]">
+    <div class="text-center mb-12">
+      <h2 class="text-4xl font-bold text-[#3A5A40] mb-4">{{ section.settings.title }}</h2>
+      <p class="text-lg text-gray-600 mb-8">{{ section.settings.description }}</p>
+    </div>
+
+    <div class="relative">
+      <div class="gallery-slider overflow-hidden">
+        <div class="flex transition-transform duration-300 ease-in-out">
+          {% for block in section.blocks %}
+            {% if block.type == 'gallery_item' %}
+              <div class="relative min-w-full p-1">
+                <img
+                  src="{{ block.settings.image | img_url: 'master' }}"
+                  alt="{{ block.settings.title }}"
+                  loading="lazy"
+                  class="w-full h-[300px] md:h-[500px] object-cover rounded-xl bg-gray-100"
+                />
+                <div class="absolute bottom-0 right-0 left-0 bg-gradient-to-t from-black/70 to-transparent p-6 rounded-b-lg">
+                  <h3 class="text-white text-xl font-bold mb-2">{{ block.settings.title }}</h3>
+                  <p class="text-white/90">{{ block.settings.description }}</p>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+      <button class="absolute left-4 top-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-lg text-[#3A5A40] hover:bg-gray-50 transition-colors" onclick="prevSlide()">
+        {% render 'icon-chevron-left' %}
+      </button>
+      <button class="absolute right-4 top-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-lg text-[#3A5A40] hover:bg-gray-50 transition-colors" onclick="nextSlide()">
+        {% render 'icon-chevron-right' %}
+      </button>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Gallery Section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "גלריית הצלחות"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "label": "Description",
+      "default": "תוצאות אמיתיות מאימונים"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "gallery_item",
+      "name": "Gallery Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "אימון משמעת מקצועי"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Description",
+          "default": "טכניקות אימון מתקדמות"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Gallery Section",
+      "blocks": [
+        {
+          "type": "gallery_item"
+        },
+        {
+          "type": "gallery_item"
+        },
+        {
+          "type": "gallery_item"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+.gallery-slider {
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+}
+{% endstylesheet %}
+
+{% javascript %}
+let currentSlide = 0;
+const slides = document.querySelectorAll('.gallery-slider > div > div');
+const slider = document.querySelector('.gallery-slider > div');
+
+function updateSlider() {
+  slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+}
+
+function nextSlide() {
+  currentSlide = (currentSlide + 1) % slides.length;
+  updateSlider();
+}
+
+function prevSlide() {
+  currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+  updateSlider();
+}
+{% endjavascript %}

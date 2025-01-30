@@ -1,0 +1,11 @@
+type: page
+name: Page
+fields:
+  - type: string
+    name: title
+    required: true
+  - type: string
+    name: description
+  - type: string
+    name: layout
+    required: true

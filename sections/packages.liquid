@@ -1,0 +1,163 @@
+<section id="packages" class="relative py-12 md:py-20 bg-gradient-to-b from-[#3A5A40]/5 to-white overflow-hidden">
+  <div class="container mx-auto px-4 max-w-[1400px]">
+    <div class="text-center mb-6 md:mb-12">
+      <span class="mb-4 px-3 py-1 text-sm md:text-base border-[#D4A373] text-[#D4A373] inline-block border rounded-full">
+        {{ section.settings.badge_text }}
+      </span>
+      <h2 class="text-3xl md:text-5xl font-bold text-[#3A5A40] mb-4 md:mb-6">{{ section.settings.title }}</h2>
+      <p class="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto mb-4">{{ section.settings.description }}</p>
+      <div class="flex flex-col md:flex-row items-center justify-center gap-2 text-sm text-gray-500">
+        <span>{{ section.settings.payment_note }}</span>
+        <span class="hidden md:inline">•</span>
+        <span>{{ section.settings.tax_note }}</span>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-12 md:mb-20">
+      {% for block in section.blocks %}
+        {% if block.type == 'package' %}
+          <div class="w-full relative">
+            <div class="w-full relative {% if block.settings.highlight %}border-accent border-2 md:scale-105 md:translate-y-[-10px] z-10{% else %}border border-primary/10{% endif %} 
+              shadow-lg hover:shadow-xl transition-all duration-300 h-full bg-white touch-manipulation rounded-xl overflow-hidden max-w-[380px] mx-auto">
+              {% if block.settings.badge %}
+                <div class="absolute -top-4 right-1/2 transform translate-x-1/2 {% if block.settings.highlight %}bg-primary{% else %}bg-accent{% endif %} text-white px-4 py-1.5 md:px-6 md:py-2 rounded-full text-sm md:text-base font-semibold whitespace-nowrap shadow-md z-20">
+                  {{ block.settings.badge }}
+                </div>
+              {% endif %}
+
+              <div class="pb-4 pt-10 md:pb-6 md:pt-12 px-6">
+                <h3 class="text-xl md:text-2xl font-bold text-center {% if block.settings.highlight %}text-primary{% endif %}">{{ block.settings.title }}</h3>
+                <p class="text-center text-sm md:text-base text-gray-600">{{ block.settings.description }}</p>
+              </div>
+
+              <div class="text-center pb-4 px-6">
+                <div class="text-2xl md:text-4xl font-bold mb-4 md:mb-6 text-primary">{{ block.settings.price }}</div>
+                <ul class="space-y-2 md:space-y-3 text-right">
+                  {% for feature in block.settings.features %}
+                    <li class="flex items-center justify-end gap-2 text-sm md:text-base">
+                      <span class="text-gray-700">{{ feature | split: ' ' | slice: 1, 999 | join: ' ' }}</span>
+                      <span class="{% if feature contains '✓' %}text-primary{% else %}text-red-500/70{% endif %} text-base md:text-lg">{{ feature | slice: 0 }}</span>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+
+              <div class="p-6">
+                <a href="https://wa.me/{{ settings.social_whatsapp }}" class="w-full {% if block.settings.highlight %}bg-primary{% else %}bg-accent{% endif %} 
+                  hover:opacity-90 text-white py-4 md:py-6 text-base md:text-lg font-semibold
+                  touch-manipulation active:scale-[0.98] transition-all duration-200 shadow-md hover:shadow-lg
+                  flex items-center justify-center gap-2 rounded-lg">
+                  {% render 'icon-whatsapp' %}
+                  {{ block.settings.cta_text }}
+                </a>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Packages Section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge Text",
+      "default": "חבילות אימון מותאמות אישית"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "בחר את החבילה המתאימה לך"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "label": "Description",
+      "default": "כל החבילות כוללות שיטות אימון מקצועיות ומוכחות"
+    },
+    {
+      "type": "text",
+      "id": "payment_note",
+      "label": "Payment Note",
+      "default": "* ניתן לשלם בתשלומים"
+    },
+    {
+      "type": "text",
+      "id": "tax_note",
+      "label": "Tax Note",
+      "default": "מחירים כוללים מע\"מ"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "package",
+      "name": "Package",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "אימון בסיסי"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Price",
+          "default": "₪1,200"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Description",
+          "default": "התחלה מצוינת לאימון בסיסי"
+        },
+        {
+          "type": "textarea",
+          "id": "features",
+          "label": "Features (one per line)",
+          "default": "✓ 4 מפגשים פרטיים\n✓ ייעוץ טלפוני 24/7\n✓ חוברת הדרכה דיגיטלית\n✗ אימון בבית הלקוח"
+        },
+        {
+          "type": "checkbox",
+          "id": "highlight",
+          "label": "Highlight Package",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Badge Text"
+        },
+        {
+          "type": "text",
+          "id": "cta_text",
+          "label": "CTA Text",
+          "default": "בחר חבילה זו"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Packages Section",
+      "blocks": [
+        {
+          "type": "package"
+        },
+        {
+          "type": "package"
+        },
+        {
+          "type": "package"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

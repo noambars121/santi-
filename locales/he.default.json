@@ -1,0 +1,39 @@
+{
+  "general": {
+    "404": {
+      "title": "404 - הדף לא נמצא",
+      "subtext": "הדף שחיפשת לא נמצא.",
+      "link": "המשך לקנות"
+    },
+    "meta": {
+      "tags": "מתויג ב \"{{ tags }}\"",
+      "page": "עמוד {{ page }}"
+    },
+    "pagination": {
+      "previous": "הקודם",
+      "next": "הבא"
+    }
+  },
+  "newsletter": {
+    "email": "אימייל",
+    "confirmation": "תודה שנרשמת!",
+    "submit": "הרשמה"
+  },
+  "search": {
+    "no_results": "לא נמצאו תוצאות עבור \"{{ terms }}\"",
+    "results_for": "תוצאות חיפוש עבור \"{{ terms }}\"",
+    "title": "חיפוש",
+    "placeholder": "חיפוש...",
+    "submit": "חיפוש"
+  },
+  "social": {
+    "share_on_facebook": "שתף בפייסבוק",
+    "share_on_twitter": "שתף בטוויטר",
+    "share_on_pinterest": "שתף בפינטרסט",
+    "alt_text": {
+      "share_on_facebook": "שתף בפייסבוק",
+      "share_on_twitter": "שתף בטוויטר",
+      "share_on_pinterest": "שתף בפינטרסט"
+    }
+  }
+}

@@ -1,0 +1,121 @@
+<section id="about" class="py-12 md:py-20 bg-white" role="region" aria-label="אודות">
+  <div class="container mx-auto px-4 max-w-[1400px]">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+      <!-- Image -->
+      <div class="order-2 md:order-1 flex justify-center">
+        <img
+          src="{{ section.settings.image | img_url: 'master' }}"
+          alt="{{ section.settings.image_alt }}"
+          loading="eager"
+          class="shadow-lg md:h-[400px] object-cover w-[325px] h-[343px] opacity-[100%] rounded-[37px] bg-gray-100"
+        />
+      </div>
+
+      <!-- Content -->
+      <div class="order-1 md:order-2">
+        <div class="text-right">
+          <span class="mb-4 px-3 py-1 text-sm md:text-base border-[#D4A373] text-[#D4A373] inline-block border rounded-full">
+            {{ section.settings.badge_text }}
+          </span>
+          <h2 class="text-3xl md:text-4xl font-bold text-[#3A5A40] mb-6">{{ section.settings.title }}</h2>
+          
+          {% for block in section.blocks %}
+            {% if block.type == 'paragraph' %}
+              <p class="text-gray-600 mb-4 text-lg leading-relaxed">{{ block.settings.text }}</p>
+            {% endif %}
+          {% endfor %}
+
+          <ul class="space-y-3 mt-6">
+            {% for block in section.blocks %}
+              {% if block.type == 'feature' %}
+                <li class="flex items-center gap-2 text-[#3A5A40]">
+                  <span class="text-[#D4A373]">✓</span>
+                  {{ block.settings.text }}
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About Section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Profile Image"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image Alt Text",
+      "default": "Dog trainer"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge Text",
+      "default": "הכירו אותי"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "קצת עליי"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "paragraph",
+      "name": "Paragraph",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "עם ניסיון בתחום אימון הכלבים, אני מתמחה בפתרון בעיות התנהגות ובבניית קשר חזק בין הכלב לבעליו."
+        }
+      ]
+    },
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Feature Text",
+          "default": "הסמכה באימון כלבים"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Section",
+      "blocks": [
+        {
+          "type": "paragraph"
+        },
+        {
+          "type": "paragraph"
+        },
+        {
+          "type": "feature"
+        },
+        {
+          "type": "feature"
+        },
+        {
+          "type": "feature"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,64 @@
+<div class="z-40 text-white shadow-xl safe-area-x border-b-4 border-destructive/50 pr-[env(safe-area-inset-right)] pl-0 py-3 via-slate-700 bg-[#bf0404] rounded-[-74px] top-[122px] bottom-[0px]">
+  <div class="container mx-auto px-4 flex sm:flex-row items-center justify-between gap-4 max-w-[1400px] flex-col">
+    <div class="flex items-center gap-3">
+      <span class="text-white text-3xl bg-white/20 p-2.5 rounded-full shadow-lg">⚡</span>
+      <div class="flex flex-col">
+        <span class="font-bold text-xl md:text-2xl tracking-tight">{{ section.settings.title }}</span>
+        <span class="text-white/90 text-sm md:text-base font-medium">{{ section.settings.subtitle }}</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-6">
+      <div class="flex flex-col items-end bg-white/20 px-4 py-2 rounded-lg shadow-lg">
+        <span class="text-sm font-medium">{{ section.settings.badge_text }}</span>
+        <span class="text-2xl font-bold">{{ section.settings.badge_value }}</span>
+      </div>
+      <a href="https://wa.me/{{ settings.social_whatsapp }}" class="bg-white hover:bg-white/90 text-destructive text-base md:text-lg px-6 md:px-8 py-3 md:py-4 font-bold whitespace-nowrap flex items-center gap-2 shadow-lg hover:shadow-xl transition-all duration-300 active:scale-95 rounded-xl">
+        {% render 'icon-whatsapp' %}
+        {{ section.settings.cta_text }}
+      </a>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Emergency Banner",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "בעיית התנהגות דחופה?"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "מענה מיידי לבעיות תוקפנות והתנהגות"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge Text",
+      "default": "מענה מיידי"
+    },
+    {
+      "type": "text",
+      "id": "badge_value",
+      "label": "Badge Value",
+      "default": "24/7"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "CTA Text",
+      "default": "צור קשר בוואטסאפ"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Emergency Banner"
+    }
+  ]
+}
+{% endschema %}

@@ -55,7 +55,7 @@ const GallerySection = () => {
           <p className="text-lg text-gray-600 mb-8">תוצאות אמיתיות מאימונים</p>
         </motion.div>
 
-        <Carousel className="w-full max-w-[358px] md:max-w-4xl mx-auto px-2 md:px-0">
+        <Carousel className="w-full max-w-[358px] sm:max-w-[600px] md:max-w-4xl mx-auto px-4 md:px-6 lg:px-8">
           <CarouselContent>
             {galleryItems.map((item, index) => (
               <CarouselItem key={index}>
@@ -68,7 +68,9 @@ const GallerySection = () => {
                   <img
                     src={item.url}
                     alt={item.title}
-                    className="w-full h-[300px] md:h-[500px] object-cover rounded-xl"
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-[300px] md:h-[500px] object-cover rounded-xl bg-gray-100"
                   />
                   <div className="absolute bottom-0 right-0 left-0 bg-gradient-to-t from-black/70 to-transparent p-6 rounded-b-lg">
                     <h3 className="text-white text-xl font-bold mb-2">

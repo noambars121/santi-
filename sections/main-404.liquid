@@ -1,0 +1,41 @@
+<div class="flex items-center justify-center min-h-[60vh] text-center px-4">
+  <div class="max-w-md mx-auto">
+    <h1 class="text-4xl font-bold text-primary mb-4">{{ section.settings.title }}</h1>
+    <p class="text-lg text-gray-600 mb-8">{{ section.settings.text }}</p>
+    <a href="{{ section.settings.button_url }}" class="inline-block bg-accent hover:bg-accent/90 text-white px-8 py-3 rounded-lg transition-colors">
+      {{ section.settings.button_label }}
+    </a>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "404 Page",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "404 - הדף לא נמצא"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Text",
+      "default": "הדף שחיפשת לא נמצא."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "חזרה לדף הבית"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL",
+      "default": "/"
+    }
+  ]
+}
+{% endschema %}

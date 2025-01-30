@@ -10,7 +10,7 @@ const Footer = () => {
       aria-label="פרטי קשר ומידע נוסף"
     >
       <div className="container mx-auto px-4 max-w-[1400px]">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
           {/* Contact Info */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}

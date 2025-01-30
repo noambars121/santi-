@@ -1,0 +1,50 @@
+<header class="fixed top-0 left-0 right-0 z-50 transition-all duration-200 h-[60px] safe-area-top bg-transparent" role="banner">
+  <div class="container mx-auto px-4 safe-area-x max-w-[1400px]">
+    <div class="h-[60px] flex items-center justify-between gap-4">
+      <!-- Logo -->
+      <div class="text-lg font-bold text-white">
+        <span class="text-2xl ml-2">🐕</span>
+        {{ section.settings.logo_text }}
+      </div>
+
+      <!-- Desktop Menu -->
+      <nav class="hidden md:flex items-center space-x-8">
+        {% for link in section.settings.menu.links %}
+          <a href="{{ link.url }}" class="text-base font-medium transition-colors hover:text-[#D4A373] text-white">
+            {{ link.title }}
+          </a>
+        {% endfor %}
+        <a href="https://wa.me/{{ settings.social_whatsapp }}" class="bg-[#D4A373] hover:bg-[#D4A373]/90 text-white px-6 py-2 flex items-center gap-2 font-medium rounded-lg">
+          {% render 'icon-whatsapp' %}
+          וואטסאפ
+        </a>
+      </nav>
+
+      <!-- Mobile Menu Button -->
+      <button class="md:hidden" aria-expanded="false" aria-controls="mobile-menu">
+        <span class="sr-only">Toggle menu</span>
+        {% render 'icon-menu' %}
+      </button>
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo Text",
+      "default": "סנטיאגו מרזי"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    }
+  ]
+}
+{% endschema %}

@@ -10,7 +10,7 @@ import Footer from "./Footer";
 function Home() {
   return (
     <div
-      className="relative w-full min-h-screen bg-white overflow-x-hidden"
+      className="relative w-full min-h-screen bg-white overflow-x-hidden max-w-[100vw]"
       role="main"
       aria-label="דף הבית"
     >

@@ -1,0 +1,153 @@
+{
+  "sections": {
+    "header": {
+      "type": "header",
+      "settings": {
+        "logo_alt": "סנטיאגו מרזי - אילוף כלבים מקצועי"
+      }
+    },
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "title": "אילוף כלבים מקצועי",
+        "subtitle": "שיטה ייחודית להצלחה מוכחת",
+        "description": "מתמחה בפתרון בעיות התנהגות, משמעת מתקדמת ובניית קשר חזק בין הכלב לבעליו",
+        "show_rating_badge": true,
+        "rating": "4.9",
+        "show_certification_badge": true,
+        "show_stats": true
+      },
+      "blocks": {
+        "stat_1": {
+          "type": "stat",
+          "settings": {
+            "number": "50+",
+            "label": "כלבים מאומנים"
+          }
+        },
+        "stat_2": {
+          "type": "stat",
+          "settings": {
+            "number": "98%",
+            "label": "לקוחות מרוצים"
+          }
+        }
+      }
+    },
+    "emergency_banner": {
+      "type": "emergency-banner",
+      "settings": {
+        "title": "בעיית התנהגות דחופה?",
+        "subtitle": "מענה מיידי לבעיות תוקפנות והתנהגות"
+      }
+    },
+    "packages": {
+      "type": "packages",
+      "settings": {
+        "title": "בחר את החבילה המתאימה לך"
+      },
+      "blocks": {
+        "package_1": {
+          "type": "package",
+          "settings": {
+            "title": "אימון בסיסי",
+            "price": "₪1,200",
+            "description": "התחלה מצוינת לאימון בסיסי",
+            "features": "✓ 4 מפגשים פרטיים\n✓ ייעוץ טלפוני 24/7\n✓ חוברת הדרכה דיגיטלית\n✗ אימון בבית הלקוח",
+            "badge": "חבילה בסיסית"
+          }
+        },
+        "package_2": {
+          "type": "package",
+          "settings": {
+            "title": "אימון מתקדם",
+            "price": "₪2,400",
+            "description": "האימון המקיף והמומלץ ביותר",
+            "features": "✓ 8 מפגשים + 2 מפגשי תחזוקה\n✓ ליווי WhatsApp 24/7\n✓ חוברת הדרכה דיגיטלית\n✗ אימון בבית הלקוח",
+            "highlight": true,
+            "badge": "הכי פופולרי"
+          }
+        },
+        "package_3": {
+          "type": "package",
+          "settings": {
+            "title": "אימון פרימיום",
+            "price": "₪3,600",
+            "description": "אימון אינטנסיבי מקיף",
+            "features": "✓ 12 מפגשים אינטנסיביים\n✓ ליווי WhatsApp 24/7\n✓ אימון בבית הלקוח\n✓ חוברת הדרכה דיגיטלית",
+            "badge": "VIP"
+          }
+        }
+      }
+    },
+    "about": {
+      "type": "about",
+      "settings": {
+        "title": "קצת עליי"
+      },
+      "blocks": {
+        "paragraph_1": {
+          "type": "paragraph",
+          "settings": {
+            "text": "עם ניסיון בתחום אימון הכלבים, אני מתמחה בפתרון בעיות התנהגות ובבניית קשר חזק בין הכלב לבעליו."
+          }
+        },
+        "paragraph_2": {
+          "type": "paragraph",
+          "settings": {
+            "text": "הגישה שלי מבוססת על הבנה עמוקה של פסיכולוגיית כלבים ושימוש בשיטות חיוביות ויעילות."
+          }
+        },
+        "feature_1": {
+          "type": "feature",
+          "settings": {
+            "text": "הסמכה באימון כלבים"
+          }
+        },
+        "feature_2": {
+          "type": "feature",
+          "settings": {
+            "text": "מומחה בטיפול בבעיות התנהגות"
+          }
+        },
+        "feature_3": {
+          "type": "feature",
+          "settings": {
+            "text": "ניסיון עם עשרות כלבים"
+          }
+        }
+      }
+    },
+    "gallery": {
+      "type": "gallery",
+      "settings": {
+        "title": "גלריית הצלחות",
+        "description": "תוצאות אמיתיות מאימונים"
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "settings": {
+        "title": "הסיפורים האמיתיים מאחורי ההצלחות"
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "settings": {
+        "contact_title": "צור קשר",
+        "newsletter_title": "הרשמה לניוזלטר",
+        "social_title": "עקבו אחריי"
+      }
+    }
+  },
+  "order": [
+    "header",
+    "hero",
+    "emergency_banner",
+    "packages",
+    "about",
+    "gallery",
+    "testimonials",
+    "footer"
+  ]
+}

@@ -1,0 +1,136 @@
+<section id="reviews" class="py-12 md:py-20 bg-gradient-to-b from-[#3A5A40]/5 to-white" role="region" aria-label="המלצות">
+  <div class="container mx-auto px-4 max-w-[1400px]">
+    <div class="text-center mb-8 md:mb-12">
+      <span class="mb-4 px-3 py-1 text-sm md:text-base border-[#D4A373] text-[#D4A373] inline-block border rounded-full">
+        {{ section.settings.badge_text }}
+      </span>
+      <h2 class="text-3xl md:text-5xl font-bold text-[#3A5A40] mb-4">{{ section.settings.title }}</h2>
+      <p class="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">{{ section.settings.description }}</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+      {% for block in section.blocks %}
+        {% if block.type == 'testimonial' %}
+          <div class="bg-white border border-[#D4A373]/20 rounded-lg shadow-sm hover:shadow-xl transition-shadow h-full">
+            <div class="p-6">
+              <div class="flex flex-col h-full">
+                <!-- Rating -->
+                <div class="flex items-center justify-between mb-4">
+                  <div class="flex">
+                    {% for i in (1..block.settings.rating) %}
+                      {% render 'icon-star' %}
+                    {% endfor %}
+                  </div>
+                  <span class="text-sm text-gray-500">{{ block.settings.date }}</span>
+                </div>
+
+                <!-- Review Text -->
+                <p class="mb-6 text-gray-700 text-lg leading-relaxed flex-grow">{{ block.settings.text }}</p>
+
+                <!-- Author -->
+                <div class="flex items-center gap-4 pt-4 border-t border-[#D4A373]/20">
+                  <div class="w-12 h-12 rounded-full bg-[#3A5A40]/5 flex items-center justify-center text-[#3A5A40] font-bold border-2 border-[#3A5A40]/10">
+                    {{ block.settings.avatar }}
+                  </div>
+                  <div>
+                    <p class="font-bold text-[#3A5A40]">{{ block.settings.name }}</p>
+                    <p class="text-sm text-[#D4A373]">{{ block.settings.rank }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Testimonials Section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge Text",
+      "default": "המלצות מלקוחות מרוצים"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "הסיפורים האמיתיים מאחורי ההצלחות"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "label": "Description",
+      "default": "מה אומרים עלינו הלקוחות שכבר עברו את התהליך"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "רוני מהקריות"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Testimonial Text",
+          "default": "הגישה המקצועית והסבלנית של סנטיאגו עשתה פלאים. הכלב שלי עבר שינוי מדהים תוך זמן קצר!"
+        },
+        {
+          "type": "text",
+          "id": "avatar",
+          "label": "Avatar Text",
+          "default": "RK"
+        },
+        {
+          "type": "text",
+          "id": "rank",
+          "label": "Rank/Title",
+          "default": "בעל כלב מרוצה"
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "label": "Rating",
+          "default": 5
+        },
+        {
+          "type": "text",
+          "id": "date",
+          "label": "Date",
+          "default": "לפני שבוע"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials Section",
+      "blocks": [
+        {
+          "type": "testimonial"
+        },
+        {
+          "type": "testimonial"
+        },
+        {
+          "type": "testimonial"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

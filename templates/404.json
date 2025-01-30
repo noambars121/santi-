@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-404",
+      "settings": {
+        "title": "404 - הדף לא נמצא",
+        "text": "הדף שחיפשת לא נמצא.",
+        "button_label": "חזרה לדף הבית",
+        "button_url": "/"
+      }
+    }
+  },
+  "order": ["main"]
+}

@@ -48,7 +48,7 @@ const HeroSection = () => {
         </motion.div>
 
         {/* Main Content */}
-        <div className="max-w-[358px] mx-auto md:max-w-2xl">
+        <div className="w-full max-w-[358px] mx-auto md:max-w-2xl px-4 md:px-6 lg:px-8">
           <motion.h1
             {...animations}
             transition={{ delay: 0.3 }}
