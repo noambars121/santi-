@@ -1,44 +1,28 @@
-# OS generated files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-
-# Shopify specific
-config/settings_data.json
-config.yml
-
-# Node modules
-node_modules/
-
-# Build files
-dist/
-build/
-
-# Environment files
-.env
-.env.*
-
-# Editor files
-.idea/
-.vscode/
-*.swp
-*.swo
-
-# Tempo files
-**/tempobook/dynamic/
-**/tempobook/storyboards/
-
 # Logs
 logs
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 
-# Cache directories
-.cache/
-.temp/
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Tempo specific
+**/tempobook/dynamic/
+**/tempobook/storyboards/

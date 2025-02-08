@@ -2,17 +2,11 @@
   "name": "starter",
   "private": true,
   "version": "0.0.0",
-  "engines": {
-    "node": "18.x"
-  },
   "type": "module",
-  "stackbit": {
-    "containerName": "stackbit-dog-trainer"
-  },
   "scripts": {
-    "dev": "VITE_TEMPO=true vite",
-    "build": "tsc && vite build && cp public/_redirects dist/_redirects && cp dist/index.html dist/404.html",
-    "build-no-errors": "tsc ; vite build && cp public/_redirects dist/_redirects",
+    "dev": "vite",
+    "build": "tsc ; vite build",
+    "build-no-errors": "tsc ; vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "types:supabase": "npx supabase gen types typescript --project-id $SUPABASE_PROJECT_ID > src/types/supabase.ts"
@@ -47,18 +41,16 @@
     "@radix-ui/react-toggle": "^1.0.3",
     "@radix-ui/react-tooltip": "^1.0.7",
     "@supabase/supabase-js": "^2.45.6",
-    "@vitejs/plugin-react": "^4.2.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
     "date-fns": "^3.6.0",
     "embla-carousel-react": "^8.1.5",
-    "framer-motion": "^11.18.2",
+    "framer-motion": "^11.18.0",
     "lucide-react": "^0.394.0",
     "react": "^18.2.0",
     "react-day-picker": "^8.10.1",
     "react-dom": "^18.2.0",
-    "react-error-boundary": "^5.0.0",
     "react-hook-form": "^7.51.5",
     "react-resizable-panels": "^2.0.19",
     "react-router": "^6.23.1",
@@ -69,21 +61,16 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@netlify/edge-functions": "^2.3.1",
-    "@stackbit/cms-git": "^1.0.17",
-    "@stackbit/types": "^2.1.12",
-    "@swc/core": "^1.3.96",
+    "@swc/core": "1.3.96",
     "@types/node": "^20.14.2",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
-    "@vitejs/plugin-react-swc": "^3.5.0",
+    "@vitejs/plugin-react-swc": "3.5.0",
     "autoprefixer": "^10.4.19",
-    "cross-env": "^7.0.3",
     "postcss": "^8.4.38",
     "tailwindcss": "3.4.1",
     "tempo-devtools": "^2.0.94",
     "typescript": "^5.2.2",
-    "vite": "^5.2.0",
-    "vite-plugin-compression": "^0.5.1"
+    "vite": "^5.2.0"
   }
 }

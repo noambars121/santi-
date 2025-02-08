@@ -1,46 +1,38 @@
+import path from "path";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
-import path from "path";
 import { tempo } from "tempo-devtools/dist/vite";
+
+const conditionalPlugins: [string, Record<string, any>][] = [];
+
+// @ts-ignore
+if (process.env.TEMPO === "true") {
+  conditionalPlugins.push(["tempo-devtools/swc", {}]);
+}
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  define: {
-    "process.env.VITE_TEMPO": "true",
+  base:
+    process.env.NODE_ENV === "development"
+      ? "/"
+      : process.env.VITE_BASE_PATH || "/",
+  optimizeDeps: {
+    entries: ["src/main.tsx", "src/tempobook/**/*"],
   },
   plugins: [
     react({
-      plugins: [["tempo-devtools/swc", {}]],
+      plugins: conditionalPlugins,
     }),
     tempo(),
   ],
   resolve: {
+    preserveSymlinks: true,
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  base: "/",
-  build: {
-    outDir: "dist",
-    assetsDir: "assets",
-    sourcemap: true,
-    rollupOptions: {
-      output: {
-        manualChunks: undefined,
-      },
-    },
-    cssCodeSplit: false,
-    modulePreload: {
-      polyfill: false,
-    },
-  },
   server: {
-    host: "0.0.0.0",
-    port: 3000,
-    strictPort: true,
-    cors: true,
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-    },
+    // @ts-ignore
+    allowedHosts: true,
   },
 });
