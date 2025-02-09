@@ -1,96 +1,112 @@
 import { motion } from "framer-motion";
-import { Badge } from "./ui/badge";
 
-const AboutSection = () => {
-  const about = {
-    title: "קצת עליי",
-    description: [
-      "עם ניסיון בתחום אימון הכלבים, אני מתמחה בפתרון בעיות התנהגות ובבניית קשר חזק בין הכלב לבעליו.",
-      "הגישה שלי מבוססת על הבנה עמוקה של פסיכולוגיית כלבים ושימוש בשיטות חיוביות ויעילות.",
-    ],
-    features: [
-      "הסמכה באימון כלבים",
-      "מומחה בטיפול בבעיות התנהגות",
-      "ניסיון עם עשרות כלבים",
-    ],
-  };
-
+export default function AboutSection() {
   return (
-    <section
-      id="about"
-      className="py-12 md:py-20 bg-white"
-      role="region"
-      aria-label="אודות"
-    >
-      <div className="container mx-auto px-4 max-w-[1400px]">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
-          {/* Image */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="order-2 md:order-1 flex justify-center"
-          >
-            <img
-              src="/IMG_9328.JPG"
-              alt="Dog trainer"
-              loading="eager"
-              decoding="async"
-              className="shadow-lg md:h-[400px] object-cover w-[325px] h-[343px] opacity-[100%] rounded-[37px] bg-gray-100"
-            />
-          </motion.div>
+    <section className="py-16 bg-[#1E2B1F]" id="about">
+      <div className="container mx-auto px-4">
+        <div className="max-w-4xl mx-auto">
+          {/* Header */}
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#C4A484] mb-4">
+              קצת עליי
+            </h2>
+            <p className="text-xl text-[#C4A484]">מאלף כלבים מקצועי</p>
+          </div>
 
-          {/* Content */}
-          <div className="order-1 md:order-2">
+          {/* Main content */}
+          <div className="space-y-8 text-right">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-right"
+              className="space-y-4"
             >
-              <Badge
-                variant="outline"
-                className="mb-4 px-3 py-1 text-sm md:text-base border-[#D4A373] text-[#D4A373]"
-              >
-                הכירו אותי
-              </Badge>
-              <h2 className="text-3xl md:text-4xl font-bold text-[#3A5A40] mb-6">
-                {about.title}
-              </h2>
-              {about.description.map((paragraph, index) => (
-                <motion.p
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.2 }}
-                  className="text-gray-600 mb-4 text-lg leading-relaxed"
-                >
-                  {paragraph}
-                </motion.p>
-              ))}
-
-              <ul className="space-y-3 mt-6">
-                {about.features.map((feature, index) => (
-                  <motion.li
-                    key={index}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.5 + index * 0.1 }}
-                    className="flex items-center gap-2 text-[#3A5A40]"
-                  >
-                    <span className="text-[#D4A373]">✓</span>
-                    {feature}
-                  </motion.li>
-                ))}
-              </ul>
+              <p className="text-lg leading-relaxed text-[#E5E5E5]">
+                מאז שאני זוכר את עצמי, כלבים תמיד היו חלק בלתי נפרד מהחיים שלי.
+                תמיד הרגשתי שיש לי חיבור מיוחד איתם – החיבור הזה בין הפשטות
+                הטבעית של הכלב למורכבות שבתהליך האילוף. הבנתי שזו לא רק עבודה
+                בשבילי – זו אהבה אמיתית. ❤️
+              </p>
+              <p className="text-lg leading-relaxed text-[#E5E5E5]">
+                לפני כשנתיים החלטתי להפוך את האהבה הזו למקצוע, והשקעתי את כל
+                כולי בלימודים כדי להפוך למאלף כלבים מקצועי. היום אני כאן כדי
+                לעזור לכם ולחבר הכי טוב שלכם להתמודד עם האתגרים היום-יומיים
+                ולהפוך את החיים שלכם יחד לטובים יותר.
+              </p>
             </motion.div>
+
+            {/* Services Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* What I Offer */}
+              <div className="bg-[#243028] p-6 rounded-xl border border-[#C4A484]/20">
+                <h3 className="text-xl font-semibold mb-4 text-[#C4A484]">
+                  מה אני מציע
+                </h3>
+                <ul className="space-y-3">
+                  {[
+                    {
+                      icon: "🐶",
+                      text: "אילוף גורים – כי התחלה טובה היא התחלה חזקה",
+                    },
+                    { icon: "🐕", text: "תיקון בעיות התנהגות" },
+                    { icon: "🐾", text: "אילוף כלבים בוגרים" },
+                    { icon: "❤️", text: "חיזוק הקשר עם הכלב" },
+                  ].map((item, index) => (
+                    <motion.li
+                      key={index}
+                      className="flex items-start gap-3 group"
+                      whileHover={{ x: 8 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 20,
+                      }}
+                    >
+                      <span className="text-xl mt-1">{item.icon}</span>
+                      <span className="text-[#E5E5E5] text-sm">
+                        {item.text}
+                      </span>
+                    </motion.li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* My Approach */}
+              <div className="bg-[#243028] p-6 rounded-xl border border-[#C4A484]/20">
+                <h3 className="text-xl font-semibold mb-4 text-[#C4A484]">
+                  הגישה שלי
+                </h3>
+                <ul className="space-y-3">
+                  {[
+                    { icon: "✨", text: "שיעורים פרטיים אחד על אחד" },
+                    { icon: "✨", text: "תוכניות אילוף מותאמות אישית" },
+                    { icon: "✨", text: "ליווי מלא לאורך כל הדרך" },
+                    { icon: "✨", text: "גישה מקצועית ואוהבת" },
+                  ].map((item, index) => (
+                    <motion.li
+                      key={index}
+                      className="flex items-start gap-3 group"
+                      whileHover={{ x: 8 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 20,
+                      }}
+                    >
+                      <span className="text-xl mt-1 text-[#C4A484]">
+                        {item.icon}
+                      </span>
+                      <span className="text-[#E5E5E5] text-sm">
+                        {item.text}
+                      </span>
+                    </motion.li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
   );
-};
-
-export default AboutSection;
+}

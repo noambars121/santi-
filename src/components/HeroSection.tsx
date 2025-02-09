@@ -1,7 +1,7 @@
 import { Button } from "./ui/button";
 import { motion, useReducedMotion } from "framer-motion";
 import { Badge } from "./ui/badge";
-import { Phone, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 const HeroSection = () => {
   const shouldReduceMotion = useReducedMotion();
@@ -16,16 +16,15 @@ const HeroSection = () => {
     <section className="relative min-h-[calc(100vh-60px)] flex items-center justify-center pt-[60px]">
       {/* Background Image with Overlay */}
       <div
-        className="absolute inset-0 will-change-transform rounded-[-145px] from-[#ef2020] h-[687px]"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat will-change-transform"
         style={{
           backgroundImage: `url('/IMG_9328.JPG')`,
           transform: "translateZ(0)",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
         }}
       >
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/80 via-primary/85 to-primary" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#2A4434]/90 via-[#243028]/95 to-[#1E2B1F]" />
       </div>
+
       <div className="container relative px-4 py-12 max-w-[1400px] text-center">
         {/* Trust Badges */}
         <motion.div
@@ -35,13 +34,13 @@ const HeroSection = () => {
         >
           <Badge
             variant="secondary"
-            className="bg-accent/20 text-white hover:bg-accent/30 text-sm py-1.5 px-3"
+            className="bg-[#C4A484]/20 text-white hover:bg-[#C4A484]/30 text-sm py-1.5 px-3"
           >
             ⭐️ דירוג 4.9 מתוך 5
           </Badge>
           <Badge
             variant="secondary"
-            className="bg-accent/20 text-white hover:bg-accent/30 text-sm py-1.5 px-3"
+            className="bg-[#C4A484]/20 text-white hover:bg-[#C4A484]/30 text-sm py-1.5 px-3"
           >
             🎖️ מאלף מוסמך
           </Badge>
@@ -55,7 +54,7 @@ const HeroSection = () => {
             className="text-3xl md:text-5xl font-bold text-white mb-3 md:mb-6 leading-tight tracking-tight"
           >
             אילוף כלבים מקצועי
-            <span className="text-accent mt-2 block text-2xl md:text-3xl">
+            <span className="text-[#C4A484] mt-2 block text-2xl md:text-3xl">
               שיטה ייחודית להצלחה מוכחת
             </span>
           </motion.h1>
@@ -73,7 +72,7 @@ const HeroSection = () => {
           <div className="flex flex-col gap-3 max-w-sm mx-auto">
             <motion.div {...animations} transition={{ delay: 0.5 }}>
               <Button
-                className="w-full bg-accent hover:bg-accent/90 text-white py-6 text-lg
+                className="w-full bg-[#C4A484] hover:bg-[#B08D6E] text-white py-6 text-lg
                   shadow-lg active:scale-[0.98] transition-transform touch-manipulation"
                 onClick={() =>
                   window.open("https://wa.me/message/JLTNWOHMONIZK1", "_blank")
@@ -96,7 +95,7 @@ const HeroSection = () => {
             <motion.div {...animations} transition={{ delay: 0.6 }}>
               <Button
                 variant="outline"
-                className="w-full border-accent text-accent hover:bg-accent/10
+                className="w-full border-[#C4A484] text-[#C4A484] hover:bg-[#C4A484]/10
                   py-6 text-lg active:scale-[0.98] transition-transform touch-manipulation"
                 onClick={() =>
                   document
@@ -120,7 +119,7 @@ const HeroSection = () => {
               { number: "98%", label: "לקוחות מרוצים" },
             ].map((stat, index) => (
               <div key={index} className="text-center text-white p-2">
-                <div className="text-2xl md:text-3xl font-bold text-accent mb-1">
+                <div className="text-2xl md:text-3xl font-bold text-[#C4A484] mb-1">
                   {stat.number}
                 </div>
                 <div className="text-sm text-white/80">{stat.label}</div>

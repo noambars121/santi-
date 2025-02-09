@@ -1,229 +1,105 @@
-import PackageCard from "./PackageCard";
 import { motion } from "framer-motion";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Badge } from "./ui/badge";
-import { Check, X, Sparkles } from "lucide-react";
+import { Button } from "./ui/button";
 
-const PackagesSection = () => {
-  const comparisonFeatures = [
-    { name: "מפגשים פרטיים", basic: "4", advanced: "8 + 2", premium: "12" },
-    { name: "ייעוץ טלפוני", basic: "✓", advanced: "✗", premium: "✗" },
-    { name: "ליווי WhatsApp 24/7", basic: "✗", advanced: "✓", premium: "✓" },
-    { name: "אימון בבית הלקוח", basic: "✗", advanced: "✗", premium: "✓" },
-  ];
+const packages = [
+  {
+    title: "אילוף בתנאי פנסיון",
+    description:
+      "הכלב שלכם מגיע אליי לפנסיון אישי, שבו הוא שוהה בין חודש לחודשיים. במהלך תקופה זו, אני עובד איתו על משמעת, הרגלים נכונים ופתרון בעיות התנהגות, תוך יצירת סביבה יציבה שתומכת בלמידה אפקטיבית.",
+    price: "₪1,200",
+    features: [
+      "שהייה בפנסיון אישי",
+      "אילוף אינטנסיבי יומיומי",
+      "עבודה על משמעת והרגלים",
+      "סביבה יציבה ותומכת",
+    ],
+    icon: "🏠",
+  },
+  {
+    title: "אילוף בבית הלקוח",
+    description:
+      "אני מגיע עד אליכם הביתה כדי לאבחן את הכלב בסביבה הטבעית שלו ולבנות תוכנית עבודה מותאמת אישית לצרכים שלכם. השיטה הזו מאפשרת לכם ללמוד יחד עם הכלב איך להתמודד עם אתגרים יומיומיים ולחזק את הקשר ביניכם.",
+    price: "₪900",
+    features: [
+      "אבחון בסביבה הטבעית",
+      "תוכנית אישית מותאמת",
+      "הדרכה לבעלים",
+      "חיזוק הקשר המשפחתי",
+    ],
+    icon: "🏡",
+  },
+  {
+    title: "חבילת משמעת מתקדמת",
+    description:
+      "תוכנית אילוף מקיפה לכלבים שצריכים חיזוק פקודות משמעת, עבודה בסביבה עם גירויים גבוהים, ושיפור הרגלי ההתנהגות שלהם.",
+    price: "₪800",
+    features: [
+      "חיזוק פקודות משמעת",
+      "עבודה בסביבת גירויים",
+      "שיפור הרגלי התנהגות",
+      "ליווי מקצועי צמוד",
+    ],
+    icon: "✨",
+  },
+];
 
-  const packages = [
-    {
-      title: "אימון בסיסי",
-      price: "₪1,200",
-      description: "התחלה מצוינת לאימון בסיסי",
-      features: [
-        "✓ 4 מפגשים פרטיים",
-        "✓ ייעוץ טלפוני 24/7",
-        "✓ חוברת הדרכה דיגיטלית",
-        "✗ אימון בבית הלקוח",
-      ],
-      highlight: false,
-      badge: "חבילה בסיסית",
-      onSelect: () =>
-        window.open("https://wa.me/message/JLTNWOHMONIZK1", "_blank"),
-    },
-    {
-      title: "אימון מתקדם",
-      price: "₪2,400",
-      description: "האימון המקיף והמומלץ ביותר",
-      features: [
-        "✓ 8 מפגשים + 2 מפגשי תחזוקה",
-        "✓ ליווי WhatsApp 24/7",
-        "✓ חוברת הדרכה דיגיטלית",
-        "✗ אימון בבית הלקוח",
-      ],
-      highlight: true,
-      badge: "הכי פופולרי",
-      onSelect: () =>
-        window.open("https://wa.me/message/JLTNWOHMONIZK1", "_blank"),
-    },
-    {
-      title: "אימון פרימיום",
-      price: "₪3,600",
-      description: "אימון אינטנסיבי מקיף",
-      features: [
-        "✓ 12 מפגשים אינטנסיביים",
-        "✓ ליווי WhatsApp 24/7",
-        "✓ אימון בבית הלקוח",
-        "✓ חוברת הדרכה דיגיטלית",
-      ],
-      highlight: false,
-      badge: "VIP",
-      onSelect: () =>
-        window.open("https://wa.me/message/JLTNWOHMONIZK1", "_blank"),
-    },
-  ];
-
+export default function PackagesSection() {
   return (
-    <section
-      id="packages"
-      className="relative py-12 md:py-20 bg-gradient-to-b from-[#3A5A40]/5 to-white overflow-hidden"
-      role="region"
-      aria-label="חבילות אימון"
-    >
-      <div className="container mx-auto px-4 max-w-[1400px]">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-6 md:mb-12"
-        >
-          <Badge
-            variant="outline"
-            className="mb-4 px-3 py-1 text-sm md:text-base border-[#D4A373] text-[#D4A373]"
-          >
-            חבילות אימון מותאמות אישית
-          </Badge>
-          <h2 className="text-3xl md:text-5xl font-bold text-[#3A5A40] mb-4 md:mb-6">
-            בחר את החבילה המתאימה לך
+    <section className="w-full py-16 bg-[#243028]" id="packages">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-[#C4A484] mb-4">
+            חבילות אילוף
           </h2>
-          <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto mb-4">
-            כל החבילות כוללות שיטות אימון מקצועיות ומוכחות
+          <p className="text-lg text-[#E5E5E5]">
+            בחרו את החבילה המתאימה ביותר עבורכם
           </p>
-          <div className="flex flex-col md:flex-row items-center justify-center gap-2 text-sm text-gray-500">
-            <span>* ניתן לשלם בתשלומים</span>
-            <span className="hidden md:inline">•</span>
-            <span>מחירים כוללים מע"מ</span>
-          </div>
-        </motion.div>
+        </div>
 
-        {/* Package cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-12 md:mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {packages.map((pkg, index) => (
             <motion.div
-              key={index}
+              key={pkg.title}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.2 }}
+              transition={{ delay: index * 0.1 }}
             >
-              <PackageCard {...pkg} />
+              <div className="h-full bg-[#1E2B1F] border border-[#C4A484]/20 rounded-xl overflow-hidden hover:border-[#C4A484] transition-colors">
+                <div className="p-6">
+                  <div className="text-3xl mb-4">{pkg.icon}</div>
+                  <h3 className="text-xl font-semibold mb-2 text-[#C4A484]">
+                    {pkg.title}
+                  </h3>
+                  <div className="text-2xl font-bold mb-4 text-[#C4A484]">
+                    {pkg.price}
+                  </div>
+                  <p className="text-[#E5E5E5] mb-6 text-right leading-relaxed text-sm">
+                    {pkg.description}
+                  </p>
+                  <ul className="space-y-3 mb-6">
+                    {pkg.features.map((feature) => (
+                      <li
+                        key={feature}
+                        className="flex items-center gap-2 text-[#E5E5E5] text-sm"
+                      >
+                        <span className="text-[#C4A484]">✓</span>
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                  <Button
+                    className="w-full bg-[#C4A484] hover:bg-[#B08D6E] text-white transition-colors"
+                    asChild
+                  >
+                    <a href="https://wa.me/+972000000000">להזמנת חבילה</a>
+                  </Button>
+                </div>
+              </div>
             </motion.div>
           ))}
         </div>
-
-        {/* Comparison table */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
-          className="relative mt-12 md:mt-32 max-w-5xl mx-auto"
-        >
-          <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
-            <Badge className="bg-[#3A5A40] text-white px-4 py-1.5 text-sm md:text-base">
-              <Sparkles className="w-4 h-4 mr-2" />
-              השוואת חבילות מפורטת
-            </Badge>
-          </div>
-          <div className="rounded-xl">
-            <div className="bg-white shadow-2xl border border-[#3A5A40]/10">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="text-right text-xs md:text-lg font-bold text-[#3A5A40] p-2 md:p-6">
-                      תכונות
-                    </TableHead>
-                    <TableHead className="text-center text-xs md:text-lg font-bold p-2 md:p-6">
-                      בסיסי
-                    </TableHead>
-                    <TableHead className="text-center text-xs md:text-lg font-bold bg-[#3A5A40]/5 p-2 md:p-6 text-[#3A5A40]">
-                      מתקדם
-                    </TableHead>
-                    <TableHead className="text-center text-xs md:text-lg font-bold p-2 md:p-6">
-                      פרימיום
-                    </TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {comparisonFeatures.map((feature, index) => (
-                    <TableRow key={index}>
-                      <TableCell className="font-medium text-right p-2 md:p-6 text-xs md:text-base">
-                        {feature.name}
-                      </TableCell>
-                      <TableCell className="text-center p-2 md:p-6">
-                        <motion.span
-                          whileHover={{ scale: 1.1 }}
-                          className={
-                            feature.basic === "✗"
-                              ? "text-red-500/70"
-                              : "text-[#3A5A40]"
-                          }
-                        >
-                          {feature.basic === "✓" ? (
-                            <Check className="w-4 h-4 md:w-6 md:h-6 mx-auto text-[#3A5A40]" />
-                          ) : feature.basic === "✗" ? (
-                            <X className="w-4 h-4 md:w-6 md:h-6 mx-auto text-red-500/70" />
-                          ) : (
-                            <span className="font-semibold text-xs md:text-lg">
-                              {feature.basic}
-                            </span>
-                          )}
-                        </motion.span>
-                      </TableCell>
-                      <TableCell className="text-center bg-[#3A5A40]/5 p-2 md:p-6">
-                        <motion.span
-                          whileHover={{ scale: 1.1 }}
-                          className={
-                            feature.advanced === "✗"
-                              ? "text-red-500/70"
-                              : "text-[#3A5A40]"
-                          }
-                        >
-                          {feature.advanced === "✓" ? (
-                            <Check className="w-4 h-4 md:w-6 md:h-6 mx-auto text-[#3A5A40]" />
-                          ) : feature.advanced === "✗" ? (
-                            <X className="w-4 h-4 md:w-6 md:h-6 mx-auto text-red-500/70" />
-                          ) : (
-                            <span className="font-semibold text-xs md:text-lg">
-                              {feature.advanced}
-                            </span>
-                          )}
-                        </motion.span>
-                      </TableCell>
-                      <TableCell className="text-center p-2 md:p-6">
-                        <motion.span
-                          whileHover={{ scale: 1.1 }}
-                          className={
-                            feature.premium === "✗"
-                              ? "text-red-500/70"
-                              : "text-[#3A5A40]"
-                          }
-                        >
-                          {feature.premium === "✓" ? (
-                            <Check className="w-4 h-4 md:w-6 md:h-6 mx-auto text-[#3A5A40]" />
-                          ) : feature.premium === "✗" ? (
-                            <X className="w-4 h-4 md:w-6 md:h-6 mx-auto text-red-500/70" />
-                          ) : (
-                            <span className="font-semibold text-xs md:text-lg">
-                              {feature.premium}
-                            </span>
-                          )}
-                        </motion.span>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-          </div>
-        </motion.div>
       </div>
     </section>
   );
-};
-
-export default PackagesSection;
+}
