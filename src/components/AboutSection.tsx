@@ -23,16 +23,12 @@ export default function AboutSection() {
             </div>
 
             {/* Profile Image */}
-            <div className="relative inline-block">
-              <div className="w-56 h-56 md:w-64 md:h-64 mx-auto mb-10 rounded-full overflow-hidden border-4 border-[#C4A484] shadow-[0_0_30px_rgba(196,164,132,0.3)] relative z-10 ">
+            <div className="relative flex justify-center">
+              <div className="h-56 md:w-64 md:h-64 mx-auto mb-10 overflow-hidden border-4 border-[#C4A484] shadow-[0_0_30px_rgba(196,164,132,0.3)] relative z-10 bg-[url('https://storage.googleapis.com/tempo-public-images/github%7C186841034-1739107866047-11317jpg')] rounded-[9791px] w-[217px] shrink-0 grow-0 flex justify-center items-center px-0">
                 <img
-                  src="/profile.jpg"
-                  alt="סנטיאגו מרזי"
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.currentTarget.src =
-                      "https://api.dicebear.com/7.x/avataaars/svg?seed=santiago";
-                  }}
+                  src="https://storage.googleapis.com/tempo-public-images/github%7C186841034-1739107115124-11337jpg"
+                  alt="סנטיאגו מרזי עם כלב"
+                  className="w-full h-full object-cover object-[center_top] scale-[1.3]"
                 />
               </div>
               <div className="absolute inset-0 rounded-full bg-[#C4A484] blur-[40px] opacity-20" />

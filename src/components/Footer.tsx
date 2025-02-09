@@ -19,34 +19,11 @@ const Footer = () => {
             className="text-right"
           >
             <h3 className="text-xl font-bold mb-4 text-[#D4A373]">צור קשר</h3>
-            <p className="mb-2">טלפון: 052-9599490</p>
-            <p className="mb-2">אימייל: santiago@dogtraining.co.il</p>
-            <p>מרכז אימון: נהריה, ישראל</p>
-          </motion.div>
 
-          {/* Newsletter */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-right"
-          >
-            <h3 className="text-xl font-bold mb-4 text-[#D4A373]">
-              הרשמה לניוזלטר
-            </h3>
-            <div className="flex gap-2">
-              <Button className="bg-[#D4A373] hover:bg-[#D4A373]/90">
-                הרשמה
-              </Button>
-              <Input
-                type="email"
-                placeholder="האימייל שלך"
-                className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
-                dir="rtl"
-              />
-            </div>
+            <p className="mb-2">אימייל: santiago@dogtraining.co.il</p>
+            <p>נהריה, ישראל</p>
           </motion.div>
+          {/* Newsletter */}
 
           {/* Social Links */}
           <motion.div

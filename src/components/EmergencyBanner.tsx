@@ -7,7 +7,7 @@ const EmergencyBanner = () => {
       initial={{ opacity: 0, y: -100 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: "spring", damping: 20, stiffness: 100 }}
-      className="z-40 text-white shadow-xl safe-area-x border-b-4 border-destructive/50 pr-[env(safe-area-inset-right)] pl-0 py-3 via-slate-700 bg-[#bf0404] rounded-[-74px] top-[122px] bottom-[0px]"
+      className="z-40 text-white shadow-xl safe-area-x border-b-4 border-destructive/50 pr-[env(safe-area-inset-right)] pl-0 py-3 via-slate-700 rounded-[-74px] top-[122px] bottom-[0px] from-[#7d811e] from-[A67B5B] bg-[#a28b4b]"
     >
       <div className="container mx-auto px-4 flex sm:flex-row items-center justify-between gap-4 max-w-[1400px] flex-col">
         <div className="flex items-center gap-3">
@@ -18,13 +18,13 @@ const EmergencyBanner = () => {
           >
             ⚡
           </motion.span>
-          <div className="flex flex-col">
+          <div className="flex gap-1 flex-col justify-center items-start">
             <motion.span
               animate={{ opacity: [1, 0.7, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
               className="font-bold text-xl md:text-2xl tracking-tight"
             >
-              בעיית התנהגות דחופה?
+              ? בעיית התנהגות דחופה
             </motion.span>
             <span className="text-white/90 text-sm md:text-base font-medium">
               מענה מיידי לבעיות תוקפנות והתנהגות
@@ -32,19 +32,11 @@ const EmergencyBanner = () => {
           </div>
         </div>
         <div className="flex items-center gap-6">
-          <motion.div
-            animate={{ scale: [1, 1.05, 1] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="flex flex-col items-end bg-white/20 px-4 py-2 rounded-lg shadow-lg"
-          >
-            <span className="text-sm font-medium">מענה מיידי</span>
-            <span className="text-2xl font-bold">24/7</span>
-          </motion.div>
           <Button
             onClick={() =>
               window.open("https://wa.me/message/JLTNWOHMONIZK1", "_blank")
             }
-            className="bg-white hover:bg-white/90 text-destructive text-base md:text-lg px-6 md:px-8 py-3 md:py-4 font-bold whitespace-nowrap flex items-center gap-2 shadow-lg hover:shadow-xl transition-all duration-300 active:scale-95 rounded-xl"
+            className="bg-white hover:bg-white/90 text-destructive text-base md:text-lg px-6 md:px-8 py-3 md:py-4 font-bold whitespace-nowrap flex items-center gap-2 shadow-lg hover:shadow-xl transition-all duration-300 active:scale-95 rounded-xl text-[3A5A40] text-[3A5A40] text-[#3c5e42]"
           >
             <motion.svg
               xmlns="http://www.w3.org/2000/svg"

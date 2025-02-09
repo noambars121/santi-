@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Badge } from "./ui/badge";
 import {
   Carousel,
   CarouselContent,
@@ -38,7 +39,7 @@ const GallerySection = () => {
   return (
     <section
       id="gallery"
-      className="py-20 bg-[#3A5A40]/5"
+      className="py-32 bg-[#F5F5DC]"
       role="region"
       aria-label="גלריה"
     >
@@ -49,10 +50,18 @@ const GallerySection = () => {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="text-4xl font-bold text-[#3A5A40] mb-4">
+          <Badge
+            variant="outline"
+            className="mb-8 px-8 py-2.5 text-base md:text-lg border-[#a28b4b] text-[#a28b4b] tracking-wider font-light bg-[--31771e-] bg-[--31771e-] bg-[#378123]"
+          >
             גלריית הצלחות
+          </Badge>
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-8 tracking-tight text-[#31771e]">
+            תוצאות אמיתיות
           </h2>
-          <p className="text-lg text-gray-600 mb-8">תוצאות אמיתיות מאימונים</p>
+          <p className="text-lg text-gray-600 mb-8 text-[--31771e-]">
+            תוצאות אמיתיות מאימונים
+          </p>
         </motion.div>
 
         <Carousel className="w-full max-w-[358px] sm:max-w-[600px] md:max-w-4xl mx-auto px-4 md:px-6 lg:px-8">

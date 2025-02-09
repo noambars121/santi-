@@ -13,7 +13,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative min-h-[calc(100vh-60px)] flex items-center justify-center pt-[60px]">
+    <section className="relative min-h-screen flex items-center justify-center">
       {/* Background Image with Overlay */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat will-change-transform"
@@ -22,22 +22,15 @@ const HeroSection = () => {
           transform: "translateZ(0)",
         }}
       >
-        <div className="absolute inset-0 bg-gradient-to-b from-[#2A4434]/90 via-[#243028]/95 to-[#1E2B1F]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#3A5A40]/85 via-[#3A5A40]/90 to-[#3A5A40]/95" />
       </div>
-
-      <div className="container relative px-4 py-12 max-w-[1400px] text-center">
+      <div className="container relative px-4 py-24 max-w-[1400px] text-center mt-[60px]">
         {/* Trust Badges */}
         <motion.div
           {...animations}
           transition={{ delay: 0.2 }}
           className="flex flex-wrap justify-center gap-2 mb-8"
         >
-          <Badge
-            variant="secondary"
-            className="bg-[#C4A484]/20 text-white hover:bg-[#C4A484]/30 text-sm py-1.5 px-3"
-          >
-            ⭐️ דירוג 4.9 מתוך 5
-          </Badge>
           <Badge
             variant="secondary"
             className="bg-[#C4A484]/20 text-white hover:bg-[#C4A484]/30 text-sm py-1.5 px-3"
@@ -58,7 +51,6 @@ const HeroSection = () => {
               שיטה ייחודית להצלחה מוכחת
             </span>
           </motion.h1>
-
           <motion.p
             {...animations}
             transition={{ delay: 0.4 }}
@@ -67,7 +59,6 @@ const HeroSection = () => {
             מתמחה בפתרון בעיות התנהגות, משמעת מתקדמת ובניית קשר חזק בין הכלב
             לבעליו
           </motion.p>
-
           {/* CTA Buttons */}
           <div className="flex flex-col gap-3 max-w-sm mx-auto">
             <motion.div {...animations} transition={{ delay: 0.5 }}>
@@ -107,25 +98,7 @@ const HeroSection = () => {
               </Button>
             </motion.div>
           </div>
-
           {/* Statistics */}
-          <motion.div
-            {...animations}
-            transition={{ delay: 0.7 }}
-            className="grid grid-cols-2 gap-4 mt-12"
-          >
-            {[
-              { number: "50+", label: "כלבים מאומנים" },
-              { number: "98%", label: "לקוחות מרוצים" },
-            ].map((stat, index) => (
-              <div key={index} className="text-center text-white p-2">
-                <div className="text-2xl md:text-3xl font-bold text-[#C4A484] mb-1">
-                  {stat.number}
-                </div>
-                <div className="text-sm text-white/80">{stat.label}</div>
-              </div>
-            ))}
-          </motion.div>
 
           {/* Scroll Indicator */}
           <motion.div

@@ -46,7 +46,7 @@ const Navigation = ({
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 h-[60px] safe-area-top ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 h-[60px] ${
         isScrolled ? "bg-white/95 backdrop-blur-sm shadow-md" : "bg-transparent"
       }`}
       role="navigation"
@@ -60,7 +60,7 @@ const Navigation = ({
             animate={{ opacity: 1, x: 0 }}
             className={`text-lg font-bold transition-colors ${isScrolled ? "text-[#3A5A40]" : "text-white"}`}
           >
-            <span className="text-2xl ml-2">🐕</span>
+            <span className="text-2xl ml-2 list-image-none">🐕</span>
             {logo}
           </motion.div>
 
