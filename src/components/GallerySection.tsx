@@ -8,95 +8,73 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
-const GallerySection = () => {
-  const galleryItems = [
-    {
-      type: "image",
-      url: "https://images.unsplash.com/photo-1587300003388-59208cc962cb",
-      title: "אימון משמעת מקצועי",
-      description: "טכניקות אימון מתקדמות",
-    },
-    {
-      type: "image",
-      url: "https://images.unsplash.com/photo-1601758124510-52d02ddb7cbd",
-      title: "לפני ואחרי",
-      description: "שינוי דרמטי תוך שבועיים",
-    },
-    {
-      type: "image",
-      url: "https://images.unsplash.com/photo-1601758282760-b6cc3d07523d",
-      title: "אימון משפחתי",
-      description: "שיטות מותאמות למשפחה",
-    },
-    {
-      type: "image",
-      url: "https://images.unsplash.com/photo-1601758174114-e9b8c2b6f8f4",
-      title: "אימון מתקדם",
-      description: "טכניקות ייחודיות לכל כלב",
-    },
-  ];
-
+export default function GallerySection() {
   return (
-    <section
-      id="gallery"
-      className="py-32 bg-[#F5F5DC]"
-      role="region"
-      aria-label="גלריה"
-    >
-      <div className="container mx-auto px-4 max-w-[1400px]">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-12"
-        >
-          <Badge
-            variant="outline"
-            className="mb-8 px-8 py-2.5 text-base md:text-lg border-[#a28b4b] text-[#a28b4b] tracking-wider font-light bg-[--31771e-] bg-[--31771e-] bg-[#378123]"
+    <section className="py-32 bg-[beige]">
+      <div className="container px-4 mx-auto">
+        <div className="max-w-5xl mx-auto text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
           >
-            גלריית הצלחות
-          </Badge>
-          <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-8 tracking-tight text-[#31771e]">
-            תוצאות אמיתיות
-          </h2>
-          <p className="text-lg text-gray-600 mb-8 text-[--31771e-]">
-            תוצאות אמיתיות מאימונים
-          </p>
-        </motion.div>
+            <Badge
+              variant="outline"
+              className="mb-8 px-8 py-2.5 text-base md:text-lg border-[#BC8034] text-[#BC8034] tracking-wider font-light"
+            >
+              גלריה
+            </Badge>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-8 text-white tracking-tight">
+              תמונות מהאימונים
+            </h2>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            viewport={{ once: true }}
+          >
+            <p className="text-xl md:text-2xl text-gray-200 mb-12">
+              צפו בתמונות מאימונים קודמים והתרשמו מהתוצאות
+            </p>
+          </motion.div>
+        </div>
 
-        <Carousel className="w-full max-w-[358px] sm:max-w-[600px] md:max-w-4xl mx-auto px-4 md:px-6 lg:px-8">
-          <CarouselContent>
-            {galleryItems.map((item, index) => (
-              <CarouselItem key={index}>
-                <motion.div
-                  className="relative p-1"
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <img
-                    src={item.url}
-                    alt={item.title}
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full h-[300px] md:h-[500px] object-cover rounded-xl bg-gray-100"
-                  />
-                  <div className="absolute bottom-0 right-0 left-0 bg-gradient-to-t from-black/70 to-transparent p-6 rounded-b-lg">
-                    <h3 className="text-white text-xl font-bold mb-2">
-                      {item.title}
-                    </h3>
-                    <p className="text-white/90">{item.description}</p>
+        <div className="mt-16">
+          <Carousel className="w-full max-w-5xl mx-auto">
+            <CarouselContent>
+              {[
+                "https://images.unsplash.com/photo-1601758124277-f0086d5ab050",
+                "https://images.unsplash.com/photo-1534361960057-19889db9621e",
+                "https://images.unsplash.com/photo-1548199973-03cce0bbc87b",
+                "https://images.unsplash.com/photo-1477884213360-7e9d7dcc1e48",
+                "https://images.unsplash.com/photo-1576201836106-db1758fd1c97",
+                "https://images.unsplash.com/photo-1602584386319-fa8eb4361c2c",
+              ].map((image, index) => (
+                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                  <div className="relative overflow-hidden rounded-lg aspect-square">
+                    <img
+                      src={image}
+                      alt={`Gallery image ${index + 1}`}
+                      className="absolute inset-0 w-full h-full object-cover hover:scale-110 transition-transform duration-500"
+                    />
                   </div>
-                </motion.div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious className="text-[#3A5A40]" />
-          <CarouselNext className="text-[#3A5A40]" />
-        </Carousel>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="-left-12 bg-[#BC8034] hover:bg-[#BC8034]/90 text-white" />
+            <CarouselNext className="-right-12 bg-[#BC8034] hover:bg-[#BC8034]/90 text-white" />
+          </Carousel>
+        </div>
       </div>
     </section>
   );
-};
-
-export default GallerySection;
+}
