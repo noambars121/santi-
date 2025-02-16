@@ -1,21 +1,23 @@
-import { Routes, Route, useRoutes } from "react-router-dom";
-import Home from "@/components/home";
-import routes from "tempo-routes";
+import Navigation from "./components/Navigation";
+import HeroSection from "./components/HeroSection";
+import PackagesSection from "./components/PackagesSection";
+import AboutSection from "./components/AboutSection";
+import GallerySection from "./components/GallerySection";
+import TestimonialsSection from "./components/TestimonialsSection";
+import CTASection from "./components/CTASection";
+import Footer from "./components/Footer";
 
 function App() {
   return (
-    <div className="min-h-screen bg-white">
-      {/* Tempo routes */}
-      {import.meta.env.VITE_TEMPO && useRoutes(routes)}
-
-      <Routes>
-        <Route path="/" element={<Home />} />
-
-        {/* Add Tempo route before catchall */}
-        {import.meta.env.VITE_TEMPO && <Route path="/tempobook/*" />}
-
-        <Route path="*" element={<div>404</div>} />
-      </Routes>
+    <div className="min-h-screen">
+      <Navigation />
+      <HeroSection />
+      <PackagesSection />
+      <AboutSection />
+      <GallerySection />
+      <TestimonialsSection />
+      <CTASection />
+      <Footer />
     </div>
   );
 }

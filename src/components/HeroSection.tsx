@@ -22,7 +22,7 @@ const HeroSection = () => {
           transform: "translateZ(0)",
         }}
       >
-        <div className="absolute inset-0 bg-gradient-to-b from-[#3A5A40]/85 via-[#3A5A40]/90 to-[#3A5A40]/95" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#3A5A40]/85 via-[#3A5A40]/90 to-[#3A5A40]/95 rounded-[0px]" />
       </div>
       <div className="container relative px-4 py-24 max-w-[1400px] text-center mt-[60px]">
         {/* Trust Badges */}

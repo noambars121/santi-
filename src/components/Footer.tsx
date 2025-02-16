@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 const Footer = () => {
   return (
     <footer
-      className="bg-[#3A5A40] text-white py-8 md:py-12 safe-area-bottom safe-area-x"
+      className="bg-[#d39a6a] text-white py-8 md:py-12 safe-area-bottom safe-area-x"
       role="contentinfo"
       aria-label="פרטי קשר ומידע נוסף"
     >
@@ -18,9 +18,8 @@ const Footer = () => {
             viewport={{ once: true }}
             className="text-right"
           >
-            <h3 className="text-xl font-bold mb-4 text-[#D4A373]">צור קשר</h3>
+            <h3 className="text-xl font-bold mb-4 text-[#124A34]">צו</h3>
 
-            <p className="mb-2">אימייל: santiago@dogtraining.co.il</p>
             <p>נהריה, ישראל</p>
           </motion.div>
           {/* Newsletter */}
@@ -33,7 +32,7 @@ const Footer = () => {
             transition={{ delay: 0.4 }}
             className="text-right"
           >
-            <h3 className="text-xl font-bold mb-4 text-[#D4A373]">
+            <h3 className="text-xl font-bold mb-4 text-[#124A34]">
               עקבו אחריי
             </h3>
             <div className="flex gap-4 justify-end">
