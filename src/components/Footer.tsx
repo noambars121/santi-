@@ -2,7 +2,7 @@ import { Facebook, Instagram } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="bg-white py-8 border-t">
+    <footer className="py-8 border-t bg-[#d39a6a]">
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-center gap-4">
           <div className="flex items-center gap-6">
@@ -23,7 +23,7 @@ export default function Footer() {
               <Instagram size={24} />
             </a>
             <a
-              href="https://www.tiktok.com/@santiago.trainer"
+              href="https://www.tiktok.com/@dog_trainer_santi"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-500 hover:text-[#d39a6a] transition-colors"

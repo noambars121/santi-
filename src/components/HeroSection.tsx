@@ -46,9 +46,9 @@ const HeroSection = () => {
             transition={{ delay: 0.3 }}
             className="text-3xl md:text-5xl font-bold text-white mb-3 md:mb-6 leading-tight tracking-tight"
           >
-            אילוף כלבים מקצועי
+            סנטי מרזי
             <span className="mt-2 block text-2xl md:text-3xl text-[#d39a6a]">
-              שיטה ייחודית להצלחה מוכחת
+              אילוף כלבים מקצועי
             </span>
           </motion.h1>
           <motion.p
