@@ -47,7 +47,7 @@ const HeroSection = () => {
             className="text-3xl md:text-5xl font-bold text-white mb-3 md:mb-6 leading-tight tracking-tight"
           >
             אילוף כלבים מקצועי
-            <span className="text-[#C4A484] mt-2 block text-2xl md:text-3xl">
+            <span className="mt-2 block text-2xl md:text-3xl text-[#d39a6a]">
               שיטה ייחודית להצלחה מוכחת
             </span>
           </motion.h1>
@@ -63,8 +63,7 @@ const HeroSection = () => {
           <div className="flex flex-col gap-3 max-w-sm mx-auto">
             <motion.div {...animations} transition={{ delay: 0.5 }}>
               <Button
-                className="w-full bg-[#C4A484] hover:bg-[#B08D6E] text-white py-6 text-lg
-                  shadow-lg active:scale-[0.98] transition-transform touch-manipulation"
+                className="w-full hover:bg-[#B08D6E] text-white py-6 text-lg shadow-lg active:scale-[0.98] transition-transform touch-manipulation bg-[#d39a6a]"
                 onClick={() =>
                   window.open("https://wa.me/message/JLTNWOHMONIZK1", "_blank")
                 }

@@ -37,18 +37,7 @@ export default function Navigation() {
             >
               חבילות
             </Link>
-            <Link
-              to="/videos"
-              className="text-[#0B4619] hover:text-[#083612] px-3 py-2 rounded-md text-lg font-medium"
-            >
-              סרטונים
-            </Link>
-            <Link
-              to="/reviews"
-              className="text-[#0B4619] hover:text-[#083612] px-3 py-2 rounded-md text-lg font-medium"
-            >
-              ביקורות
-            </Link>
+
             <Link
               to="/contact"
               className="bg-[#0B4619] text-white hover:bg-[#083612] px-4 py-2 rounded-md text-lg font-medium"
@@ -73,7 +62,6 @@ export default function Navigation() {
           </div>
         </div>
       </div>
-
       {/* Mobile menu */}
       {isOpen && (
         <div className="md:hidden">
@@ -85,34 +73,23 @@ export default function Navigation() {
               בית
             </Link>
             <Link
-              to="/about"
-              className="text-[#0B4619] hover:text-[#083612] block px-3 py-2 rounded-md text-base font-medium"
-            >
-              עליי
-            </Link>
-            <Link
               to="/packages"
-              className="text-[#0B4619] hover:text-[#083612] block px-3 py-2 rounded-md text-base font-medium"
+              className="text-[#0B4619] hover:text-[#083612] block px-3 py-2 rounded-md text-base font-medium text-right"
             >
               חבילות
             </Link>
             <Link
-              to="/videos"
-              className="text-[#0B4619] hover:text-[#083612] block px-3 py-2 rounded-md text-base font-medium"
+              to="/about"
+              className="text-[#0B4619] hover:text-[#083612] block px-3 py-2 rounded-md text-base font-medium text-right"
             >
-              סרטונים
+              עליי
             </Link>
-            <Link
-              to="/reviews"
-              className="text-[#0B4619] hover:text-[#083612] block px-3 py-2 rounded-md text-base font-medium"
-            >
-              ביקורות
-            </Link>
+
             <Link
               to="/contact"
-              className="bg-[#0B4619] text-white hover:bg-[#083612] block px-3 py-2 rounded-md text-base font-medium"
+              className="bg-[#0B4619] text-white hover:bg-[#083612] block px-3 py-2 rounded-md text-base font-medium text-right"
             >
-              צור קשר
+              צור קשר בוואטסאפ{" "}
             </Link>
           </div>
         </div>

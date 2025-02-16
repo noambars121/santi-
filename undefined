@@ -1,5 +1,5 @@
-import GallerySection from "../components/GallerySection";
+import Footer from "../components/Footer";
 
-export default function GallerySectionStory() {
-  return <GallerySection />;
+export default function FooterStory() {
+  return <Footer />;
 }
