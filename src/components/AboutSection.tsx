@@ -38,7 +38,7 @@ export default function AboutSection() {
               variant="outline"
               className="mb-8 px-8 py-2.5 text-base md:text-lg border-[#124A34] text-[#124A34] tracking-wider font-light bg-white/10 backdrop-blur-sm"
             >
-              ברוכים הבאים
+              ? מי אני
             </Badge>
             <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-8 text-[#124A34] tracking-tight">
               סנטיאגו מרזי
@@ -60,7 +60,7 @@ export default function AboutSection() {
                 מאז שאני זוכר את עצמי, כלבים תמיד היו חלק בלתי נפרד מהחיים שלי.
                 תמיד הרגשתי שיש לי חיבור מיוחד איתם – החיבור הזה בין הפשטות
                 הטבעית של הכלב למורכבות שבתהליך האילוף. הבנתי שזו לא רק עבודה
-                בשבילי – זו אהבה אמיתית. ❤️
+                בשבילי – זו .אהבה אמיתית{" "}
               </p>
               <p className="text-xl md:text-2xl leading-relaxed text-white font-light">
                 לפני כשנתיים החלטתי להפוך את האהבה הזו למקצוע, והשקעתי את כל

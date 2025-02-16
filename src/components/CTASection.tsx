@@ -28,7 +28,7 @@ export default function CTASection() {
           </Badge>
 
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            מוכנים להתחיל את המסע לאילוף מקצועי?
+            מוכנים להתחיל את המסע לאילוף מקצועי
           </h2>
           <p className="text-xl text-white/90 mb-10">
             צרו איתי קשר בוואטסאפ ונתחיל לעבוד על פתרונות מותאמים אישית לכלב

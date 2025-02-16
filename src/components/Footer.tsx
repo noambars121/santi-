@@ -1,92 +1,51 @@
-import { Facebook, Instagram, Youtube, Phone, Mail } from "lucide-react";
-import { Button } from "./ui/button";
+import { Facebook, Instagram } from "lucide-react";
 
 export default function Footer() {
-  const socialLinks = [
-    {
-      icon: <Facebook className="w-5 h-5" />,
-      href: "https://facebook.com",
-      label: "Facebook",
-    },
-    {
-      icon: <Instagram className="w-5 h-5" />,
-      href: "https://instagram.com",
-      label: "Instagram",
-    },
-    {
-      icon: <Youtube className="w-5 h-5" />,
-      href: "https://youtube.com",
-      label: "Youtube",
-    },
-  ];
-
-  const contactInfo = [
-    {
-      icon: <Phone className="w-5 h-5" />,
-      text: "054-123-4567",
-      href: "tel:+972541234567",
-    },
-    {
-      icon: <Mail className="w-5 h-5" />,
-      text: "contact@santiago.co.il",
-      href: "mailto:contact@santiago.co.il",
-    },
-  ];
-
   return (
-    <footer
-      role="contentinfo"
-      aria-label="Footer"
-      className="bg-[#d39a6a] text-white safe-area-bottom safe-area-x"
-    >
-      <div className="container mx-auto px-4 py-8 md:py-12">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-8 mb-8">
-          <div className="text-center md:text-right">
-            <h3 className="text-2xl font-bold mb-2">סנטיאגו מרזי</h3>
-            <p className="text-white/90">אילוף כלבים מקצועי ומשפחתי</p>
-          </div>
-          <div className="flex flex-col items-center gap-4">
-            <div className="flex gap-4">
-              {socialLinks.map((link) => (
-                <Button
-                  key={link.label}
-                  variant="ghost"
-                  size="icon"
-                  className="bg-white/10 hover:bg-white/20 rounded-full w-10 h-10"
-                  asChild
-                >
-                  <a
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={link.label}
-                  >
-                    {link.icon}
-                  </a>
-                </Button>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Credits Section */}
-        <div className="border-t border-white/20 pt-4 mt-4">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/70">
-            <p>
-              © {new Date().getFullYear()} סנטיאגו מרזי. כל הזכויות שמורות.
-            </p>
-            <div className="flex items-center gap-2">
-              <span>עיצוב ופיתוח:</span>
-              <a
-                href="https://www.example.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white hover:text-white/80 transition-colors font-medium"
+    <footer className="bg-white py-8 border-t">
+      <div className="container mx-auto px-4">
+        <div className="flex flex-col items-center gap-4">
+          <div className="flex items-center gap-6">
+            <a
+              href="https://www.facebook.com/santiago.trainer"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-500 hover:text-[#d39a6a] transition-colors"
+            >
+              <Facebook size={24} />
+            </a>
+            <a
+              href="https://www.instagram.com/santiago.trainer"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-500 hover:text-[#d39a6a] transition-colors"
+            >
+              <Instagram size={24} />
+            </a>
+            <a
+              href="https://www.tiktok.com/@santiago.trainer"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-500 hover:text-[#d39a6a] transition-colors"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
-                Your Studio Name
-              </a>
-            </div>
+                <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+              </svg>
+            </a>
           </div>
+          <p className="text-sm text-gray-500">
+            © 2024 סנטיאגו מרזי. כל הזכויות שמורות.
+          </p>
         </div>
       </div>
     </footer>
