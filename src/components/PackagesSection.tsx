@@ -85,17 +85,17 @@ export default function PackagesSection() {
               <div className="h-full bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden hover:border-white/30 transition-all duration-300 group shadow-[0_0_15px_rgba(255,255,255,0.07)]">
                 <div className="p-8">
                   <div className="text-5xl mb-8 text-center">{pkg.icon}</div>
-                  <h3 className="text-2xl font-semibold mb-6 text-[#124A34] text-right">
+                  <h3 className="text-2xl font-semibold mb-6 text-center text-[#d39a6a]">
                     {pkg.title}
                   </h3>
                   <p className="text-white mb-8 text-right leading-relaxed">
                     {pkg.description}
                   </p>
-                  <ul className="space-y-4 mb-8 flex justify-center items-center flex-col">
+                  <ul className="space-y-4 mb-8 flex flex-col justify-center items-end">
                     {pkg.features.map((feature) => (
                       <motion.li
                         key={feature}
-                        className="flex items-center gap-3 text-white group-hover:text-white transition-colors"
+                        className="flex items-center gap-3 text-white group-hover:text-white transition-colors text-center"
                         whileHover={{ x: -8 }}
                         transition={{
                           type: "spring",
@@ -103,7 +103,7 @@ export default function PackagesSection() {
                           damping: 20,
                         }}
                       >
-                        <span className="text-[#124A34] order-2">✓</span>
+                        <span className="order-2 text-[#d39a6a]">✓</span>
                         <span className="order-1">{feature}</span>
                       </motion.li>
                     ))}

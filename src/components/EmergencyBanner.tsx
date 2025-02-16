@@ -7,7 +7,7 @@ const EmergencyBanner = () => {
       initial={{ opacity: 0, y: -100 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: "spring", damping: 20, stiffness: 100 }}
-      className="z-40 text-white shadow-xl safe-area-x border-b-4 border-destructive/50 pr-[env(safe-area-inset-right)] pl-0 py-3 via-slate-700 rounded-[-74px] top-[122px] bottom-[0px] from-[#7d811e] from-[A67B5B] bg-[#a28b4b]"
+      className="z-40 text-white shadow-xl safe-area-x border-b-4 border-destructive/50 pr-[env(safe-area-inset-right)] pl-0 py-3 via-slate-700 rounded-[-74px] top-[122px] bottom-[0px] from-[#7d811e] from-[A67B5B] bg-[#d99c6b]"
     >
       <div className="container mx-auto px-4 flex sm:flex-row items-center justify-between gap-4 max-w-[1400px] flex-col">
         <div className="flex items-center gap-3">
@@ -36,7 +36,7 @@ const EmergencyBanner = () => {
             onClick={() =>
               window.open("https://wa.me/message/JLTNWOHMONIZK1", "_blank")
             }
-            className="bg-white hover:bg-white/90 text-destructive text-base md:text-lg px-6 md:px-8 py-3 md:py-4 font-bold whitespace-nowrap flex items-center gap-2 shadow-lg hover:shadow-xl transition-all duration-300 active:scale-95 rounded-xl text-[3A5A40] text-[3A5A40] text-[#3c5e42]"
+            className="hover:bg-white/90 text-destructive text-base md:text-lg px-6 md:px-8 py-3 md:py-4 font-bold whitespace-nowrap flex items-center gap-2 shadow-lg hover:shadow-xl transition-all duration-300 active:scale-95 rounded-xl text-[3A5A40] text-[3A5A40] bg-[#124A34] text-[#ce9464]"
           >
             <motion.svg
               xmlns="http://www.w3.org/2000/svg"
