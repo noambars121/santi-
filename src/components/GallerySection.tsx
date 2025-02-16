@@ -10,7 +10,7 @@ import {
 
 export default function GallerySection() {
   return (
-    <section className="py-32 bg-[beige]">
+    <section className="py-32 bg-[#124A34]">
       <div className="container px-4 mx-auto">
         <div className="max-w-5xl mx-auto text-center">
           <motion.div

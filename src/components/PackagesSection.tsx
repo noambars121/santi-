@@ -43,7 +43,13 @@ const packages = [
 
 export default function PackagesSection() {
   return (
-    <section className="w-full py-24 bg-[#3A5A40]" id="packages">
+    <section
+      className="w-full py-24 bg-gradient-to-br from-[#124A34] via-[#1a6349] to-[#124A34] relative overflow-hidden"
+      id="packages"
+    >
+      {/* Shiny effect overlays */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(255,255,255,0.1),rgba(255,255,255,0))]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,rgba(255,255,255,0.07),rgba(255,255,255,0))]" />
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -53,14 +59,14 @@ export default function PackagesSection() {
         >
           <Badge
             variant="outline"
-            className="mb-6 px-4 py-1.5 text-sm md:text-base border-[#C4A484] text-[#C4A484] uppercase tracking-wider"
+            className="mb-6 px-4 py-1.5 text-sm md:text-base border-white/30 text-white uppercase tracking-wider bg-white/5 backdrop-blur-sm"
           >
             תוכניות אילוף
           </Badge>
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-[#C4A484]">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
             בחרו את המסלול המתאים לכם
           </h2>
-          <p className="text-xl text-white/90 max-w-2xl mx-auto">
+          <p className="text-xl text-white max-w-2xl mx-auto">
             כל כלב הוא מיוחד, ולכן התאמתי מסלולים שונים שיתאימו לצרכים הייחודיים
             שלכם
           </p>
@@ -76,20 +82,20 @@ export default function PackagesSection() {
               transition={{ delay: index * 0.1 }}
               className="rtl"
             >
-              <div className="h-full bg-[#243028]/50 backdrop-blur-sm border border-[#C4A484]/20 rounded-2xl overflow-hidden hover:border-[#C4A484] transition-all duration-300 group">
+              <div className="h-full bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden hover:border-white/30 transition-all duration-300 group shadow-[0_0_15px_rgba(255,255,255,0.07)]">
                 <div className="p-8">
                   <div className="text-5xl mb-8 text-center">{pkg.icon}</div>
-                  <h3 className="text-2xl font-semibold mb-6 text-[#C4A484] text-right">
+                  <h3 className="text-2xl font-semibold mb-6 text-[#124A34] text-right">
                     {pkg.title}
                   </h3>
-                  <p className="text-white/90 mb-8 text-right leading-relaxed">
+                  <p className="text-white mb-8 text-right leading-relaxed">
                     {pkg.description}
                   </p>
                   <ul className="space-y-4 mb-8 flex justify-center items-center flex-col">
                     {pkg.features.map((feature) => (
                       <motion.li
                         key={feature}
-                        className="flex items-center gap-3 text-white/90 group-hover:text-white transition-colors"
+                        className="flex items-center gap-3 text-white group-hover:text-white transition-colors"
                         whileHover={{ x: -8 }}
                         transition={{
                           type: "spring",
@@ -97,13 +103,13 @@ export default function PackagesSection() {
                           damping: 20,
                         }}
                       >
-                        <span className="text-[#C4A484] order-2">✓</span>
+                        <span className="text-[#124A34] order-2">✓</span>
                         <span className="order-1">{feature}</span>
                       </motion.li>
                     ))}
                   </ul>
                   <Button
-                    className="w-full bg-[#C4A484] hover:bg-[#B08D6E] text-white transition-colors font-semibold py-6"
+                    className="w-full bg-[#124A34] hover:bg-[#124A34]/90 text-white transition-colors font-semibold py-6"
                     asChild
                   >
                     <a
