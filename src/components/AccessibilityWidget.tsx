@@ -288,12 +288,12 @@ const AccessibilityToolbarButton = ({
             variant="outline"
             size="icon"
             onClick={onClick}
-            className={`rounded-full w-10 h-10 ${active ? "bg-[#124A34] text-white" : "bg-white text-[#124A34]"} border-2 border-[#124A34] hover:bg-[#124A34] hover:text-white transition-colors`}
+            className={`rounded-xl w-full h-12 ${active ? "bg-[#124A34] text-white" : "bg-white text-[#124A34]"} border-2 border-[#124A34] hover:bg-[#124A34] hover:text-white transition-colors flex flex-col items-center justify-center gap-1`}
             aria-label={ariaLabel}
             aria-pressed={active}
           >
             <Icon className="h-5 w-5" />
-            <span className="sr-only">{label}</span>
+            <span className="text-xs font-medium">{label}</span>
           </Button>
         </TooltipTrigger>
         <TooltipContent side="top">
@@ -308,6 +308,23 @@ const AccessibilityToolbarButton = ({
 const AccessibilityWidget = () => {
   const [open, setOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
+
+  // Get accessibility context first to avoid the reference error
+  const {
+    fontSize,
+    setFontSize,
+    highContrast,
+    toggleHighContrast,
+    dyslexicFont,
+    toggleDyslexicFont,
+    reducedMotion,
+    toggleReducedMotion,
+    grayscale,
+    toggleGrayscale,
+    darkMode,
+    toggleDarkMode,
+    resetAllSettings,
+  } = useAccessibility();
 
   // Add keyboard shortcut (Alt+A) to open accessibility menu
   useEffect(() => {
@@ -376,6 +393,23 @@ const AccessibilityWidget = () => {
       body.high-contrast .a11y-widget-button {
         background-color: yellow !important;
         color: black !important;
+        position: fixed !important;
+        bottom: 1rem !important;
+        right: 1rem !important;
+        z-index: 9999999 !important;
+      }
+      
+      /* Force fixed position in all contexts */
+      [data-radix-popper-content-wrapper] .a11y-widget-button,
+      [role="dialog"] ~ .a11y-widget-button,
+      .high-contrast [data-radix-popper-content-wrapper] .a11y-widget-button {
+        position: fixed !important;
+        bottom: 1rem !important;
+        right: 1rem !important;
+        z-index: 9999999 !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
       }
     `;
 
@@ -388,39 +422,43 @@ const AccessibilityWidget = () => {
     };
   }, []);
 
-  // Effect to ensure the button is always visible
+  // Effect to ensure the button is always visible and properly positioned
   useEffect(() => {
     const checkButtonVisibility = () => {
       if (buttonRef.current) {
         buttonRef.current.style.visibility = "visible";
         buttonRef.current.style.opacity = "1";
         buttonRef.current.style.pointerEvents = "auto";
+        buttonRef.current.style.position = "fixed";
+        buttonRef.current.style.bottom = "1rem";
+        buttonRef.current.style.right = "1rem";
+        buttonRef.current.style.zIndex = "9999999";
       }
     };
 
     // Check immediately and then periodically
     checkButtonVisibility();
-    const intervalId = setInterval(checkButtonVisibility, 1000);
+    const intervalId = setInterval(checkButtonVisibility, 500);
 
-    return () => clearInterval(intervalId);
-  }, []);
+    // Also check when high contrast mode changes
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (
+          mutation.attributeName === "class" &&
+          (mutation.target as Element).classList.contains("high-contrast")
+        ) {
+          checkButtonVisibility();
+        }
+      });
+    });
 
-  // Get accessibility context
-  const {
-    fontSize,
-    setFontSize,
-    highContrast,
-    toggleHighContrast,
-    dyslexicFont,
-    toggleDyslexicFont,
-    reducedMotion,
-    toggleReducedMotion,
-    grayscale,
-    toggleGrayscale,
-    darkMode,
-    toggleDarkMode,
-    resetAllSettings,
-  } = useAccessibility();
+    observer.observe(document.body, { attributes: true });
+
+    return () => {
+      clearInterval(intervalId);
+      observer.disconnect();
+    };
+  }, [highContrast]);
 
   // Increase font size by 10%
   const increaseFontSize = () => {
@@ -443,7 +481,7 @@ const AccessibilityWidget = () => {
           <button
             ref={buttonRef}
             aria-label="פתח תפריט נגישות"
-            className="a11y-widget-button"
+            className="a11y-widget-button !fixed !bottom-4 !right-4 !z-[999999] !bg-[#124A34] !text-white !p-3 !rounded-full !shadow-lg !focus:outline-none"
             onClick={() => setOpen(!open)}
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === " ") {
@@ -452,13 +490,22 @@ const AccessibilityWidget = () => {
             }}
             role="button"
             tabIndex={0}
+            style={{
+              position: "fixed",
+              bottom: "1rem",
+              right: "1rem",
+              zIndex: 9999999,
+              visibility: "visible",
+              opacity: 1,
+              pointerEvents: "auto",
+            }}
           >
             <Accessibility className="h-6 w-6" />
           </button>
         </div>
       </PopoverTrigger>
       <PopoverContent
-        className="w-[350px] p-5 rounded-lg shadow-lg border-2 border-[#d39a6a]/30 bg-white"
+        className="w-[350px] p-6 rounded-xl shadow-lg border-2 border-[#d39a6a]/30 bg-white text-right"
         side="top"
         sideOffset={5}
         align="end"
@@ -467,14 +514,8 @@ const AccessibilityWidget = () => {
         aria-label="תפריט הגדרות נגישות"
       >
         <div className="space-y-6">
-          <div className="flex justify-between items-center">
-            <h2
-              className="text-xl font-bold text-[#124A34]"
-              id="a11y-dialog-title"
-            >
-              הגדרות נגישות
-            </h2>
-            <div className="flex items-center gap-2">
+          <div className="flex justify-between items-center mb-4">
+            <div className="flex items-center gap-2 order-2">
               <Button
                 variant="ghost"
                 size="sm"
@@ -482,7 +523,7 @@ const AccessibilityWidget = () => {
                 className="text-[#d39a6a] hover:text-[#124A34] transition-colors font-bold"
                 aria-label="איפוס הגדרות נגישות"
               >
-                <RefreshCw className="h-4 w-4 mr-1" />
+                <RefreshCw className="h-4 w-4 ml-1" />
                 איפוס
               </Button>
               <a
@@ -493,10 +534,16 @@ const AccessibilityWidget = () => {
                 הצהרת נגישות
               </a>
             </div>
+            <h2
+              className="text-xl font-bold text-[#124A34] order-1"
+              id="a11y-dialog-title"
+            >
+              הגדרות נגישות
+            </h2>
           </div>
 
           {/* Quick access toolbar */}
-          <div className="flex justify-center gap-2 py-2">
+          <div className="grid grid-cols-3 gap-3 py-2">
             <AccessibilityToolbarButton
               onClick={decreaseFontSize}
               icon={ZoomOut}
@@ -530,6 +577,13 @@ const AccessibilityWidget = () => {
               active={reducedMotion}
               ariaLabel="הפעל או בטל הפחתת אנימציות"
             />
+            <AccessibilityToolbarButton
+              onClick={toggleGrayscale}
+              icon={EyeOff}
+              label="מצב גווני אפור"
+              active={grayscale}
+              ariaLabel="הפעל או בטל מצב גווני אפור"
+            />
           </div>
 
           {/* Detailed settings */}
@@ -553,62 +607,67 @@ const AccessibilityWidget = () => {
             </div>
 
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium text-[#124A34]">
-                ניגודיות גבוהה
-              </span>
               <Switch
                 checked={highContrast}
                 onCheckedChange={toggleHighContrast}
                 aria-label="הפעל או בטל ניגודיות גבוהה"
+                className="order-2"
               />
+              <span className="text-sm font-medium text-[#124A34] order-1">
+                ניגודיות גבוהה
+              </span>
             </div>
 
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium text-[#124A34]">
-                מצב כהה
-              </span>
               <Switch
                 checked={darkMode}
                 onCheckedChange={toggleDarkMode}
                 aria-label="הפעל או בטל מצב כהה"
+                className="order-2"
               />
+              <span className="text-sm font-medium text-[#124A34] order-1">
+                מצב כהה
+              </span>
             </div>
 
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium text-[#124A34]">
-                גופן ידידותי לדיסלקטים
-              </span>
               <Switch
                 checked={dyslexicFont}
                 onCheckedChange={toggleDyslexicFont}
                 aria-label="הפעל או בטל גופן לדיסלקטים"
+                className="order-2"
               />
+              <span className="text-sm font-medium text-[#124A34] order-1">
+                גופן ידידותי לדיסלקטים
+              </span>
             </div>
 
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium text-[#124A34]">
-                הפחתת אנימציות
-              </span>
               <Switch
                 checked={reducedMotion}
                 onCheckedChange={toggleReducedMotion}
                 aria-label="הפעל או בטל הפחתת אנימציות"
+                className="order-2"
               />
+              <span className="text-sm font-medium text-[#124A34] order-1">
+                הפחתת אנימציות
+              </span>
             </div>
 
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium text-[#124A34]">
-                מצב גווני אפור
-              </span>
               <Switch
                 checked={grayscale}
                 onCheckedChange={toggleGrayscale}
                 aria-label="הפעל או בטל מצב גווני אפור"
+                className="order-2"
               />
+              <span className="text-sm font-medium text-[#124A34] order-1">
+                מצב גווני אפור
+              </span>
             </div>
           </div>
 
-          <div className="text-xs text-gray-500 pt-2 border-t border-[#124A34]/10">
+          <div className="text-xs text-gray-500 pt-2 border-t border-[#124A34]/10 text-center">
             <p>קיצור מקלדת: Alt + A לפתיחת תפריט הנגישות</p>
           </div>
         </div>

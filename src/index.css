@@ -156,7 +156,8 @@
 button.a11y-widget-button,
 .popover-trigger button.a11y-widget-button,
 div[role="button"].a11y-widget-button,
-[data-state] button.a11y-widget-button {
+[data-state] button.a11y-widget-button,
+[data-radix-popper-content-wrapper] button.a11y-widget-button {
   position: fixed !important;
   bottom: 1rem !important;
   right: 1rem !important;
@@ -213,7 +214,8 @@ body.high-contrast .a11y-widget-button,
 .high-contrast .a11y-widget-button,
 .high-contrast button.a11y-widget-button,
 .high-contrast div[role="button"].a11y-widget-button,
-.high-contrast [data-state] button.a11y-widget-button {
+.high-contrast [data-state] button.a11y-widget-button,
+.high-contrast [data-radix-popper-content-wrapper] button.a11y-widget-button {
   background-color: yellow !important;
   color: black !important;
   border: 3px solid white !important;
