@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -50,6 +50,7 @@ interface ContactFormProps {
   title?: string;
   description?: string;
   onClose?: () => void;
+  isOpen?: boolean;
 }
 
 export function ContactForm({
@@ -59,10 +60,18 @@ export function ContactForm({
   title = "השאירו פרטים ונחזור אליכם בהקדם",
   description = "מלאו את הפרטים הבאים ואנו נחזור אליכם בהקדם האפשרי",
   onClose,
+  isOpen: externalIsOpen,
 }: ContactFormProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(externalIsOpen || false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Sync with external isOpen prop when it changes
+  useEffect(() => {
+    if (externalIsOpen !== undefined) {
+      setIsOpen(externalIsOpen);
+    }
+  }, [externalIsOpen]);
 
   const {
     register,
@@ -108,6 +117,20 @@ export function ContactForm({
     }, 300);
   };
 
+  // Handle escape key to close the dialog
+  useEffect(() => {
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && isOpen) {
+        handleClose();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscapeKey);
+    return () => {
+      document.removeEventListener("keydown", handleEscapeKey);
+    };
+  }, [isOpen]);
+
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
@@ -125,9 +148,6 @@ export function ContactForm({
         <div className="bg-gradient-to-r from-[#124A34] to-[#1a6349] p-6 text-white">
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold text-center mb-2 flex items-center justify-center gap-2">
-              <span className="inline-block bg-white/20 p-2 rounded-full">
-                <MessageSquare className="h-5 w-5" />
-              </span>
               {title}
             </DialogTitle>
             <DialogDescription className="text-center text-white/90 text-base">
