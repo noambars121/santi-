@@ -1,3 +1,204 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: "OpenDyslexic";
+  src: url("https://fonts.cdnfonts.com/s/19795/OpenDyslexic-Regular.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Accessibility styles */
+:focus {
+  outline: 3px solid #124a34 !important;
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none !important;
+}
+
+:focus-visible {
+  outline: 3px solid #124a34 !important;
+  outline-offset: 2px;
+}
+
+/* Keyboard focus indicator */
+.keyboard-focus-visible:focus {
+  outline: 3px solid #d39a6a !important;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 3px rgba(211, 154, 106, 0.4);
+}
+
+/* Dyslexic font */
+.dyslexic-font,
+.dyslexic-font * {
+  font-family: "OpenDyslexic", "Comic Sans MS", sans-serif !important;
+  letter-spacing: 0.05em !important;
+  word-spacing: 0.1em !important;
+  line-height: 1.5 !important;
+}
+
+/* Reduced motion */
+.reduced-motion * {
+  animation: none !important;
+  transition: none !important;
+  animation-iteration-count: 1 !important;
+  scroll-behavior: auto !important;
+  transform: none !important;
+}
+
+/* Grayscale mode */
+.grayscale,
+.grayscale * {
+  filter: grayscale(1) !important;
+}
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #124a34;
+  color: white;
+  padding: 8px;
+  z-index: 100;
+  transition: top 0.3s;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* High contrast */
+.high-contrast {
+  filter: contrast(1.5);
+}
+
+.high-contrast .text-white {
+  color: #ffffff !important;
+}
+
+.high-contrast .bg-white {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+.high-contrast a,
+.high-contrast button {
+  text-decoration: underline;
+}
+
+.high-contrast [class*="bg-[#"] {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+.high-contrast [class*="text-[#"] {
+  color: #ffffff !important;
+}
+
+/* Accessibility widget specific styles */
+.a11y-widget-button,
+button.a11y-widget-button,
+.popover-trigger button.a11y-widget-button,
+div[role="button"].a11y-widget-button,
+[data-state] button.a11y-widget-button {
+  position: fixed !important;
+  bottom: 1rem !important;
+  right: 1rem !important;
+  z-index: 999999 !important;
+  background-color: #124a34 !important;
+  color: white !important;
+  border: 3px solid white !important;
+  box-shadow:
+    0 0 0 2px #000000,
+    0 0 10px rgba(0, 0, 0, 0.5) !important;
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 9999px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0.5rem !important;
+  transition: transform 0.2s ease !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  cursor: pointer !important;
+  touch-action: manipulation !important;
+  -webkit-tap-highlight-color: transparent !important;
+  user-select: none !important;
+}
+
+.a11y-widget-button:hover {
+  transform: scale(1.1) !important;
+  background-color: #0d3626 !important;
+}
+
+.a11y-widget-button:focus-visible {
+  outline: 3px solid #ffffff !important;
+  outline-offset: 3px !important;
+}
+
+/* Container styles */
+.a11y-widget-container {
+  position: fixed !important;
+  bottom: 1rem !important;
+  right: 1rem !important;
+  z-index: 999999 !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  width: 48px !important;
+  height: 48px !important;
+}
+
+/* High contrast mode styles for accessibility button */
+body.high-contrast .a11y-widget-button,
+.high-contrast .a11y-widget-button,
+.high-contrast button.a11y-widget-button,
+.high-contrast div[role="button"].a11y-widget-button,
+.high-contrast [data-state] button.a11y-widget-button {
+  background-color: yellow !important;
+  color: black !important;
+  border: 3px solid white !important;
+  box-shadow:
+    0 0 0 2px black,
+    0 0 10px rgba(0, 0, 0, 0.5) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: flex !important;
+  z-index: 999999 !important;
+  position: fixed !important;
+  bottom: 1rem !important;
+  right: 1rem !important;
+  pointer-events: auto !important;
+  transform: none !important;
+  width: 48px !important;
+  height: 48px !important;
+}
+
+/* Ensure text is readable at different sizes */
+html {
+  font-size: 100%;
+}
+
+/* Keyboard users get enhanced focus styles */
+body.keyboard-user :focus {
+  outline: 3px solid #d39a6a !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 0 3px rgba(211, 154, 106, 0.4) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

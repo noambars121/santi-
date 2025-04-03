@@ -10,7 +10,7 @@ TempoDevtools.init();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter className="flex-row">
       <App />
     </BrowserRouter>
   </React.StrictMode>,
