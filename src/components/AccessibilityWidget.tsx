@@ -1,33 +1,115 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
-import { Button } from "./ui/button";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  createContext,
+  useContext,
+} from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Slider } from "./ui/slider";
-import { Accessibility } from "lucide-react";
 import { Switch } from "./ui/switch";
-import { Label } from "./ui/label";
+import { Button } from "./ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./ui/tooltip";
+import {
+  Accessibility,
+  ZoomIn,
+  ZoomOut,
+  Moon,
+  Sun,
+  PanelTop,
+  RefreshCw,
+  Eye,
+  EyeOff,
+} from "lucide-react";
 
-const AccessibilityWidget = () => {
-  const [fontSize, setFontSize] = useState(100);
+// Create context for accessibility settings
+type AccessibilityContextType = {
+  fontSize: number;
+  setFontSize: (size: number) => void;
+  highContrast: boolean;
+  toggleHighContrast: () => void;
+  dyslexicFont: boolean;
+  toggleDyslexicFont: () => void;
+  reducedMotion: boolean;
+  toggleReducedMotion: () => void;
+  grayscale: boolean;
+  toggleGrayscale: () => void;
+  darkMode: boolean;
+  toggleDarkMode: () => void;
+  resetAllSettings: () => void;
+};
+
+const AccessibilityContext = createContext<AccessibilityContextType | null>(
+  null,
+);
+
+export const useAccessibility = () => {
+  const context = useContext(AccessibilityContext);
+  if (!context) {
+    throw new Error(
+      "useAccessibility must be used within an AccessibilityProvider",
+    );
+  }
+  return context;
+};
+
+// Provider component
+export const AccessibilityProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const [fontSize, setFontSizeState] = useState(100);
   const [highContrast, setHighContrast] = useState(false);
   const [dyslexicFont, setDyslexicFont] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [grayscale, setGrayscale] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
 
-  // מקש Alt + A לפתיחת תפריט הנגישות
+  // Load settings from localStorage on mount
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.altKey && e.key === "a") || (e.altKey && e.key === "א")) {
-        setOpen((prev) => !prev);
-      }
-    };
+    const savedFontSize = localStorage.getItem("a11y-fontSize");
+    const savedContrast = localStorage.getItem("a11y-highContrast");
+    const savedDyslexicFont = localStorage.getItem("a11y-dyslexicFont");
+    const savedReducedMotion = localStorage.getItem("a11y-reducedMotion");
+    const savedGrayscale = localStorage.getItem("a11y-grayscale");
+    const savedDarkMode = localStorage.getItem("a11y-darkMode");
 
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+    if (savedFontSize) {
+      const size = parseInt(savedFontSize);
+      setFontSizeState(size);
+      document.documentElement.style.fontSize = `${size}%`;
+    }
 
-  // הוספת מאזין למקשי מקלדת לזיהוי משתמשי מקלדת
-  useEffect(() => {
+    if (savedContrast === "true") {
+      setHighContrast(true);
+      document.body.classList.add("high-contrast");
+    }
+
+    if (savedDyslexicFont === "true") {
+      setDyslexicFont(true);
+      document.body.classList.add("dyslexic-font");
+    }
+
+    if (savedReducedMotion === "true") {
+      setReducedMotion(true);
+      document.body.classList.add("reduced-motion");
+    }
+
+    if (savedGrayscale === "true") {
+      setGrayscale(true);
+      document.body.classList.add("grayscale");
+    }
+
+    if (savedDarkMode === "true") {
+      setDarkMode(true);
+      document.body.classList.add("dark-mode");
+    }
+
+    // Add keyboard user detection
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Tab") {
         document.body.classList.add("keyboard-user");
@@ -47,6 +129,198 @@ const AccessibilityWidget = () => {
     };
   }, []);
 
+  // Set font size and save to localStorage
+  const setFontSize = (size: number) => {
+    setFontSizeState(size);
+    document.documentElement.style.fontSize = `${size}%`;
+    localStorage.setItem("a11y-fontSize", size.toString());
+  };
+
+  // Increase font size by 10%
+  const increaseFontSize = () => {
+    if (fontSize < 150) {
+      setFontSize(fontSize + 10);
+    }
+  };
+
+  // Decrease font size by 10%
+  const decreaseFontSize = () => {
+    if (fontSize > 80) {
+      setFontSize(fontSize - 10);
+    }
+  };
+
+  // Toggle high contrast mode
+  const toggleHighContrast = () => {
+    const newValue = !highContrast;
+    setHighContrast(newValue);
+    if (newValue) {
+      document.body.classList.add("high-contrast");
+    } else {
+      document.body.classList.remove("high-contrast");
+    }
+    localStorage.setItem("a11y-highContrast", newValue.toString());
+  };
+
+  // Toggle dyslexic font
+  const toggleDyslexicFont = () => {
+    const newValue = !dyslexicFont;
+    setDyslexicFont(newValue);
+    if (newValue) {
+      document.body.classList.add("dyslexic-font");
+    } else {
+      document.body.classList.remove("dyslexic-font");
+    }
+    localStorage.setItem("a11y-dyslexicFont", newValue.toString());
+  };
+
+  // Toggle reduced motion
+  const toggleReducedMotion = () => {
+    const newValue = !reducedMotion;
+    setReducedMotion(newValue);
+    if (newValue) {
+      document.body.classList.add("reduced-motion");
+    } else {
+      document.body.classList.remove("reduced-motion");
+    }
+    localStorage.setItem("a11y-reducedMotion", newValue.toString());
+  };
+
+  // Toggle grayscale
+  const toggleGrayscale = () => {
+    const newValue = !grayscale;
+    setGrayscale(newValue);
+    if (newValue) {
+      document.body.classList.add("grayscale");
+    } else {
+      document.body.classList.remove("grayscale");
+    }
+    localStorage.setItem("a11y-grayscale", newValue.toString());
+  };
+
+  // Toggle dark mode
+  const toggleDarkMode = () => {
+    const newValue = !darkMode;
+    setDarkMode(newValue);
+    if (newValue) {
+      document.body.classList.add("dark-mode");
+    } else {
+      document.body.classList.remove("dark-mode");
+    }
+    localStorage.setItem("a11y-darkMode", newValue.toString());
+  };
+
+  // Reset all settings
+  const resetAllSettings = () => {
+    // Reset font size
+    setFontSizeState(100);
+    document.documentElement.style.fontSize = "100%";
+    localStorage.setItem("a11y-fontSize", "100");
+
+    // Reset high contrast
+    setHighContrast(false);
+    document.body.classList.remove("high-contrast");
+    localStorage.setItem("a11y-highContrast", "false");
+
+    // Reset dyslexic font
+    setDyslexicFont(false);
+    document.body.classList.remove("dyslexic-font");
+    localStorage.setItem("a11y-dyslexicFont", "false");
+
+    // Reset reduced motion
+    setReducedMotion(false);
+    document.body.classList.remove("reduced-motion");
+    localStorage.setItem("a11y-reducedMotion", "false");
+
+    // Reset grayscale
+    setGrayscale(false);
+    document.body.classList.remove("grayscale");
+    localStorage.setItem("a11y-grayscale", "false");
+
+    // Reset dark mode
+    setDarkMode(false);
+    document.body.classList.remove("dark-mode");
+    localStorage.setItem("a11y-darkMode", "false");
+  };
+
+  const value = {
+    fontSize,
+    setFontSize,
+    highContrast,
+    toggleHighContrast,
+    dyslexicFont,
+    toggleDyslexicFont,
+    reducedMotion,
+    toggleReducedMotion,
+    grayscale,
+    toggleGrayscale,
+    darkMode,
+    toggleDarkMode,
+    resetAllSettings,
+  };
+
+  return (
+    <AccessibilityContext.Provider value={value}>
+      {children}
+    </AccessibilityContext.Provider>
+  );
+};
+
+// Accessibility toolbar button component
+const AccessibilityToolbarButton = ({
+  onClick,
+  icon: Icon,
+  label,
+  active = false,
+  ariaLabel,
+}: {
+  onClick: () => void;
+  icon: React.ElementType;
+  label: string;
+  active?: boolean;
+  ariaLabel: string;
+}) => {
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={onClick}
+            className={`rounded-full w-10 h-10 ${active ? "bg-[#124A34] text-white" : "bg-white text-[#124A34]"} border-2 border-[#124A34] hover:bg-[#124A34] hover:text-white transition-colors`}
+            aria-label={ariaLabel}
+            aria-pressed={active}
+          >
+            <Icon className="h-5 w-5" />
+            <span className="sr-only">{label}</span>
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent side="top">
+          <p>{label}</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
+};
+
+// Main accessibility widget component
+const AccessibilityWidget = () => {
+  const [open, setOpen] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  // Add keyboard shortcut (Alt+A) to open accessibility menu
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.altKey && e.key === "a") || (e.altKey && e.key === "א")) {
+        setOpen((prev) => !prev);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   // Add dynamic styles for the accessibility button
   useEffect(() => {
     const styleId = "a11y-button-dynamic-styles";
@@ -64,8 +338,8 @@ const AccessibilityWidget = () => {
         bottom: 1rem !important;
         right: 1rem !important;
         z-index: 9999999 !important;
-        background-color: ${highContrast ? "yellow" : "#124a34"} !important;
-        color: ${highContrast ? "black" : "white"} !important;
+        background-color: #124a34 !important;
+        color: white !important;
         border: 3px solid white !important;
         box-shadow: 0 0 0 2px #000000, 0 0 10px rgba(0, 0, 0, 0.5) !important;
         width: 48px !important;
@@ -93,6 +367,16 @@ const AccessibilityWidget = () => {
         opacity: 1 !important;
         pointer-events: auto !important;
       }
+
+      body.dark-mode .a11y-widget-button {
+        background-color: #d39a6a !important;
+        color: black !important;
+      }
+
+      body.high-contrast .a11y-widget-button {
+        background-color: yellow !important;
+        color: black !important;
+      }
     `;
 
     styleEl.innerHTML = buttonStyles;
@@ -102,65 +386,7 @@ const AccessibilityWidget = () => {
         styleEl.parentNode.removeChild(styleEl);
       }
     };
-  }, [highContrast]);
-
-  // טוען הגדרות שנשמרו ב-localStorage
-  useEffect(() => {
-    const savedFontSize = localStorage.getItem("a11y-fontSize");
-    const savedContrast = localStorage.getItem("a11y-highContrast");
-    const savedDyslexicFont = localStorage.getItem("a11y-dyslexicFont");
-    const savedReducedMotion = localStorage.getItem("a11y-reducedMotion");
-    const savedGrayscale = localStorage.getItem("a11y-grayscale");
-
-    if (savedFontSize) {
-      const size = parseInt(savedFontSize);
-      setFontSize(size);
-      document.documentElement.style.fontSize = `${size}%`;
-    }
-
-    if (savedContrast === "true") {
-      setHighContrast(true);
-      document.body.classList.add("high-contrast");
-    }
-
-    if (savedDyslexicFont === "true") {
-      setDyslexicFont(true);
-      document.body.classList.add("dyslexic-font");
-    }
-
-    if (savedReducedMotion === "true") {
-      setReducedMotion(true);
-      document.body.classList.add("reduced-motion");
-    }
-
-    if (savedGrayscale === "true") {
-      setGrayscale(true);
-      document.body.classList.add("grayscale");
-    }
   }, []);
-
-  const changeFontSize = (value: number[]) => {
-    const newSize = value[0];
-    setFontSize(newSize);
-    document.documentElement.style.fontSize = `${newSize}%`;
-    localStorage.setItem("a11y-fontSize", newSize.toString());
-
-    // עדכון בצורה בטוחה יותר ללא reflow מלא
-    try {
-      // Force layout update without hiding the entire body
-      const elements = document.querySelectorAll("*");
-      elements.forEach((el) => {
-        if (el instanceof HTMLElement) {
-          el.style.maxHeight = el.style.maxHeight;
-        }
-      });
-    } catch (error) {
-      console.error("Error updating layout:", error);
-    }
-  };
-
-  // Add a ref to track the button element
-  const buttonRef = useRef<HTMLButtonElement>(null);
 
   // Effect to ensure the button is always visible
   useEffect(() => {
@@ -179,111 +405,43 @@ const AccessibilityWidget = () => {
     return () => clearInterval(intervalId);
   }, []);
 
-  const toggleHighContrast = () => {
-    const newValue = !highContrast;
-    setHighContrast(newValue);
-    if (newValue) {
-      document.body.classList.add("high-contrast");
-    } else {
-      document.body.classList.remove("high-contrast");
-    }
-    localStorage.setItem("a11y-highContrast", newValue.toString());
+  // Get accessibility context
+  const {
+    fontSize,
+    setFontSize,
+    highContrast,
+    toggleHighContrast,
+    dyslexicFont,
+    toggleDyslexicFont,
+    reducedMotion,
+    toggleReducedMotion,
+    grayscale,
+    toggleGrayscale,
+    darkMode,
+    toggleDarkMode,
+    resetAllSettings,
+  } = useAccessibility();
 
-    // Force minimal layout update
-    try {
-      document.body.style.zoom = "99.99%";
-      setTimeout(() => {
-        document.body.style.zoom = "100%";
-      }, 10);
-    } catch (error) {
-      console.error("Error updating contrast:", error);
-    }
-  };
-
-  const toggleDyslexicFont = () => {
-    const newValue = !dyslexicFont;
-    setDyslexicFont(newValue);
-    if (newValue) {
-      document.body.classList.add("dyslexic-font");
-    } else {
-      document.body.classList.remove("dyslexic-font");
-    }
-    localStorage.setItem("a11y-dyslexicFont", newValue.toString());
-
-    // Force minimal layout update
-    try {
-      document.body.style.zoom = "99.99%";
-      setTimeout(() => {
-        document.body.style.zoom = "100%";
-      }, 10);
-    } catch (error) {
-      console.error("Error updating font:", error);
+  // Increase font size by 10%
+  const increaseFontSize = () => {
+    if (fontSize < 150) {
+      setFontSize(fontSize + 10);
     }
   };
 
-  const toggleReducedMotion = () => {
-    const newValue = !reducedMotion;
-    setReducedMotion(newValue);
-    if (newValue) {
-      document.body.classList.add("reduced-motion");
-    } else {
-      document.body.classList.remove("reduced-motion");
-    }
-    localStorage.setItem("a11y-reducedMotion", newValue.toString());
-  };
-
-  const toggleGrayscale = () => {
-    const newValue = !grayscale;
-    setGrayscale(newValue);
-    if (newValue) {
-      document.body.classList.add("grayscale");
-    } else {
-      document.body.classList.remove("grayscale");
-    }
-    localStorage.setItem("a11y-grayscale", newValue.toString());
-  };
-
-  const resetAllSettings = () => {
-    setFontSize(100);
-    document.documentElement.style.fontSize = "100%";
-    localStorage.setItem("a11y-fontSize", "100");
-
-    setHighContrast(false);
-    document.body.classList.remove("high-contrast");
-    localStorage.setItem("a11y-highContrast", "false");
-
-    setDyslexicFont(false);
-    document.body.classList.remove("dyslexic-font");
-    localStorage.setItem("a11y-dyslexicFont", "false");
-
-    setReducedMotion(false);
-    document.body.classList.remove("reduced-motion");
-    localStorage.setItem("a11y-reducedMotion", "false");
-
-    setGrayscale(false);
-    document.body.classList.remove("grayscale");
-    localStorage.setItem("a11y-grayscale", "false");
-
-    // Force minimal layout update
-    try {
-      document.body.style.zoom = "99.99%";
-      setTimeout(() => {
-        document.body.style.zoom = "100%";
-      }, 10);
-    } catch (error) {
-      console.error("Error resetting settings:", error);
+  // Decrease font size by 10%
+  const decreaseFontSize = () => {
+    if (fontSize > 80) {
+      setFontSize(fontSize - 10);
     }
   };
 
   return (
-    <Popover
-      open={open}
-      onOpenChange={setOpen}
-      className="justify-start items-center"
-    >
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <div className="a11y-widget-container">
           <button
+            ref={buttonRef}
             aria-label="פתח תפריט נגישות"
             className="a11y-widget-button"
             onClick={() => setOpen(!open)}
@@ -300,7 +458,7 @@ const AccessibilityWidget = () => {
         </div>
       </PopoverTrigger>
       <PopoverContent
-        className="w-80 p-5 rounded-lg shadow-lg border-2 border-[#d39a6a]/30 bg-white"
+        className="w-[350px] p-5 rounded-lg shadow-lg border-2 border-[#d39a6a]/30 bg-white"
         side="top"
         sideOffset={5}
         align="end"
@@ -308,93 +466,150 @@ const AccessibilityWidget = () => {
         role="dialog"
         aria-label="תפריט הגדרות נגישות"
       >
-        <div className="space-y-4">
-          <h2
-            className="text-xl font-bold text-[#124A34] mb-4"
-            id="a11y-dialog-title"
-          >
-            הגדרות נגישות
-          </h2>
-
-          <div className="space-y-2">
-            <label
-              htmlFor="font-size"
-              className="text-sm font-medium block text-[#124A34]"
+        <div className="space-y-6">
+          <div className="flex justify-between items-center">
+            <h2
+              className="text-xl font-bold text-[#124A34]"
+              id="a11y-dialog-title"
             >
-              גודל הגופן: {fontSize}%
-            </label>
-            <Slider
-              id="font-size"
-              min={80}
-              max={150}
-              step={10}
-              value={[fontSize]}
-              onValueChange={changeFontSize}
-              aria-label="שינוי גודל הגופן"
-            />
-          </div>
-
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-[#124A34]">
-              ניגודיות גבוהה
-            </span>
-            <Switch
-              checked={highContrast}
-              onCheckedChange={toggleHighContrast}
-              aria-label="הפעל או בטל ניגודיות גבוהה"
-            />
-          </div>
-
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-[#124A34]">
-              גופן ידידותי לדיסלקטים
-            </span>
-            <Switch
-              checked={dyslexicFont}
-              onCheckedChange={toggleDyslexicFont}
-              aria-label="הפעל או בטל גופן לדיסלקטים"
-            />
-          </div>
-
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-[#124A34]">
-              הפחתת אנימציות
-            </span>
-            <Switch
-              checked={reducedMotion}
-              onCheckedChange={toggleReducedMotion}
-              aria-label="הפעל או בטל הפחתת אנימציות"
-            />
-          </div>
-
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-[#124A34]">
-              מצב גווני אפור
-            </span>
-            <Switch
-              checked={grayscale}
-              onCheckedChange={toggleGrayscale}
-              aria-label="הפעל או בטל מצב גווני אפור"
-            />
-          </div>
-
-          <div className="pt-3 mt-2 border-t border-[#124A34]/20">
-            <div className="flex justify-between">
+              הגדרות נגישות
+            </h2>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={resetAllSettings}
+                className="text-[#d39a6a] hover:text-[#124A34] transition-colors font-bold"
+                aria-label="איפוס הגדרות נגישות"
+              >
+                <RefreshCw className="h-4 w-4 mr-1" />
+                איפוס
+              </Button>
               <a
                 href="/accessibility-statement"
-                className="text-sm text-[#124A34] hover:text-[#d39a6a] transition-colors font-bold"
+                className="text-sm text-[#124A34] hover:text-[#d39a6a] transition-colors font-bold px-2 py-1"
                 aria-label="הצהרת נגישות"
               >
                 הצהרת נגישות
               </a>
-              <button
-                onClick={resetAllSettings}
-                className="text-sm text-[#d39a6a] hover:text-[#124A34] transition-colors font-bold"
-                aria-label="איפוס הגדרות נגישות"
-              >
-                איפוס הגדרות
-              </button>
             </div>
+          </div>
+
+          {/* Quick access toolbar */}
+          <div className="flex justify-center gap-2 py-2">
+            <AccessibilityToolbarButton
+              onClick={decreaseFontSize}
+              icon={ZoomOut}
+              label="הקטן גופן"
+              ariaLabel="הקטן גודל גופן"
+            />
+            <AccessibilityToolbarButton
+              onClick={increaseFontSize}
+              icon={ZoomIn}
+              label="הגדל גופן"
+              ariaLabel="הגדל גודל גופן"
+            />
+            <AccessibilityToolbarButton
+              onClick={toggleHighContrast}
+              icon={Eye}
+              label="ניגודיות גבוהה"
+              active={highContrast}
+              ariaLabel="הפעל או בטל ניגודיות גבוהה"
+            />
+            <AccessibilityToolbarButton
+              onClick={toggleDarkMode}
+              icon={darkMode ? Sun : Moon}
+              label={darkMode ? "מצב רגיל" : "מצב כהה"}
+              active={darkMode}
+              ariaLabel="הפעל או בטל מצב כהה"
+            />
+            <AccessibilityToolbarButton
+              onClick={toggleReducedMotion}
+              icon={PanelTop}
+              label="הפחתת אנימציות"
+              active={reducedMotion}
+              ariaLabel="הפעל או בטל הפחתת אנימציות"
+            />
+          </div>
+
+          {/* Detailed settings */}
+          <div className="space-y-4 border-t border-[#124A34]/10 pt-4">
+            <div className="space-y-2">
+              <label
+                htmlFor="font-size"
+                className="text-sm font-medium block text-[#124A34]"
+              >
+                גודל הגופן: {fontSize}%
+              </label>
+              <Slider
+                id="font-size"
+                min={80}
+                max={150}
+                step={10}
+                value={[fontSize]}
+                onValueChange={(value) => setFontSize(value[0])}
+                aria-label="שינוי גודל הגופן"
+              />
+            </div>
+
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-[#124A34]">
+                ניגודיות גבוהה
+              </span>
+              <Switch
+                checked={highContrast}
+                onCheckedChange={toggleHighContrast}
+                aria-label="הפעל או בטל ניגודיות גבוהה"
+              />
+            </div>
+
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-[#124A34]">
+                מצב כהה
+              </span>
+              <Switch
+                checked={darkMode}
+                onCheckedChange={toggleDarkMode}
+                aria-label="הפעל או בטל מצב כהה"
+              />
+            </div>
+
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-[#124A34]">
+                גופן ידידותי לדיסלקטים
+              </span>
+              <Switch
+                checked={dyslexicFont}
+                onCheckedChange={toggleDyslexicFont}
+                aria-label="הפעל או בטל גופן לדיסלקטים"
+              />
+            </div>
+
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-[#124A34]">
+                הפחתת אנימציות
+              </span>
+              <Switch
+                checked={reducedMotion}
+                onCheckedChange={toggleReducedMotion}
+                aria-label="הפעל או בטל הפחתת אנימציות"
+              />
+            </div>
+
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-[#124A34]">
+                מצב גווני אפור
+              </span>
+              <Switch
+                checked={grayscale}
+                onCheckedChange={toggleGrayscale}
+                aria-label="הפעל או בטל מצב גווני אפור"
+              />
+            </div>
+          </div>
+
+          <div className="text-xs text-gray-500 pt-2 border-t border-[#124A34]/10">
+            <p>קיצור מקלדת: Alt + A לפתיחת תפריט הנגישות</p>
           </div>
         </div>
       </PopoverContent>

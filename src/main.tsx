@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { TempoDevtools } from "tempo-devtools";
 import App from "./App";
 import "./index.css";
+import { AccessibilityProvider } from "./components/AccessibilityWidget";
 
 // Initialize Tempo Devtools
 TempoDevtools.init();
@@ -11,7 +12,9 @@ TempoDevtools.init();
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter className="flex-row">
-      <App />
+      <AccessibilityProvider>
+        <App />
+      </AccessibilityProvider>
     </BrowserRouter>
   </React.StrictMode>,
 );
