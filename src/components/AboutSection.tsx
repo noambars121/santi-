@@ -64,9 +64,9 @@ export default function AboutSection() {
               variant="outline"
               className="mb-8 px-8 py-2.5 text-base md:text-lg border-[#124A34] text-[#124A34] tracking-wider font-light bg-white/10 backdrop-blur-sm"
             >
-              ? מי אני
+              אז מי אני ?
             </Badge>
-            <h2 className="md:text-6xl lg:text-7xl font-bold mb-8 text-[#124A34] tracking-tight text-[55.25px]">
+            <h2 className="md:text-6xl lg:text-7xl font-bold mb-8 text-[#124A34] text-[55.25px] flex flex-col tracking-[2.6500000000000004px]">
               סנטיאגו מרזי
             </h2>
             <p className="md:text-3xl text-white font-bold leading-[37.75px] text-[26px]">

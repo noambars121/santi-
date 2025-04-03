@@ -4,7 +4,7 @@ export const siteConfig = {
   description:
     "אימון כלבים מקצועי עם שיטה ייחודית להצלחה מוכחת. מתמחה בפתרון בעיות התנהגות ובניית קשר חזק בין הכלב לבעליו.",
   phone: "050-1234567",
-  whatsapp: "https://wa.me/message/JLTNWOHMONIZK1",
+  whatsapp: "", // Removed WhatsApp link in favor of contact form
   email: "santiago@dogtraining.co.il",
   location: "נהריה, ישראל",
   social: {
