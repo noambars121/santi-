@@ -184,6 +184,19 @@ export const AccessibilityProvider: React.FC<{ children: React.ReactNode }> = ({
       document.body.classList.remove("reduced-motion");
     }
     localStorage.setItem("a11y-reducedMotion", newValue.toString());
+
+    // Ensure the button stays in place regardless of state change
+    setTimeout(() => {
+      const buttons = document.querySelectorAll(".a11y-widget-button");
+      buttons.forEach((button) => {
+        (button as HTMLElement).style.position = "fixed";
+        (button as HTMLElement).style.bottom = "1rem";
+        (button as HTMLElement).style.right = "1rem";
+        (button as HTMLElement).style.zIndex = "9999999";
+        (button as HTMLElement).style.visibility = "visible";
+        (button as HTMLElement).style.opacity = "1";
+      });
+    }, 10);
   };
 
   // Toggle grayscale
@@ -196,6 +209,19 @@ export const AccessibilityProvider: React.FC<{ children: React.ReactNode }> = ({
       document.body.classList.remove("grayscale");
     }
     localStorage.setItem("a11y-grayscale", newValue.toString());
+
+    // Ensure the button stays in place regardless of state change
+    setTimeout(() => {
+      const buttons = document.querySelectorAll(".a11y-widget-button");
+      buttons.forEach((button) => {
+        (button as HTMLElement).style.position = "fixed";
+        (button as HTMLElement).style.bottom = "1rem";
+        (button as HTMLElement).style.right = "1rem";
+        (button as HTMLElement).style.zIndex = "9999999";
+        (button as HTMLElement).style.visibility = "visible";
+        (button as HTMLElement).style.opacity = "1";
+      });
+    }, 10);
   };
 
   // Toggle dark mode
@@ -370,6 +396,8 @@ const AccessibilityWidget = () => {
         opacity: 1 !important;
         pointer-events: auto !important;
         cursor: pointer !important;
+        /* Prevent event propagation issues */
+        isolation: isolate !important;
       }
       
       .a11y-widget-container {
@@ -383,6 +411,8 @@ const AccessibilityWidget = () => {
         visibility: visible !important;
         opacity: 1 !important;
         pointer-events: auto !important;
+        /* Prevent event propagation issues */
+        isolation: isolate !important;
       }
 
       body.dark-mode .a11y-widget-button {
@@ -411,6 +441,12 @@ const AccessibilityWidget = () => {
         opacity: 1 !important;
         pointer-events: auto !important;
       }
+      
+      /* Ensure buttons in storyboards are selectable */
+      [role="button"], button {
+        position: relative !important;
+        z-index: 1 !important;
+      }
     `;
 
     styleEl.innerHTML = buttonStyles;
@@ -425,40 +461,55 @@ const AccessibilityWidget = () => {
   // Effect to ensure the button is always visible and properly positioned
   useEffect(() => {
     const checkButtonVisibility = () => {
-      if (buttonRef.current) {
-        buttonRef.current.style.visibility = "visible";
-        buttonRef.current.style.opacity = "1";
-        buttonRef.current.style.pointerEvents = "auto";
-        buttonRef.current.style.position = "fixed";
-        buttonRef.current.style.bottom = "1rem";
-        buttonRef.current.style.right = "1rem";
-        buttonRef.current.style.zIndex = "9999999";
-      }
+      const buttons = document.querySelectorAll(".a11y-widget-button");
+      buttons.forEach((button) => {
+        (button as HTMLElement).style.visibility = "visible";
+        (button as HTMLElement).style.opacity = "1";
+        (button as HTMLElement).style.pointerEvents = "auto";
+        (button as HTMLElement).style.position = "fixed";
+        (button as HTMLElement).style.bottom = "1rem";
+        (button as HTMLElement).style.right = "1rem";
+        (button as HTMLElement).style.zIndex = "9999999";
+      });
     };
 
     // Check immediately and then periodically
     checkButtonVisibility();
-    const intervalId = setInterval(checkButtonVisibility, 500);
+    const intervalId = setInterval(checkButtonVisibility, 300);
 
-    // Also check when high contrast mode changes
+    // Also check when accessibility modes change
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
-        if (
-          mutation.attributeName === "class" &&
-          (mutation.target as Element).classList.contains("high-contrast")
-        ) {
-          checkButtonVisibility();
+        if (mutation.attributeName === "class") {
+          const classList = (mutation.target as Element).classList;
+          if (
+            classList.contains("high-contrast") ||
+            classList.contains("grayscale") ||
+            classList.contains("reduced-motion") ||
+            classList.contains("dark-mode") ||
+            classList.contains("dyslexic-font")
+          ) {
+            checkButtonVisibility();
+          }
         }
       });
     });
 
     observer.observe(document.body, { attributes: true });
 
+    // Check after any DOM changes that might affect the button
+    const domObserver = new MutationObserver(() => {
+      checkButtonVisibility();
+    });
+
+    domObserver.observe(document.body, { childList: true, subtree: true });
+
     return () => {
       clearInterval(intervalId);
       observer.disconnect();
+      domObserver.disconnect();
     };
-  }, [highContrast]);
+  }, [highContrast, grayscale, reducedMotion, darkMode, dyslexicFont]);
 
   // Increase font size by 10%
   const increaseFontSize = () => {
@@ -482,9 +533,13 @@ const AccessibilityWidget = () => {
             ref={buttonRef}
             aria-label="פתח תפריט נגישות"
             className="a11y-widget-button !fixed !bottom-4 !right-4 !z-[999999] !bg-[#124A34] !text-white !p-3 !rounded-full !shadow-lg !focus:outline-none"
-            onClick={() => setOpen(!open)}
+            onClick={(e) => {
+              e.stopPropagation(); // Stop event propagation
+              setOpen(!open);
+            }}
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === " ") {
+                e.stopPropagation(); // Stop event propagation
                 setOpen(!open);
               }
             }}
@@ -498,20 +553,26 @@ const AccessibilityWidget = () => {
               visibility: "visible",
               opacity: 1,
               pointerEvents: "auto",
+              transform: "none",
+              transition: "none",
+              animation: "none",
             }}
+            data-tempo-no-select="true" // Add a data attribute to help Tempo identify this as a special element
+            data-a11y-fixed="true" // Add a data attribute to help identify this as a fixed element
           >
             <Accessibility className="h-6 w-6" />
           </button>
         </div>
       </PopoverTrigger>
       <PopoverContent
-        className="w-[350px] p-6 rounded-xl shadow-lg border-2 border-[#d39a6a]/30 bg-white text-right"
+        className="w-[350px] p-6 rounded-xl shadow-lg border-2 border-[#d39a6a]/30 bg-white text-right a11y-popover-content"
         side="top"
         sideOffset={5}
         align="end"
         alignOffset={-50}
         role="dialog"
-        aria-label="תפריט הגדרות נגישות"
+        aria-label="הגדרות נגישות"
+        onOpenAutoFocus={(e) => e.preventDefault()} // Prevent auto focus to avoid scroll jumps
       >
         <div className="space-y-6">
           <div className="flex justify-between items-center mb-4">
@@ -586,89 +647,22 @@ const AccessibilityWidget = () => {
             />
           </div>
 
-          {/* Detailed settings */}
-          <div className="space-y-4 border-t border-[#124A34]/10 pt-4">
-            <div className="space-y-2">
-              <label
-                htmlFor="font-size"
-                className="text-sm font-medium block text-[#124A34]"
-              >
-                גודל הגופן: {fontSize}%
-              </label>
-              <Slider
-                id="font-size"
-                min={80}
-                max={150}
-                step={10}
-                value={[fontSize]}
-                onValueChange={(value) => setFontSize(value[0])}
-                aria-label="שינוי גודל הגופן"
-              />
-            </div>
-
-            <div className="flex items-center justify-between">
-              <Switch
-                checked={highContrast}
-                onCheckedChange={toggleHighContrast}
-                aria-label="הפעל או בטל ניגודיות גבוהה"
-                className="order-2"
-              />
-              <span className="text-sm font-medium text-[#124A34] order-1">
-                ניגודיות גבוהה
-              </span>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <Switch
-                checked={darkMode}
-                onCheckedChange={toggleDarkMode}
-                aria-label="הפעל או בטל מצב כהה"
-                className="order-2"
-              />
-              <span className="text-sm font-medium text-[#124A34] order-1">
-                מצב כהה
-              </span>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <Switch
-                checked={dyslexicFont}
-                onCheckedChange={toggleDyslexicFont}
-                aria-label="הפעל או בטל גופן לדיסלקטים"
-                className="order-2"
-              />
-              <span className="text-sm font-medium text-[#124A34] order-1">
-                גופן ידידותי לדיסלקטים
-              </span>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <Switch
-                checked={reducedMotion}
-                onCheckedChange={toggleReducedMotion}
-                aria-label="הפעל או בטל הפחתת אנימציות"
-                className="order-2"
-              />
-              <span className="text-sm font-medium text-[#124A34] order-1">
-                הפחתת אנימציות
-              </span>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <Switch
-                checked={grayscale}
-                onCheckedChange={toggleGrayscale}
-                aria-label="הפעל או בטל מצב גווני אפור"
-                className="order-2"
-              />
-              <span className="text-sm font-medium text-[#124A34] order-1">
-                מצב גווני אפור
-              </span>
-            </div>
-          </div>
-
           <div className="text-xs text-gray-500 pt-2 border-t border-[#124A34]/10 text-center">
             <p>קיצור מקלדת: Alt + A לפתיחת תפריט הנגישות</p>
+          </div>
+
+          {/* Font size indicator */}
+          <div className="flex justify-between items-center">
+            <div className="bg-[#f0f0f0] rounded-full h-2 w-full overflow-hidden">
+              <div
+                className="bg-[#124A34] h-full rounded-full"
+                style={{ width: `${fontSize}%` }}
+                aria-hidden="true"
+              />
+            </div>
+            <span className="text-sm font-medium text-[#124A34] mr-2 whitespace-nowrap">
+              גודל הגופן: {fontSize}%
+            </span>
           </div>
         </div>
       </PopoverContent>

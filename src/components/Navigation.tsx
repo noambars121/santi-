@@ -5,6 +5,14 @@ import { Menu, X } from "lucide-react";
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
 
+  const scrollToSection = (sectionId: string) => {
+    setIsOpen(false);
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <nav
       className="bg-white shadow-lg fixed w-full z-50"
@@ -14,12 +22,14 @@ export default function Navigation() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <img
-              src="https://storage.googleapis.com/tempo-public-images/github%7C186841034-1739185595925-Logo3png"
-              alt="לוגו סנטיאגו מרזי"
-              className="h-16 w-auto hover:scale-105 transition-transform duration-200 cursor-pointer"
-              loading="eager"
-            />
+            <Link to="/">
+              <img
+                src="https://storage.googleapis.com/tempo-public-images/github%7C186841034-1739185595925-Logo3png"
+                alt="לוגו סנטיאגו מרזי"
+                className="h-16 w-auto hover:scale-105 transition-transform duration-200 cursor-pointer"
+                loading="eager"
+              />
+            </Link>
           </div>
 
           {/* Desktop menu */}
@@ -31,28 +41,30 @@ export default function Navigation() {
             >
               בית
             </Link>
-            <Link
-              to="/about"
-              className="text-[#0B4619] hover:text-[#083612] px-3 py-2 rounded-md text-lg font-medium"
+            <button
+              onClick={() => scrollToSection("about")}
+              className="text-[#0B4619] hover:text-[#083612] px-3 py-2 rounded-md text-lg font-medium bg-transparent"
               aria-label="אודות סנטיאגו מרזי"
             >
               עליי
-            </Link>
-            <Link
-              to="/packages"
-              className="text-[#0B4619] hover:text-[#083612] px-3 py-2 rounded-md text-lg font-medium"
+            </button>
+            <button
+              onClick={() => scrollToSection("packages")}
+              className="text-[#0B4619] hover:text-[#083612] px-3 py-2 rounded-md text-lg font-medium bg-transparent"
               aria-label="חבילות אילוף"
             >
               חבילות
-            </Link>
+            </button>
 
-            <Link
-              to="/contact"
+            <button
+              onClick={() =>
+                window.open("https://wa.me/message/JLTNWOHMONIZK1", "_blank")
+              }
               className="bg-[#0B4619] text-white hover:bg-[#083612] px-4 py-2 rounded-md text-lg font-medium"
-              aria-label="צור קשר"
+              aria-label="צור קשר בוואטסאפ"
             >
               צור קשר
-            </Link>
+            </button>
           </div>
 
           {/* Mobile menu button */}
@@ -85,31 +97,34 @@ export default function Navigation() {
               to="/"
               className="text-[#0B4619] hover:text-[#083612] block px-3 py-2 rounded-md text-base font-medium text-right"
               aria-label="דף הבית"
+              onClick={() => setIsOpen(false)}
             >
               בית
             </Link>
-            <Link
-              to="/packages"
-              className="text-[#0B4619] hover:text-[#083612] block px-3 py-2 rounded-md text-base font-medium text-right"
+            <button
+              onClick={() => scrollToSection("packages")}
+              className="text-[#0B4619] hover:text-[#083612] block px-3 py-2 rounded-md text-base font-medium text-right w-full text-right bg-transparent"
               aria-label="חבילות אילוף"
             >
               חבילות
-            </Link>
-            <Link
-              to="/about"
-              className="text-[#0B4619] hover:text-[#083612] block px-3 py-2 rounded-md text-base font-medium text-right"
+            </button>
+            <button
+              onClick={() => scrollToSection("about")}
+              className="text-[#0B4619] hover:text-[#083612] block px-3 py-2 rounded-md text-base font-medium text-right w-full text-right bg-transparent"
               aria-label="אודות סנטיאגו מרזי"
             >
               עליי
-            </Link>
+            </button>
 
-            <Link
-              to="/contact"
-              className="bg-[#0B4619] text-white hover:bg-[#083612] block px-3 py-2 rounded-md text-base font-medium text-center"
+            <button
+              onClick={() =>
+                window.open("https://wa.me/message/JLTNWOHMONIZK1", "_blank")
+              }
+              className="bg-[#0B4619] text-white hover:bg-[#083612] block px-3 py-2 rounded-md text-base font-medium text-center w-full"
               aria-label="צור קשר בוואטסאפ"
             >
-              צור קשר בוואטסאפ{" "}
-            </Link>
+              צור קשר בוואטסאפ
+            </button>
           </div>
         </div>
       )}

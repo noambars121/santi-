@@ -48,13 +48,55 @@
   transition: none !important;
   animation-iteration-count: 1 !important;
   scroll-behavior: auto !important;
+}
+
+/* Ensure transforms are only disabled for animations, not for layout */
+.reduced-motion
+  *:not(.a11y-widget-button):not(.a11y-widget-container):not(
+    [data-radix-popper-content-wrapper]
+  ):not([data-a11y-fixed="true"]) {
   transform: none !important;
+}
+
+/* Ensure the accessibility button and menu stay fixed when reduced motion is active */
+.reduced-motion .a11y-widget-button,
+.reduced-motion button.a11y-widget-button,
+.reduced-motion .a11y-widget-container button,
+.reduced-motion [data-radix-popper-content-wrapper],
+[data-a11y-fixed="true"] {
+  position: fixed !important;
+  bottom: 1rem !important;
+  right: 1rem !important;
+  z-index: 9999999 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
 }
 
 /* Grayscale mode */
 .grayscale,
-.grayscale * {
+.grayscale *:not([data-a11y-fixed="true"]) {
   filter: grayscale(1) !important;
+}
+
+/* Ensure the accessibility button stays fixed when grayscale is active */
+.grayscale .a11y-widget-button,
+.grayscale button.a11y-widget-button,
+.grayscale .a11y-widget-container button,
+[data-a11y-fixed="true"] {
+  position: fixed !important;
+  bottom: 1rem !important;
+  right: 1rem !important;
+  z-index: 9999999 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
 }
 
 /* Skip link for keyboard users */
@@ -157,7 +199,8 @@ button.a11y-widget-button,
 .popover-trigger button.a11y-widget-button,
 div[role="button"].a11y-widget-button,
 [data-state] button.a11y-widget-button,
-[data-radix-popper-content-wrapper] button.a11y-widget-button {
+[data-radix-popper-content-wrapper] button.a11y-widget-button,
+[data-a11y-fixed="true"] {
   position: fixed !important;
   bottom: 1rem !important;
   right: 1rem !important;
@@ -175,7 +218,7 @@ div[role="button"].a11y-widget-button,
   align-items: center !important;
   justify-content: center !important;
   padding: 0.5rem !important;
-  transition: transform 0.2s ease !important;
+  transition: none !important;
   visibility: visible !important;
   opacity: 1 !important;
   pointer-events: auto !important;
@@ -183,10 +226,11 @@ div[role="button"].a11y-widget-button,
   touch-action: manipulation !important;
   -webkit-tap-highlight-color: transparent !important;
   user-select: none !important;
+  transform: none !important;
+  animation: none !important;
 }
 
 .a11y-widget-button:hover {
-  transform: scale(1.1) !important;
   background-color: #0d3626 !important;
 }
 
@@ -207,6 +251,18 @@ div[role="button"].a11y-widget-button,
   pointer-events: auto !important;
   width: 48px !important;
   height: 48px !important;
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+/* Popover content styles */
+.a11y-popover-content {
+  z-index: 9999999 !important;
+  position: absolute !important;
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
 }
 
 /* High contrast mode styles for accessibility button */
@@ -215,7 +271,8 @@ body.high-contrast .a11y-widget-button,
 .high-contrast button.a11y-widget-button,
 .high-contrast div[role="button"].a11y-widget-button,
 .high-contrast [data-state] button.a11y-widget-button,
-.high-contrast [data-radix-popper-content-wrapper] button.a11y-widget-button {
+.high-contrast [data-radix-popper-content-wrapper] button.a11y-widget-button,
+.high-contrast [data-a11y-fixed="true"] {
   background-color: yellow !important;
   color: black !important;
   border: 3px solid white !important;
@@ -233,6 +290,8 @@ body.high-contrast .a11y-widget-button,
   transform: none !important;
   width: 48px !important;
   height: 48px !important;
+  transition: none !important;
+  animation: none !important;
 }
 
 /* Dark mode styles for accessibility button */

@@ -7,6 +7,7 @@
   --accent: #d4a373;
   --text: #1c3326;
   --background: #ffffff;
+  --scroll-padding-top: 80px; /* For scroll-margin-top */
 }
 
 html {
@@ -18,6 +19,17 @@ body {
   font-family: Assistant, system-ui, sans-serif;
   color: var(--text);
   background: var(--background);
+}
+
+/* Add scroll margin to section targets for smooth scrolling with fixed header */
+section[id] {
+  scroll-margin-top: var(--scroll-padding-top);
+}
+
+/* Smooth scrolling for all anchor links */
+a[href^="#"],
+button[data-scroll] {
+  scroll-behavior: smooth;
 }
 
 .container {

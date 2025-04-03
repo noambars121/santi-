@@ -80,7 +80,7 @@ export default function AboutSection() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="space-y-8 max-w-4xl mr-auto flex justify-center flex-col items-center"
+              className="space-y-8 max-w-4xl flex justify-center items-center flex-col text-center"
             >
               <p className="text-xl md:text-2xl leading-relaxed text-white font-light">
                 מאז שאני זוכר את עצמי, כלבים תמיד היו חלק בלתי נפרד מהחיים שלי.
