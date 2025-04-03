@@ -67,11 +67,29 @@ const HeroSection = () => {
           <motion.p
             {...animations}
             transition={{ delay: 0.4 }}
-            className="text-lg md:text-xl mb-8 text-white/90 leading-relaxed"
+            className="text-lg md:text-xl mb-4 text-white/90 leading-relaxed"
           >
             מתמחה בפתרון בעיות התנהגות, משמעת מתקדמת ובניית קשר חזק בין הכלב
             לבעליו
           </motion.p>
+
+          {/* Video Section */}
+          <motion.div
+            {...animations}
+            transition={{ delay: 0.5 }}
+            className="w-full max-w-[600px] mx-auto mb-8 rounded-lg overflow-hidden shadow-xl"
+          >
+            <video
+              className="w-full h-auto"
+              controls
+              poster="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=800&q=80"
+              aria-label="סרטון אילוף כלבים"
+            >
+              <source src="YOUR_VIDEO_URL_HERE" type="video/mp4" />
+              הדפדפן שלך אינו תומך בתגית וידאו.
+            </video>
+          </motion.div>
+
           {/* CTA Buttons */}
 
           {/* Statistics */}

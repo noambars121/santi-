@@ -80,15 +80,15 @@ export default function AboutSection() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="space-y-8 max-w-4xl flex justify-center items-center flex-col text-center"
+              className="space-y-8 max-w-4xl mx-auto flex justify-center items-center flex-col text-center shadow-lg p-6 rounded-xl"
             >
-              <p className="text-xl md:text-2xl leading-relaxed text-white font-light">
+              <p className="text-xl md:text-2xl leading-relaxed text-white font-light text-shadow">
                 מאז שאני זוכר את עצמי, כלבים תמיד היו חלק בלתי נפרד מהחיים שלי.
                 תמיד הרגשתי שיש לי חיבור מיוחד איתם – החיבור הזה בין הפשטות
                 הטבעית של הכלב למורכבות שבתהליך האילוף. הבנתי שזו לא רק עבודה
                 בשבילי – זו .אהבה אמיתית{" "}
               </p>
-              <p className="text-xl md:text-2xl leading-relaxed text-white font-light">
+              <p className="text-xl md:text-2xl leading-relaxed text-white font-light text-shadow">
                 לפני כשנתיים החלטתי להפוך את האהבה הזו למקצוע, והשקעתי את כל
                 כולי בלימודים כדי להפוך למאלף כלבים מקצועי. היום אני כאן כדי
                 לעזור לכם ולחבר הכי טוב שלכם להתמודד עם האתגרים היום-יומיים
