@@ -2,9 +2,11 @@ import { Button } from "./ui/button";
 import { motion, useReducedMotion } from "framer-motion";
 import { Badge } from "./ui/badge";
 import { ChevronDown } from "lucide-react";
+import { useContactForm } from "../App";
 
 const HeroSection = () => {
   const shouldReduceMotion = useReducedMotion();
+  const { openContactForm } = useContactForm();
 
   const animations = {
     initial: { opacity: 0, y: shouldReduceMotion ? 0 : 20 },
@@ -91,6 +93,19 @@ const HeroSection = () => {
           </motion.div>
 
           {/* CTA Buttons */}
+          <motion.div
+            {...animations}
+            transition={{ delay: 0.6 }}
+            className="flex flex-wrap justify-center gap-4 mt-8"
+          >
+            <Button
+              onClick={openContactForm}
+              className="bg-[#d39a6a] hover:bg-[#d39a6a]/90 text-white px-6 py-6 text-lg rounded-xl shadow-lg transition-all duration-300"
+              aria-label="פתיחת טופס יצירת קשר"
+            >
+              השאירו פרטים ונחזור אליכם
+            </Button>
+          </motion.div>
 
           {/* Statistics */}
           {/* Scroll Indicator */}
