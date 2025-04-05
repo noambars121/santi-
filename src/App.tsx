@@ -1,4 +1,4 @@
-import { useState, useEffect, createContext, useContext } from "react";
+import { useState, useEffect } from "react";
 import Navigation from "./components/Navigation";
 import HeroSection from "./components/HeroSection";
 import PackagesSection from "./components/PackagesSection";
@@ -7,30 +7,17 @@ import GallerySection from "./components/GallerySection";
 import TestimonialsSection from "./components/TestimonialsSection";
 import CTASection from "./components/CTASection";
 import Footer from "./components/Footer";
-import { ContactForm } from "./components/ContactForm";
 
 import { Routes, Route, useLocation } from "react-router-dom";
 import AccessibilityStatement from "./components/AccessibilityStatement";
 import AccessibilityWidget, {
   AccessibilityProvider,
 } from "./components/AccessibilityWidget";
-
-// Create a context for the contact form
-export const ContactFormContext = createContext<{
-  openContactForm: () => void;
-}>({ openContactForm: () => {} });
-
-// Custom hook to use the contact form context
-export const useContactForm = () => useContext(ContactFormContext);
+import { ContactFormWrapper } from "./components/ContactFormWrapper";
 
 function App() {
-  const [showContactForm, setShowContactForm] = useState(false);
   const location = useLocation();
-
-  // Function to open the contact form
-  const openContactForm = () => {
-    setShowContactForm(true);
-  };
+  const [showInitialContactForm, setShowInitialContactForm] = useState(false);
 
   // Show contact form on initial load, but only on the home page
   useEffect(() => {
@@ -38,7 +25,7 @@ function App() {
     if (location.pathname === "/") {
       // Small delay to ensure the page loads first
       const timer = setTimeout(() => {
-        setShowContactForm(true);
+        setShowInitialContactForm(true);
       }, 1500);
 
       return () => clearTimeout(timer);
@@ -48,13 +35,19 @@ function App() {
   // Check for #contact hash in URL
   useEffect(() => {
     if (location.hash === "#contact") {
-      openContactForm();
+      const { openContactForm } =
+        document.querySelector("[data-contact-wrapper]")?.[
+          "__CONTACT_FORM_API"
+        ] || {};
+      if (typeof openContactForm === "function") {
+        openContactForm();
+      }
     }
   }, [location.hash]);
 
   return (
     <AccessibilityProvider>
-      <ContactFormContext.Provider value={{ openContactForm }}>
+      <ContactFormWrapper>
         <div className="min-h-screen">
           {/* Skip to main content link for keyboard users */}
           <a
@@ -87,18 +80,8 @@ function App() {
             />
           </Routes>
           <AccessibilityWidget />
-
-          {/* Centralized Contact Form */}
-          <ContactForm
-            isOpen={showContactForm}
-            onClose={() => setShowContactForm(false)}
-            buttonText=""
-            buttonClassName="hidden"
-            title="השאירו פרטים ונחזור אליכם בהקדם"
-            description="מלאו את הפרטים הבאים ואנו נחזור אליכם בהקדם האפשרי"
-          />
         </div>
-      </ContactFormContext.Provider>
+      </ContactFormWrapper>
     </AccessibilityProvider>
   );
 }

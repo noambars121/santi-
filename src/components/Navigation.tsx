@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import { useContactForm } from "../App";
+import { useContactForm } from "../components/ContactFormWrapper";
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,6 +13,14 @@ export default function Navigation() {
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     }
+  };
+
+  const handleContactClick = () => {
+    setIsOpen(false); // Close mobile menu if open
+    console.log("Navigation: Contact button clicked");
+    setTimeout(() => {
+      openContactForm();
+    }, 0);
   };
 
   return (
@@ -59,11 +67,11 @@ export default function Navigation() {
             </button>
 
             <button
-              onClick={openContactForm}
+              onClick={handleContactClick}
               className="bg-[#0B4619] text-white hover:bg-[#083612] px-4 py-2 rounded-md text-lg font-medium"
               aria-label="פתיחת טופס יצירת קשר"
             >
-              צור קשר
+              השאירו פרטים ואחזור אליכם
             </button>
           </div>
 
@@ -117,11 +125,11 @@ export default function Navigation() {
             </button>
 
             <button
-              onClick={openContactForm}
+              onClick={handleContactClick}
               className="bg-[#0B4619] text-white hover:bg-[#083612] block px-3 py-2 rounded-md text-base font-medium text-center w-full"
               aria-label="פתיחת טופס יצירת קשר"
             >
-              צור קשר
+              השאירו פרטים ואחזור אליכם
             </button>
           </div>
         </div>

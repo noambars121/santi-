@@ -1,7 +1,9 @@
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
+import { useContactForm } from "../components/ContactFormWrapper";
 
 export default function Header() {
+  const { openContactForm } = useContactForm();
   const menuItems = [
     { label: "בית", href: "/", isExternal: false },
     { label: "חבילות אימון", href: "#packages", isExternal: false },
@@ -14,6 +16,13 @@ export default function Header() {
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     }
+  };
+
+  const handleContactClick = () => {
+    console.log("Header: Contact button clicked");
+    setTimeout(() => {
+      openContactForm();
+    }, 0);
   };
 
   return (
@@ -52,12 +61,10 @@ export default function Header() {
 
           <Button
             className="bg-[#d39a6a] hover:bg-[#d39a6a]/90 text-white"
-            onClick={() =>
-              window.open("https://wa.me/message/JLTNWOHMONIZK1", "_blank")
-            }
+            onClick={handleContactClick}
             aria-label="פתיחת שיחת ייעוץ חינם בוואטסאפ"
           >
-            שיחת ייעוץ חינם
+            השאירו פרטים ואחזור אליכם
           </Button>
         </nav>
       </div>

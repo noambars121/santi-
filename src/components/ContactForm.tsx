@@ -138,6 +138,7 @@ export function ContactForm({
   // Sync with external isOpen prop when it changes
   useEffect(() => {
     if (externalIsOpen !== undefined) {
+      console.log("ContactForm: External isOpen changed to", externalIsOpen);
       setIsOpen(externalIsOpen);
     }
   }, [externalIsOpen]);
@@ -201,8 +202,12 @@ export function ContactForm({
   };
 
   const handleClose = () => {
+    console.log("ContactForm: handleClose called");
     setIsOpen(false);
-    if (onClose) onClose();
+    if (onClose) {
+      console.log("ContactForm: calling onClose callback");
+      onClose();
+    }
 
     // Reset form state after dialog is closed
     setTimeout(() => {

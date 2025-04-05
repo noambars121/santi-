@@ -2,7 +2,7 @@ import { Button } from "./ui/button";
 import { motion, useReducedMotion } from "framer-motion";
 import { Badge } from "./ui/badge";
 import { ChevronDown } from "lucide-react";
-import { useContactForm } from "../App";
+import { useContactForm } from "../components/ContactFormWrapper";
 
 const HeroSection = () => {
   const shouldReduceMotion = useReducedMotion();

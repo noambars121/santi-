@@ -1,7 +1,7 @@
 import { Facebook, Instagram } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ContactForm } from "./ContactForm";
-import { useContactForm } from "../App";
+import { useContactForm } from "../components/ContactFormWrapper";
 
 export default function Footer() {
   const { openContactForm } = useContactForm();
