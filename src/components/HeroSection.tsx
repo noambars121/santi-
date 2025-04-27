@@ -21,19 +21,24 @@ const HeroSection = () => {
       role="region"
     >
       {/* Background Image with Overlay */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat will-change-transform"
-        style={{
-          backgroundImage: `url('https://storage.googleapis.com/tempo-public-images/github%7C186841034-1741481671237-11423jpg')`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          transform: "translateZ(0)",
-          backgroundColor: "#3A5A40" /* Fallback color */,
-        }}
-        role="img"
-        aria-label="כלב מאולף עם מאלף כלבים"
-      >
+      <div className="absolute inset-0 w-full h-full z-0">
+        <picture>
+          <source
+            type="image/webp"
+            srcSet="/hero@640w.webp 640w, /hero@1280w.webp 1280w"
+            sizes="(max-width: 640px) 640px, 1280px"
+          />
+          <img
+            src="/IMG_9328.JPG"
+            alt="כלב מאושר לצד המאלף"
+            loading="eager"
+            width="1280"
+            height="720"
+            className="object-cover w-full h-full"
+            aria-label="כלב מאולף עם מאלף כלבים"
+            tabIndex={0}
+          />
+        </picture>
         <div
           className="absolute inset-0 bg-gradient-to-b from-[#3A5A40]/85 via-[#3A5A40]/90 to-[#3A5A40]/95 rounded-[0px] opacity-90"
           aria-hidden="true"
@@ -99,7 +104,14 @@ const HeroSection = () => {
             className="flex flex-wrap justify-center gap-4 mt-8"
           >
             <Button
-              onClick={openContactForm}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log("Hero contact button clicked");
+                openContactForm();
+                return false;
+              }}
+              type="button"
               className="bg-[#d39a6a] hover:bg-[#d39a6a]/90 text-white px-6 py-6 text-lg rounded-xl shadow-lg transition-all duration-300"
               aria-label="פתיחת טופס יצירת קשר"
             >

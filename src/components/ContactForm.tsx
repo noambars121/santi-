@@ -130,16 +130,19 @@ export function ContactForm({
   onClose,
   isOpen: externalIsOpen,
 }: ContactFormProps) {
-  const [isOpen, setIsOpen] = useState(externalIsOpen || false);
+  const [isInternalOpen, setIsInternalOpen] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const nameInputRef = useRef<HTMLInputElement>(null);
+
+  // דרך טובה יותר לסנכרן בין המצב החיצוני והפנימי
+  const isControlled = externalIsOpen !== undefined;
+  const isOpen = isControlled ? externalIsOpen : isInternalOpen;
 
   // Sync with external isOpen prop when it changes
   useEffect(() => {
     if (externalIsOpen !== undefined) {
       console.log("ContactForm: External isOpen changed to", externalIsOpen);
-      setIsOpen(externalIsOpen);
     }
   }, [externalIsOpen]);
 
@@ -203,7 +206,12 @@ export function ContactForm({
 
   const handleClose = () => {
     console.log("ContactForm: handleClose called");
-    setIsOpen(false);
+    
+    // עדכון המצב הפנימי רק אם הוא לא נשלט חיצונית
+    if (!isControlled) {
+      setIsInternalOpen(false);
+    }
+    
     if (onClose) {
       console.log("ContactForm: calling onClose callback");
       onClose();
@@ -216,12 +224,31 @@ export function ContactForm({
     }, 300);
   };
 
+  const handleOpenChange = (open: boolean) => {
+    console.log("Dialog onOpenChange:", open);
+    
+    // עדכון המצב הפנימי רק אם הוא לא נשלט חיצונית
+    if (!isControlled) {
+      setIsInternalOpen(open);
+    }
+    
+    // אם סוגרים את הדיאלוג דרך מנגנון ה-Dialog עצמו, נקרא ל-onClose
+    if (!open && onClose) {
+      onClose();
+    }
+  };
+
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen} modal={true}>
+    <Dialog open={isOpen} onOpenChange={handleOpenChange} modal={true}>
       <DialogTrigger asChild>
         <Button
           className={buttonClassName}
-          onClick={() => setIsOpen(true)}
+          onClick={() => {
+            console.log("Dialog trigger clicked");
+            if (!isControlled) {
+              setIsInternalOpen(true);
+            }
+          }}
           aria-label="פתיחת טופס יצירת קשר"
         >
           {buttonIcon}

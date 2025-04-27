@@ -11,7 +11,7 @@ TempoDevtools.init();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <BrowserRouter className="flex-row">
+    <BrowserRouter>
       <AccessibilityProvider>
         <App />
       </AccessibilityProvider>

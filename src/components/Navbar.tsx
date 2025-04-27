@@ -61,44 +61,89 @@ export const Navbar = () => {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden py-4">
-            <div className="flex flex-col gap-4">
+          <div
+            role="dialog"
+            aria-modal="true"
+            tabIndex={-1}
+            className="md:hidden py-4 fixed inset-0 z-50 bg-white/95 flex flex-col items-center justify-center focus:outline-none"
+            aria-label="תפריט ניווט ראשי"
+            onKeyDown={(e) => {
+              if (e.key === 'Escape') setIsMenuOpen(false);
+            }}
+          >
+            <button
+              onClick={() => setIsMenuOpen(false)}
+              aria-label="סגור תפריט"
+              className="absolute top-4 left-4 text-gray-600 focus:outline-none focus:ring-2 focus:ring-[#0B4619]"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') setIsMenuOpen(false);
+              }}
+            >
+              <X className="h-6 w-6" />
+            </button>
+            <nav className="flex flex-col gap-4 mt-8" aria-label="קישורי ניווט">
               <a
                 href="#about"
-                className="text-gray-600 hover:text-[#0B4619] py-2"
+                className="text-gray-600 hover:text-[#0B4619] py-2 focus:outline-none focus:ring-2 focus:ring-[#0B4619]"
+                tabIndex={0}
+                aria-label="עליי"
                 onClick={() => setIsMenuOpen(false)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') setIsMenuOpen(false);
+                }}
               >
                 עליי
               </a>
               <a
                 href="#packages"
-                className="text-gray-600 hover:text-[#0B4619] py-2"
+                className="text-gray-600 hover:text-[#0B4619] py-2 focus:outline-none focus:ring-2 focus:ring-[#0B4619]"
+                tabIndex={0}
+                aria-label="חבילות"
                 onClick={() => setIsMenuOpen(false)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') setIsMenuOpen(false);
+                }}
               >
                 חבילות
               </a>
               <a
                 href="#gallery"
-                className="text-gray-600 hover:text-[#0B4619] py-2"
+                className="text-gray-600 hover:text-[#0B4619] py-2 focus:outline-none focus:ring-2 focus:ring-[#0B4619]"
+                tabIndex={0}
+                aria-label="גלריה"
                 onClick={() => setIsMenuOpen(false)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') setIsMenuOpen(false);
+                }}
               >
                 גלריה
               </a>
               <a
                 href="#testimonials"
-                className="text-gray-600 hover:text-[#0B4619] py-2"
+                className="text-gray-600 hover:text-[#0B4619] py-2 focus:outline-none focus:ring-2 focus:ring-[#0B4619]"
+                tabIndex={0}
+                aria-label="המלצות"
                 onClick={() => setIsMenuOpen(false)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') setIsMenuOpen(false);
+                }}
               >
                 המלצות
               </a>
               <Button
                 variant="default"
-                className="bg-[#0B4619] hover:bg-[#0B4619]/90 text-white w-full"
+                className="bg-[#0B4619] hover:bg-[#0B4619]/90 text-white w-full focus:outline-none focus:ring-2 focus:ring-[#0B4619]"
                 onClick={() => setIsMenuOpen(false)}
+                aria-label="צור קשר"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') setIsMenuOpen(false);
+                }}
               >
                 צור קשר
               </Button>
-            </div>
+            </nav>
           </div>
         )}
       </div>

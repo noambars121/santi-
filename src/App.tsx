@@ -67,7 +67,7 @@ function App() {
               element={
                 <main id="main-content">
                   <Navigation />
-                  <HeroSection className="bg-[url('https://storage.googleapis.com/tempo-public-images/github%7C186841034-1741481671237-11423jpg')]" />
+                  <HeroSection />
                   <PackagesSection />
                   <AboutSection />
                   <GallerySection />
@@ -76,10 +76,23 @@ function App() {
                   <Footer />
                 </main>
               }
-              className="flex"
             />
           </Routes>
-          <AccessibilityWidget />
+          
+          {/* בלוק div נפרד מהמבנה הקיים, ישירות תחת ה-AccessibilityProvider */}
+          <div 
+            className="a11y-container" 
+            style={{
+              position: 'fixed',
+              bottom: 0,
+              right: 0,
+              zIndex: 2147483647,
+              visibility: 'visible',
+              pointerEvents: 'none'
+            }}
+          >
+            <AccessibilityWidget />
+          </div>
         </div>
       </ContactFormWrapper>
     </AccessibilityProvider>

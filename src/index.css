@@ -367,3 +367,343 @@ body.keyboard-user :focus {
     scroll-behavior: auto !important;
   }
 }
+
+/* ======================================================================
+   FORCE A11Y WIDGET TO VIEWPORT (break out of any parent transform)
+   ====================================================================== */
+
+/* לוודא שה־root לא חוסם overflow של רכיבים fixed */
+html, body, #root {
+  overflow-x: hidden !important;
+  overflow-y: visible !important;
+}
+
+/* הרכיב עצמו (עם כל האלמנטים הפנימיים) ישורשר ישירות תחת body */
+body > .a11y-widget-container,
+body > .a11y-widget-container *,
+body > .a11y-widget-button,
+body > .a11y-widget-button * {
+  position: fixed !important;
+  bottom: 1rem !important;
+  right: 1rem !important;
+  z-index: 2147483647 !important;   /* הכי גבוה שניתן */
+  transform: none !important;        /* להתנתק מכל stacking-context */
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* אם אתם משתמשים ב־data-a11y-fixed במקום קלאס, נוסיף גם אותו */
+body > [data-a11y-fixed="true"] {
+  position: fixed !important;
+  bottom: 1rem !important;
+  right: 1rem !important;
+  z-index: 2147483647 !important;
+  transform: none !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+/* ======================================================================
+   FINAL TWEAKS: BOTTOM OFFSET + SAFE-AREA + HIGHEST Z-INDEX
+   ====================================================================== */
+
+/* use env() כדי להתחשב ב-safe-area בתחתית (iOS notch ועוד) */
+body > .a11y-widget-container,
+body > .a11y-widget-button,
+body > [data-a11y-fixed="true"] {
+  position: fixed !important;
+  bottom: calc(env(safe-area-inset-bottom, 1rem) + 2rem) !important;
+  right: calc(env(safe-area-inset-right, 1rem) + 1rem) !important;
+  z-index: 2147483647 !important;
+  transform: none !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* Ensure accessibility button is always visible and accessible */
+[data-a11y-fixed="true"],
+[data-a11y-fixed="true"] * {
+  position: fixed !important;
+  z-index: 9999999 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+.a11y-popover-content {
+  z-index: 9999999 !important;
+}
+
+/* ======================================================================
+   ULTIMATE WIDGET VISIBILITY FIX - מבטיח נראות מוחלטת של הוידג'ט
+   ====================================================================== */
+
+#a11y-widget-container {
+  position: fixed !important;
+  bottom: 1.5rem !important;
+  right: 1.5rem !important;
+  width: 60px !important;
+  height: 60px !important;
+  z-index: 2147483647 !important; /* הערך המקסימלי האפשרי */
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transform: none !important;
+  display: block !important;
+  transition: none !important;
+  animation: none !important;
+  overflow: visible !important;
+  isolation: isolate !important;
+  will-change: auto !important;
+  transform-style: flat !important;
+  perspective: none !important;
+  contain: none !important;
+  clip: auto !important;
+  clip-path: none !important;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3)) !important;
+}
+
+@keyframes pulse-a11y {
+  0% {
+    box-shadow: 0 0 0 0 rgba(18, 74, 52, 0.7);
+    transform: scale(1);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(18, 74, 52, 0);
+    transform: scale(1.03);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(18, 74, 52, 0);
+    transform: scale(1);
+  }
+}
+
+#a11y-widget-container button {
+  position: fixed !important;
+  bottom: 1.5rem !important;
+  right: 1.5rem !important;
+  background-color: #124A34 !important;
+  color: white !important;
+  width: 60px !important;
+  height: 60px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
+  border: 2px solid rgba(255,255,255,0.3) !important;
+  cursor: pointer !important;
+  z-index: 2147483647 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transform: none !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+  overflow: visible !important;
+  animation: pulse-a11y 2s infinite !important;
+}
+
+#a11y-widget-container button:hover {
+  transform: scale(1.05) !important;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.4) !important;
+  animation: none !important;
+}
+
+#a11y-widget-container button:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 3px #d39a6a, 0 6px 16px rgba(0,0,0,0.4) !important;
+  animation: none !important;
+}
+
+/* כאשר התפריט פתוח, הכפתור לא מבצע אנימציה */
+html[data-a11y-open="true"] #a11y-widget-container button {
+  animation: none !important;
+}
+
+#a11y-widget-container svg {
+  width: 32px !important;
+  height: 32px !important;
+  stroke: white !important;
+  fill: none !important;
+  stroke-width: 1.75 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+  filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.2)) !important;
+}
+
+#a11y-widget-container svg circle:first-child {
+  fill: rgba(255,255,255,0.1) !important;
+}
+
+#a11y-widget-container svg circle:nth-child(2) {
+  fill: white !important;
+}
+
+.a11y-popover-wrapper {
+  z-index: 2147483647 !important;
+  position: fixed !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  transform: none !important;
+  pointer-events: auto !important;
+  filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.25)) !important;
+}
+
+.accessibility-widget {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.accessibility-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #0066cc;
+  color: white;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.accessibility-toggle:hover {
+  background-color: #0055aa;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+}
+
+.accessibility-toggle svg {
+  width: 32px;
+  height: 32px;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.2));
+}
+
+.accessibility-toggle svg circle:first-child {
+  fill: rgba(255, 255, 255, 0.1);
+}
+
+.accessibility-toggle svg circle:nth-child(2) {
+  fill: white;
+}
+
+/* Accessibility Widget Button */
+.accessibility-widget-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #2563eb; /* Blue-600 */
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  transition: all 0.2s ease-in-out;
+  outline: none;
+}
+
+.accessibility-widget-button:hover {
+  background-color: #1d4ed8; /* Blue-700 */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transform: scale(1.05);
+}
+
+.accessibility-widget-button:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5), 0 4px 12px rgba(0, 0, 0, 0.3);
+  animation: pulse 1.5s infinite;
+}
+
+/* SVG icon styling */
+.accessibility-widget-button svg {
+  width: 30px;
+  height: 30px;
+  stroke: white;
+  stroke-width: 1.5;
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+  .accessibility-widget-button {
+    background-color: #3b82f6; /* Blue-500 - slightly lighter for dark mode */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  }
+  
+  .accessibility-widget-button:hover {
+    background-color: #2563eb; /* Blue-600 */
+  }
+}
+
+/* High contrast mode */
+@media (forced-colors: active) {
+  .accessibility-widget-button {
+    border: 2px solid ButtonText;
+    background-color: ButtonFace;
+  }
+  
+  .accessibility-widget-button svg {
+    stroke: ButtonText;
+    fill: none;
+  }
+}
+
+/* Grayscale mode adjustment */
+.grayscale .accessibility-widget-button {
+  background-color: #4b5563; /* Gray-600 */
+}
+
+/* Pulse animation for focus state */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(59, 130, 246, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+  }
+}
+
+/* Make sure the widget remains visible in all accessibility modes */
+.accessibility-reduced-motion .accessibility-widget-button,
+.accessibility-grayscale .accessibility-widget-button {
+  transition: none;
+}
+
+.accessibility-high-contrast .accessibility-widget-button {
+  background-color: #000;
+  color: #fff;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px #000;
+}
+
+.accessibility-high-contrast .accessibility-widget-button:hover,
+.accessibility-high-contrast .accessibility-widget-button:focus {
+  background-color: #fff;
+  color: #000;
+  border-color: #000;
+}
+
+.accessibility-dark-mode .accessibility-widget-button {
+  background-color: #3b82f6;
+  color: #fff;
+}
+
+.accessibility-dark-mode .accessibility-widget-button:hover {
+  background-color: #2563eb;
+}
