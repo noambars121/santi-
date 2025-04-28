@@ -76,12 +76,13 @@ const HeroSection = () => {
             <iframe
               width="640"
               height="360"
-              src="https://short.icu/BjHIAJkSh"
+              src="https://www.youtube.com/embed/OLkzLLftO6A"
+              title="סרטון התדמית של סנטי מרזי מאלף כלבים מקצועי"
               frameBorder="0"
-              scrolling="no"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
               allowFullScreen
-              title="סרטון הדגמה של אילוף כלבים"
-              aria-label="סרטון הדגמה של אילוף כלבים"
+              aria-label="סרטון תדמית של סנטי מרזי מאלף כלבים מקצועי"
               tabIndex={0}
               className="w-full aspect-video rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-[#d39a6a] focus:ring-offset-2"
             />
