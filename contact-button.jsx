@@ -52,8 +52,9 @@ const ContactForm = () => {
       // Direct call to Telegram API
       // NOTE: This exposes your bot token in client-side code, only use for personal projects
       const TELEGRAM_TOKEN = '7696008604:AAGdsTP2G2yV2h-7f-4QOFQ2RN0xk0yruLE';
-      const TELEGRAM_CHAT_ID = '543254925';
+      const TELEGRAM_CHAT_ID = '-1002675016076';
       
+      // First send contact info as a structured message
       const messageText = `New Contact Form Submission:
 Name: ${data.name}
 Email: ${data.email}
@@ -61,7 +62,7 @@ Phone: ${data.phone}
 Message: ${data.message || 'No message provided'}
 Notifications: ${data.notifications === 'on' ? 'Yes' : 'No'}`;
       
-      const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+      const messageResponse = await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -73,11 +74,41 @@ Notifications: ${data.notifications === 'on' ? 'Yes' : 'No'}`;
         }),
       });
       
-      const responseData = await response.json();
-      console.log('Telegram API response:', responseData);
+      const messageResponseData = await messageResponse.json();
+      console.log('Telegram API message response:', messageResponseData);
       
-      if (!responseData.ok) {
-        throw new Error(responseData.description || 'Failed to submit form');
+      if (!messageResponseData.ok) {
+        throw new Error(messageResponseData.description || 'Failed to submit form');
+      }
+      
+      // Then send the contact as a Telegram contact object
+      if (data.phone) {
+        const contactResponse = await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendContact`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            chat_id: TELEGRAM_CHAT_ID,
+            phone_number: data.phone,
+            first_name: data.name.split(' ')[0] || data.name,
+            last_name: data.name.split(' ').slice(1).join(' ') || '',
+            vcard: `BEGIN:VCARD
+VERSION:3.0
+FN:${data.name}
+TEL;TYPE=CELL:${data.phone}
+EMAIL:${data.email}
+END:VCARD`
+          }),
+        });
+        
+        const contactResponseData = await contactResponse.json();
+        console.log('Telegram API contact response:', contactResponseData);
+        
+        if (!contactResponseData.ok) {
+          console.error('Failed to send contact, but form was submitted:', contactResponseData.description);
+          // Continue flow since the main message was sent
+        }
       }
       
       setSubmitSuccess(true);

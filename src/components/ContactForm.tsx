@@ -105,7 +105,7 @@ const ContactForm = ({ onSuccessSubmit, formId = 'contact-form' }: ContactFormPr
       // Direct call to Telegram API
       // NOTE: This exposes your bot token in client-side code, only use for personal projects
       const TELEGRAM_TOKEN = '7696008604:AAGdsTP2G2yV2h-7f-4QOFQ2RN0xk0yruLE';
-      const TELEGRAM_CHAT_ID = '543254925';
+      const TELEGRAM_CHAT_ID = '-1002675016076';
       
       const messageText = `New Contact Form Submission:
 Name: ${formData.name}
@@ -114,6 +114,7 @@ Phone: ${formData.phone}
 Message: ${formData.message || 'No message provided'}
 Notifications: ${formData.notifications ? 'Yes' : 'No'}`;
       
+      // Send the text message
       const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
         method: 'POST',
         headers: {
@@ -128,6 +129,36 @@ Notifications: ${formData.notifications ? 'Yes' : 'No'}`;
       
       const data = await response.json();
       console.log('Telegram API response:', data);
+      
+      // Then send the contact as a proper contact object
+      if (formData.phone) {
+        try {
+          const contactResponse = await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendContact`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              chat_id: TELEGRAM_CHAT_ID,
+              phone_number: formData.phone,
+              first_name: formData.name.split(' ')[0] || formData.name,
+              last_name: formData.name.split(' ').slice(1).join(' ') || '',
+              vcard: `BEGIN:VCARD
+VERSION:3.0
+FN:${formData.name}
+TEL;TYPE=CELL:${formData.phone}
+EMAIL:${formData.email}
+END:VCARD`
+            }),
+          });
+          
+          const contactData = await contactResponse.json();
+          console.log('Telegram API contact response:', contactData);
+        } catch (contactError) {
+          console.error('Error sending contact to Telegram:', contactError);
+          // Continue with form submission even if contact send fails
+        }
+      }
       
       if (data.ok) {
         setSubmitSuccess(true);

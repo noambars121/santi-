@@ -1,31 +1,69 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
-const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+// Add explicit token and chat ID as fallback in case environment variables are not set
+const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN || '7696008604:AAGdsTP2G2yV2h-7f-4QOFQ2RN0xk0yruLE';
+const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || '-1002675016076';
 
 const sendMessageToTelegram = async (name: string, email: string, phone: string, message: string) => {
-  const text = `New Contact Form Submission:\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${message}`;
-  const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
-  
-  console.log('Sending to Telegram:', { url, chat_id: TELEGRAM_CHAT_ID });
-  
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      chat_id: TELEGRAM_CHAT_ID,
-      text,
-      parse_mode: 'Markdown',
-    }),
-  });
-  
-  if (!res.ok) {
-    const errorData = await res.text();
-    console.error('Telegram API error:', errorData);
-    return false;
+  try {
+    const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
+    
+    console.log('Sending to Telegram:', { url, chat_id: TELEGRAM_CHAT_ID });
+    
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        chat_id: TELEGRAM_CHAT_ID,
+        text: `New Contact Form Submission:
+Name: ${name}
+Email: ${email}
+Phone: ${phone}
+Message: ${message || 'No message provided'}`,
+        parse_mode: 'Markdown',
+      }),
+    });
+
+    const data = await response.json();
+    
+    if (!data.ok) {
+      console.error('Telegram API error:', data);
+      return { success: false, error: data.description };
+    }
+    
+    // Send contact info as proper contact
+    if (phone) {
+      const contactUrl = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendContact`;
+      const contactResponse = await fetch(contactUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          chat_id: TELEGRAM_CHAT_ID,
+          phone_number: phone,
+          first_name: name.split(' ')[0] || name,
+          last_name: name.split(' ').slice(1).join(' ') || '',
+          vcard: `BEGIN:VCARD
+VERSION:3.0
+FN:${name}
+TEL;TYPE=CELL:${phone}
+EMAIL:${email}
+END:VCARD`
+        }),
+      });
+      
+      const contactData = await contactResponse.json();
+      console.log('Contact sent to Telegram:', contactData.ok);
+    }
+
+    return { success: true };
+  } catch (error) {
+    console.error('Error sending to Telegram:', error);
+    return { success: false, error: 'Failed to send message to Telegram' };
   }
-  
-  return true;
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -52,12 +90,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    const messageText = message || 'No message provided';
-    const sent = await sendMessageToTelegram(name, email, phone, messageText);
-    if (sent) {
-      return res.status(200).json({ success: true });
+    const sent = await sendMessageToTelegram(name, email, phone, message);
+    if (sent.success) {
+      return res.status(200).json(sent);
     } else {
-      return res.status(500).json({ error: 'Failed to send message' });
+      return res.status(500).json(sent);
     }
   } catch (error) {
     console.error('Server error:', error);
