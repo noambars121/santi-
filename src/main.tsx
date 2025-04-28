@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { TempoDevtools } from "tempo-devtools";
+import { Analytics } from "@vercel/analytics/react";
 import App from "./App";
 import "./index.css";
 import { AccessibilityProvider } from "./components/AccessibilityWidget";
@@ -40,6 +41,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <BrowserRouter>
       <AccessibilityProvider>
         <App />
+        <Analytics />
       </AccessibilityProvider>
     </BrowserRouter>
   </React.StrictMode>,
