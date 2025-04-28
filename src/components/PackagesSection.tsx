@@ -94,32 +94,27 @@ export default function PackagesSection() {
               className="rtl"
             >
               <div className="h-full bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden hover:border-white/30 transition-all duration-300 group shadow-[0_0_15px_rgba(255,255,255,0.07)]">
-                <div className="p-8">
-                  <div className="text-5xl mb-8 text-center" aria-hidden="true">
+                <div className="p-8 flex flex-col items-center">
+                  <div className="text-5xl mb-8" aria-hidden="true">
                     {pkg.icon}
                   </div>
-                  <h3 className="text-2xl font-semibold mb-6 text-center text-[#d39a6a]">
+                  <h3 className="text-2xl font-semibold mb-6 text-[#d39a6a] text-center w-full">
                     {pkg.title}
                   </h3>
-                  <p className="text-white mb-8 text-center leading-relaxed h-[124px] w-[362.8px] font-[600]">
+                  <p className="text-white mb-8 text-center leading-relaxed h-[124px] font-[600] mx-auto px-4 w-full">
                     {pkg.description}
                   </p>
-                  <ul className="space-y-4 mb-8 flex flex-col justify-center items-center">
+                  <ul className="space-y-4 mb-8 w-full flex flex-col items-center">
                     {pkg.features.map((feature) => (
-                      <motion.li
+                      <li
                         key={feature}
-                        className="flex items-center gap-3 text-white group-hover:text-white transition-colors text-center"
-                        whileHover={{ x: -8 }}
-                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                        className="flex items-center justify-center gap-3 text-white w-full"
                       >
-                        <span
-                          className="order-2 text-[#d39a6a]"
-                          aria-hidden="true"
-                        >
+                        <span className="text-[#d39a6a]" aria-hidden="true">
                           ✓
                         </span>
-                        <span className="order-1">{feature}</span>
-                      </motion.li>
+                        <span>{feature}</span>
+                      </li>
                     ))}
                   </ul>
                   <a
