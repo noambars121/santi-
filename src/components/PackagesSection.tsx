@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
-import { useContactForm } from "../components/ContactFormWrapper";
+// import { useContactForm } from "../components/ContactFormWrapper";
 
 const packages = [
   {
@@ -43,14 +43,7 @@ const packages = [
 ];
 
 export default function PackagesSection() {
-  const { openContactForm } = useContactForm();
-
-  const handleContactClick = () => {
-    console.log("PackagesSection: Contact button clicked");
-    setTimeout(() => {
-      openContactForm();
-    }, 0);
-  };
+  // const { openContactForm } = useContactForm();
 
   return (
     <section
@@ -117,11 +110,7 @@ export default function PackagesSection() {
                         key={feature}
                         className="flex items-center gap-3 text-white group-hover:text-white transition-colors text-center"
                         whileHover={{ x: -8 }}
-                        transition={{
-                          type: "spring",
-                          stiffness: 300,
-                          damping: 20,
-                        }}
+                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
                       >
                         <span
                           className="order-2 text-[#d39a6a]"
@@ -133,10 +122,22 @@ export default function PackagesSection() {
                       </motion.li>
                     ))}
                   </ul>
-                  <Button
-                    onClick={handleContactClick}
+                  <a
+                    href="#contact"
                     className="w-full bg-[#124A34] hover:bg-[#124A34]/90 text-white transition-colors font-semibold py-6 text-base flex items-center justify-center gap-2 rounded-md"
-                    aria-label={`פתיחת טופס יצירת קשר לחבילת ${pkg.title}`}
+                    aria-label={`מעבר לטופס יצירת קשר לחבילת ${pkg.title}`}
+                    tabIndex={0}
+                    onClick={e => {
+                      e.preventDefault();
+                      const el = document.getElementById('contact');
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    onKeyDown={e => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        const el = document.getElementById('contact');
+                        if (el) el.scrollIntoView({ behavior: 'smooth' });
+                      }
+                    }}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -149,7 +150,7 @@ export default function PackagesSection() {
                       <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
                     </svg>
                     השאירו פרטים ואחזור אליכם
-                  </Button>
+                  </a>
                 </div>
               </div>
             </motion.div>

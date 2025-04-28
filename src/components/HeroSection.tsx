@@ -2,11 +2,11 @@ import { Button } from "./ui/button";
 import { motion, useReducedMotion } from "framer-motion";
 import { Badge } from "./ui/badge";
 import { ChevronDown } from "lucide-react";
-import { useContactForm } from "../components/ContactFormWrapper";
+// import { useContactForm } from "../components/ContactFormWrapper";
 
 const HeroSection = () => {
   const shouldReduceMotion = useReducedMotion();
-  const { openContactForm } = useContactForm();
+  // const { openContactForm } = useContactForm();
 
   const animations = {
     initial: { opacity: 0, y: shouldReduceMotion ? 0 : 20 },
@@ -16,35 +16,22 @@ const HeroSection = () => {
 
   return (
     <section
-      className="relative min-h-screen flex items-center justify-center"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
       aria-label="אזור כותרת ראשית"
       role="region"
+      id="hero"
     >
-      {/* Background Image with Overlay */}
-      <div className="absolute inset-0 w-full h-full z-0">
-        <picture>
-          <source
-            type="image/webp"
-            srcSet="/hero@640w.webp 640w, /hero@1280w.webp 1280w"
-            sizes="(max-width: 640px) 640px, 1280px"
-          />
-          <img
-            src="/IMG_9328.JPG"
-            alt="כלב מאושר לצד המאלף"
-            loading="eager"
-            width="1280"
-            height="720"
-            className="object-cover w-full h-full"
-            aria-label="כלב מאולף עם מאלף כלבים"
-            tabIndex={0}
-          />
-        </picture>
-        <div
-          className="absolute inset-0 bg-gradient-to-b from-[#3A5A40]/85 via-[#3A5A40]/90 to-[#3A5A40]/95 rounded-[0px] opacity-90"
-          aria-hidden="true"
+      {/* Background Image with Glass Green Gradient Overlay */}
+      <div className="absolute inset-0 w-full h-full z-0" aria-hidden="true">
+        <img
+          src="/dog-hero.jpg"
+          alt="כלב משחק עם מאלף כלבים בגינה"
+          className="object-cover w-full h-full"
+          draggable="false"
         />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#3A5A40]/80 via-[#3A5A40]/90 to-[#3A5A40] backdrop-blur-[6px]" />
       </div>
-      <div className="container relative px-4 py-24 max-w-[1400px] text-center mt-[60px]">
+      <div className="container relative px-4 py-24 max-w-[1400px] text-center mt-[60px] z-10">
         {/* Trust Badges */}
         <motion.div
           {...animations}
@@ -67,7 +54,7 @@ const HeroSection = () => {
             className="text-3xl md:text-5xl font-bold text-white mb-3 md:mb-6 leading-tight tracking-tight"
           >
             סנטי מרזי
-            <span className="mt-2 block text-2xl md:text-3xl text-[#d39a6a]">
+            <span className="mt-2 block text-4xl md:text-3xl text-[#d39a6a]">
               אילוף כלבים מקצועי
             </span>
           </motion.h1>
@@ -86,15 +73,18 @@ const HeroSection = () => {
             transition={{ delay: 0.5 }}
             className="w-full max-w-[600px] mx-auto mb-8 rounded-lg overflow-hidden shadow-xl"
           >
-            <video
-              className="w-full h-auto"
-              controls
-              poster="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=800&q=80"
-              aria-label="סרטון אילוף כלבים"
-            >
-              <source src="YOUR_VIDEO_URL_HERE" type="video/mp4" />
-              הדפדפן שלך אינו תומך בתגית וידאו.
-            </video>
+            <iframe
+              width="640"
+              height="360"
+              src="https://short.icu/BjHIAJkSh"
+              frameBorder="0"
+              scrolling="no"
+              allowFullScreen
+              title="סרטון הדגמה של אילוף כלבים"
+              aria-label="סרטון הדגמה של אילוף כלבים"
+              tabIndex={0}
+              className="w-full aspect-video rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-[#d39a6a] focus:ring-offset-2"
+            />
           </motion.div>
 
           {/* CTA Buttons */}
@@ -103,20 +93,26 @@ const HeroSection = () => {
             transition={{ delay: 0.6 }}
             className="flex flex-wrap justify-center gap-4 mt-8"
           >
-            <Button
-              onClick={(e) => {
+            <a
+              href="#contact"
+              className="bg-[#d39a6a] hover:bg-[#d39a6a]/90 text-white px-6 py-6 text-lg rounded-xl shadow-lg transition-all duration-300 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
+              aria-label="מעבר לטופס יצירת קשר"
+              tabIndex={0}
+              onClick={e => {
                 e.preventDefault();
-                e.stopPropagation();
-                console.log("Hero contact button clicked");
-                openContactForm();
-                return false;
+                const el = document.getElementById('contact');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
               }}
-              type="button"
-              className="bg-[#d39a6a] hover:bg-[#d39a6a]/90 text-white px-6 py-6 text-lg rounded-xl shadow-lg transition-all duration-300"
-              aria-label="פתיחת טופס יצירת קשר"
+              onKeyDown={e => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  const el = document.getElementById('contact');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
             >
               השאירו פרטים ונחזור אליכם
-            </Button>
+            </a>
           </motion.div>
 
           {/* Statistics */}

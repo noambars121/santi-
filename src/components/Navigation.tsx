@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import { useContactForm } from "../components/ContactFormWrapper";
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
-  const { openContactForm } = useContactForm();
 
   const scrollToSection = (sectionId: string) => {
     setIsOpen(false);
@@ -13,14 +11,6 @@ export default function Navigation() {
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     }
-  };
-
-  const handleContactClick = () => {
-    setIsOpen(false); // Close mobile menu if open
-    console.log("Navigation: Contact button clicked");
-    setTimeout(() => {
-      openContactForm();
-    }, 0);
   };
 
   return (
@@ -32,25 +22,31 @@ export default function Navigation() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <Link to="/">
+            <a 
+              href="#" 
+              onClick={(e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+            >
               <img
                 src="https://storage.googleapis.com/tempo-public-images/github%7C186841034-1739185595925-Logo3png"
                 alt="לוגו סנטיאגו מרזי"
                 className="h-16 w-auto hover:scale-105 transition-transform duration-200 cursor-pointer"
                 loading="eager"
               />
-            </Link>
+            </a>
           </div>
 
           {/* Desktop menu */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link
-              to="/"
-              className="text-[#0B4619] hover:text-[#083612] px-3 py-2 rounded-md text-lg font-medium"
+            <button
+              onClick={() => scrollToSection("hero")}
+              className="text-[#0B4619] hover:text-[#083612] px-3 py-2 rounded-md text-lg font-medium bg-transparent"
               aria-label="דף הבית"
             >
               בית
-            </Link>
+            </button>
             <button
               onClick={() => scrollToSection("about")}
               className="text-[#0B4619] hover:text-[#083612] px-3 py-2 rounded-md text-lg font-medium bg-transparent"
@@ -66,13 +62,13 @@ export default function Navigation() {
               חבילות
             </button>
 
-            <button
-              onClick={handleContactClick}
+            <a
+              href="#contact"
               className="bg-[#0B4619] text-white hover:bg-[#083612] px-4 py-2 rounded-md text-lg font-medium"
-              aria-label="פתיחת טופס יצירת קשר"
+              aria-label="מעבר לטופס יצירת קשר"
             >
               השאירו פרטים ואחזור אליכם
-            </button>
+            </a>
           </div>
 
           {/* Mobile menu button */}
@@ -101,14 +97,13 @@ export default function Navigation() {
       {isOpen && (
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <Link
-              to="/"
-              className="text-[#0B4619] hover:text-[#083612] block px-3 py-2 rounded-md text-base font-medium text-right"
+            <button
+              onClick={() => scrollToSection("hero")}
+              className="text-[#0B4619] hover:text-[#083612] block px-3 py-2 rounded-md text-base font-medium text-right w-full text-right bg-transparent"
               aria-label="דף הבית"
-              onClick={() => setIsOpen(false)}
             >
               בית
-            </Link>
+            </button>
             <button
               onClick={() => scrollToSection("packages")}
               className="text-[#0B4619] hover:text-[#083612] block px-3 py-2 rounded-md text-base font-medium text-right w-full text-right bg-transparent"
@@ -124,13 +119,27 @@ export default function Navigation() {
               עליי
             </button>
 
-            <button
-              onClick={handleContactClick}
+            <a
+              href="#contact"
               className="bg-[#0B4619] text-white hover:bg-[#083612] block px-3 py-2 rounded-md text-base font-medium text-center w-full"
-              aria-label="פתיחת טופס יצירת קשר"
+              aria-label="מעבר לטופס יצירת קשר"
+              tabIndex={0}
+              onClick={e => {
+                e.preventDefault();
+                setIsOpen(false);
+                const el = document.getElementById('contact');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }}
+              onKeyDown={e => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  setIsOpen(false);
+                  const el = document.getElementById('contact');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
             >
               השאירו פרטים ואחזור אליכם
-            </button>
+            </a>
           </div>
         </div>
       )}

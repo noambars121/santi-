@@ -4,26 +4,14 @@ import { Badge } from "./ui/badge";
 export default function AboutSection() {
   return (
     <section
-      className="py-24 bg-[#d39a6a]/90 backdrop-filter backdrop-blur-md relative overflow-hidden"
+      className="py-24 relative overflow-hidden min-h-[600px]"
       id="about"
       aria-label="אודות סנטיאגו מרזי"
       role="region"
     >
-      {/* Glassy effect overlays */}
+      {/* Chromatic Gold Glass Background */}
       <div
-        className="absolute inset-0 bg-[#d39a6a]/70 mix-blend-overlay"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(255,255,255,0.15),rgba(255,255,255,0))]"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,rgba(255,255,255,0.1),rgba(255,255,255,0))]"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute inset-0 border-t border-white/20"
+        className="absolute inset-0 w-full h-full z-0 bg-gradient-to-b from-[#d39a6a]/80 via-[#d39a6a]/90 to-[#d39a6a] backdrop-blur-[6px]"
         aria-hidden="true"
       />
       <div className="container mx-auto px-4">
@@ -51,7 +39,7 @@ export default function AboutSection() {
                 <div className="absolute inset-0 overflow-hidden border-[3px] border-[#124A34] rounded-full">
                   <img
                     src="https://storage.googleapis.com/tempo-public-images/github%7C186841034-1739107866047-11317jpg"
-                    alt="סנטיאגו מרזי - מאלף כלבים מקצועי"
+                    alt="סנטיאגו מרזי - מאלף כלבים מקצועי עומד עם כלב לאבריצ'ה שחור במהלך אימון בפארק, לבוש חולצה בצבע כחול כהה"
                     className="w-full h-full object-cover object-center"
                     loading="eager"
                   />

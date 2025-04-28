@@ -335,7 +335,7 @@ const AccessibilityToolbarButton = ({
 };
 
 // Main accessibility widget component
-const AccessibilityWidget: React.FC<{ children: React.ReactNode }> = ({
+const AccessibilityWidget: React.FC<{ children?: React.ReactNode }> = ({
   children,
 }) => {
   console.log('AccessibilityWidget rendered');
@@ -361,6 +361,7 @@ const AccessibilityWidget: React.FC<{ children: React.ReactNode }> = ({
   const increaseFontSize = () => {
     if (fontSize < 150) setFontSize(fontSize + 10);
   };
+  
   const decreaseFontSize = () => {
     if (fontSize > 80) setFontSize(fontSize - 10);
   };
@@ -490,9 +491,30 @@ const AccessibilityWidget: React.FC<{ children: React.ReactNode }> = ({
                   active={grayscale}
                   ariaLabel="הפעל או בטל מצב גווני אפור"
                 />
-              </div>
-              <div className="text-xs text-gray-500 pt-2 border-t border-[#124A34]/10 text-center">
-                <p>קיצור מקלדת: Alt + A לפתיחת תפריט הנגישות</p>
+                <AccessibilityToolbarButton
+                  onClick={toggleDyslexicFont}
+                  icon={() => (
+                    <svg 
+                      viewBox="0 0 24 24" 
+                      width="24" 
+                      height="24" 
+                      stroke="currentColor" 
+                      strokeWidth="2" 
+                      fill="none" 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                      className="h-5 w-5"
+                    >
+                      <text x="2" y="16" fontFamily="Arial" fontSize="14" fill="currentColor">
+                        Aa
+                      </text>
+                    </svg>
+                  )}
+                  label="פונט דיסלקטי"
+                  active={dyslexicFont}
+                  ariaLabel="הפעל או בטל פונט דיסלקטי"
+                />
               </div>
               <div className="flex justify-between items-center">
                 <div className="bg-[#f0f0f0] rounded-full h-2 w-full overflow-hidden">

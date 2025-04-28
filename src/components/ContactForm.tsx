@@ -1,396 +1,357 @@
-import { useState, useEffect, useRef } from "react";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
-import { Label } from "./ui/label";
-import { Checkbox } from "./ui/checkbox";
-import {
-  CheckCircle,
-  Send,
-  User,
-  Phone,
-  Mail,
-  MessageSquare,
-  X,
-} from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogOverlay,
-} from "./ui/dialog";
-import { motion } from "framer-motion";
+import { useState, useRef, FormEvent, ChangeEvent, FocusEvent, useEffect } from 'react';
 
-// Form validation schema
-const formSchema = z.object({
-  name: z.string().min(2, { message: "שם חייב להכיל לפחות 2 תווים" }),
-  phone: z
-    .string()
-    .min(9, { message: "מספר טלפון חייב להכיל לפחות 9 ספרות" })
-    .regex(/^\d+$/, { message: "מספר טלפון חייב להכיל ספרות בלבד" }),
-  email: z
-    .string()
-    .email({ message: "כתובת אימייל לא תקינה" })
-    .optional()
-    .or(z.literal("")),
-  message: z
-    .string()
-    .min(5, { message: "הודעה חייבת להכיל לפחות 5 תווים" })
-    .max(500, { message: "הודעה לא יכולה להכיל יותר מ-500 תווים" }),
-  notifications: z.boolean().default(false),
-});
-
-type FormValues = z.infer<typeof formSchema>;
-
-interface ContactFormProps {
-  buttonText?: string;
-  buttonClassName?: string;
-  buttonIcon?: React.ReactNode;
-  title?: string;
-  description?: string;
-  onClose?: () => void;
-  isOpen?: boolean;
+interface FormData {
+  name: string;
+  email: string;
+  phone: string;
+  message: string;
+  notifications?: boolean;
 }
 
-// Reusable form field component
-const FormField = ({
-  id,
-  label,
-  icon: Icon,
-  required = false,
-  register,
-  errors,
-  type = "text",
-  placeholder,
-  inputRef = null,
-}: {
-  id: "name" | "phone" | "email" | "message";
-  label: string;
-  icon: React.ElementType;
-  required?: boolean;
-  register: any;
-  errors: any;
-  type?: string;
-  placeholder: string;
-  inputRef?: React.RefObject<HTMLInputElement> | null;
-}) => {
-  const isTextarea = id === "message";
-  const InputComponent = isTextarea ? Textarea : Input;
-  const inputProps = {
-    id,
-    type,
-    placeholder,
-    ...register(id),
-    className: `rounded-lg border py-1.5 px-3 focus:border-[#124A34] focus:ring-[#124A34]/20 transition-all duration-300 text-sm ${errors[id] ? "border-[#d39a6a] bg-[#d39a6a]/5" : "border-gray-200"}`,
-    dir: "rtl",
-    ...(isTextarea
-      ? {
-          className: `min-h-[60px] rounded-lg border py-1.5 px-3 focus:border-[#124A34] focus:ring-[#124A34]/20 transition-all duration-300 text-sm ${errors[id] ? "border-[#d39a6a] bg-[#d39a6a]/5" : "border-gray-200"}`,
-        }
-      : {}),
-    ...(inputRef ? { ref: inputRef } : {}),
+interface FormErrors {
+  name?: string;
+  email?: string;
+  phone?: string;
+  form?: string;
+}
+
+interface ContactFormProps {
+  onSuccessSubmit?: () => void;
+  formId?: string;
+}
+
+const ContactForm = ({ onSuccessSubmit, formId = 'contact-form' }: ContactFormProps) => {
+  const [formData, setFormData] = useState<FormData>({
+    name: '',
+    email: '',
+    phone: '',
+    message: '',
+    notifications: false
+  });
+  const [formErrors, setFormErrors] = useState<FormErrors>({});
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [submitSuccess, setSubmitSuccess] = useState<boolean>(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  
+  const formRef = useRef<HTMLFormElement>(null);
+  const initialFocusRef = useRef<HTMLInputElement>(null);
+
+  // Focus on name input when component mounts
+  useEffect(() => {
+    if (initialFocusRef.current) {
+      console.log(`[${formId}] Focusing name input`);
+      initialFocusRef.current.focus();
+    }
+  }, []);
+
+  const validateForm = (data: FormData): FormErrors => {
+    const errors: FormErrors = {};
+    if (!data.name || data.name.trim() === '') {
+      errors.name = 'שם מלא הוא שדה חובה';
+    }
+    
+    if (!data.email || data.email.trim() === '') {
+      errors.email = 'כתובת אימייל היא שדה חובה';
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(data.email)) {
+        errors.email = 'נא להזין כתובת אימייל תקינה';
+      }
+    }
+    
+    if (!data.phone || !/^0\d{1,2}[-\s]?\d{7,8}$/.test(data.phone)) {
+      errors.phone = 'נא להזין מספר טלפון תקין';
+    }
+    return errors;
   };
 
-  return (
-    <div className="space-y-1">
-      <Label
-        htmlFor={id}
-        className="text-right block text-[#124A34] text-xs font-medium flex items-center gap-1.5 mb-0.5"
-      >
-        <Icon className="h-3.5 w-3.5 text-[#d39a6a]" />
-        {label}{" "}
-        {required && <span className="text-[#d39a6a] font-bold">*</span>}
-      </Label>
-      <InputComponent {...inputProps} />
-      {errors[id] && (
-        <motion.p
-          initial={{ opacity: 0, x: -10 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="text-[#d39a6a] text-xs flex items-center gap-1 mt-0.5"
-        >
-          <span className="inline-block">⚠️</span> {errors[id].message}
-        </motion.p>
-      )}
-    </div>
-  );
-};
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value, type } = e.target;
+    const checked = type === 'checkbox' ? (e.target as HTMLInputElement).checked : undefined;
+    
+    console.log(`[${formId}] Input change: ${name} = ${value}`);
 
-export function ContactForm({
-  buttonText = "צור קשר",
-  buttonClassName = "",
-  buttonIcon,
-  title = "השאירו פרטים ונחזור אליכם בהקדם",
-  description = "מלאו את הפרטים הבאים ואנו נחזור אליכם בהקדם האפשרי",
-  onClose,
-  isOpen: externalIsOpen,
-}: ContactFormProps) {
-  const [isInternalOpen, setIsInternalOpen] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const nameInputRef = useRef<HTMLInputElement>(null);
-
-  // דרך טובה יותר לסנכרן בין המצב החיצוני והפנימי
-  const isControlled = externalIsOpen !== undefined;
-  const isOpen = isControlled ? externalIsOpen : isInternalOpen;
-
-  // Sync with external isOpen prop when it changes
-  useEffect(() => {
-    if (externalIsOpen !== undefined) {
-      console.log("ContactForm: External isOpen changed to", externalIsOpen);
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+    
+    // Clear specific error when user types in a field
+    if (formErrors[name as keyof FormErrors]) {
+      setFormErrors(prev => ({
+        ...prev,
+        [name]: undefined
+      }));
     }
-  }, [externalIsOpen]);
+  };
 
-  // Manage body scrolling and focus
-  useEffect(() => {
-    if (isOpen) {
-      document.body.classList.add("overflow-hidden");
-      // Focus the first input field after dialog is fully rendered
-      if (!isSubmitted && nameInputRef.current) {
-        setTimeout(() => nameInputRef.current?.focus(), 100);
-      }
-    } else {
-      document.body.classList.remove("overflow-hidden");
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    
+    // Get form data from state
+    const errors = validateForm(formData);
+    setFormErrors(errors);
+    
+    if (Object.keys(errors).length > 0) {
+      return;
     }
-
-    // Handle escape key to close the dialog
-    const handleEscapeKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && isOpen) handleClose();
-    };
-    document.addEventListener("keydown", handleEscapeKey);
-
-    return () => {
-      document.body.classList.remove("overflow-hidden");
-      document.removeEventListener("keydown", handleEscapeKey);
-    };
-  }, [isOpen, isSubmitted]);
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      phone: "",
-      email: "",
-      message: "",
-      notifications: false,
-    },
-  });
-
-  const onSubmit = async (data: FormValues) => {
+    
     setIsSubmitting(true);
+    setSubmitError(null);
+    
     try {
-      // Here you would typically send the form data to your backend
-      console.log("Form submitted:", data);
-
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      setIsSubmitted(true);
-      reset();
+      // Send to Telegram API endpoint
+      const response = await fetch('/api/sendToTelegram', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok) {
+        setSubmitSuccess(true);
+        
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          message: '',
+          notifications: false
+        });
+        
+        if (formRef.current) {
+          formRef.current.reset();
+        }
+        
+        // Call the onSuccessSubmit callback if provided
+        if (onSuccessSubmit) {
+          onSuccessSubmit();
+        }
+        
+        // Auto-hide success message after 5 seconds
+        setTimeout(() => {
+          setSubmitSuccess(false);
+        }, 5000);
+      } else {
+        throw new Error(data.error || 'אירעה שגיאה בשליחת הטופס');
+      }
     } catch (error) {
-      console.error("Error submitting form:", error);
+      console.error('Error submitting form:', error);
+      setSubmitError('אירעה שגיאה בשליחת הטופס, נסה שוב מאוחר יותר');
+      setFormErrors({
+        form: 'אירעה שגיאה בשליחת הטופס, נסה שוב מאוחר יותר'
+      });
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const handleClose = () => {
-    console.log("ContactForm: handleClose called");
-    
-    // עדכון המצב הפנימי רק אם הוא לא נשלט חיצונית
-    if (!isControlled) {
-      setIsInternalOpen(false);
-    }
-    
-    if (onClose) {
-      console.log("ContactForm: calling onClose callback");
-      onClose();
-    }
-
-    // Reset form state after dialog is closed
-    setTimeout(() => {
-      setIsSubmitted(false);
-      reset();
-    }, 300);
-  };
-
-  const handleOpenChange = (open: boolean) => {
-    console.log("Dialog onOpenChange:", open);
-    
-    // עדכון המצב הפנימי רק אם הוא לא נשלט חיצונית
-    if (!isControlled) {
-      setIsInternalOpen(open);
-    }
-    
-    // אם סוגרים את הדיאלוג דרך מנגנון ה-Dialog עצמו, נקרא ל-onClose
-    if (!open && onClose) {
-      onClose();
-    }
-  };
+  // Use the formId to create unique identifiers for form elements
+  const nameId = `${formId}-name`;
+  const emailId = `${formId}-email`;
+  const phoneId = `${formId}-phone`;
+  const messageId = `${formId}-message`;
+  const notificationsId = `${formId}-notifications`;
 
   return (
-    <Dialog open={isOpen} onOpenChange={handleOpenChange} modal={true}>
-      <DialogTrigger asChild>
-        <Button
-          className={buttonClassName}
-          onClick={() => {
-            console.log("Dialog trigger clicked");
-            if (!isControlled) {
-              setIsInternalOpen(true);
-            }
-          }}
-          aria-label="פתיחת טופס יצירת קשר"
-        >
-          {buttonIcon}
-          {buttonText}
-        </Button>
-      </DialogTrigger>
-      <DialogOverlay className="bg-black/70 backdrop-blur-md fixed inset-0 z-50" />
-      <DialogContent className="w-[95%] max-w-[380px] sm:max-w-[420px] p-0 rounded-xl overflow-hidden border border-[#d39a6a]/20 shadow-2xl mx-auto max-h-[85vh] h-auto z-50 fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
-        {/* Close button repositioned to top-right corner with better styling */}
-        <Button
-          type="button"
-          onClick={handleClose}
-          className="absolute top-2 right-2 h-7 w-7 p-0 rounded-full bg-white/10 hover:bg-white/20 text-white z-10 shadow-sm transition-colors duration-200 flex items-center justify-center"
-          aria-label="סגור טופס"
-        >
-          <X className="h-4 w-4" />
-        </Button>
-
-        {/* Header with premium gradient background */}
-        <div className="bg-gradient-to-r from-[#0d3626] via-[#124A34] to-[#1a6349] p-4 text-white">
-          <DialogHeader>
-            <DialogTitle className="text-xl font-bold text-center mb-1.5 flex items-center justify-center gap-2">
-              {title}
-            </DialogTitle>
-            <DialogDescription className="text-center text-white/90 text-sm">
-              {description}
-            </DialogDescription>
-          </DialogHeader>
-        </div>
-
-        <div className="p-4 bg-white">
-          {isSubmitted ? (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="flex flex-col items-center justify-center py-4 text-center"
-            >
-              <div className="bg-[#124A34]/10 rounded-full p-2.5 mb-3">
-                <CheckCircle className="w-10 h-10 text-[#124A34]" />
-              </div>
-              <h3 className="text-lg font-bold mb-1.5 text-[#124A34]">
-                תודה על פנייתך!
-              </h3>
-              <p className="text-gray-600 mb-4 max-w-sm text-xs">
-                קיבלנו את הפרטים שלך ונחזור אליך בהקדם האפשרי.
-              </p>
-              <Button
-                onClick={handleClose}
-                className="bg-[#d39a6a] hover:bg-[#d39a6a]/90 text-white px-5 py-1.5 rounded-full transition-all duration-300 shadow-md text-sm"
+    <div className="bg-white rounded-2xl shadow-lg max-w-md w-full mx-auto p-6 rtl">
+      <div className="text-right">
+        <h2 className="text-2xl font-bold mb-6 text-[#d39a6a]">השאירו פרטים</h2>
+        
+        {submitSuccess ? (
+          <div 
+            className="bg-green-50 border border-green-200 rounded-lg p-4 text-center"
+            role="alert"
+            aria-live="polite"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto text-green-500 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h3 className="text-lg font-medium text-green-800">תודה רבה!</h3>
+            <p className="text-green-700 mt-1">פרטיך נשלחו בהצלחה. נחזור אליך בהקדם.</p>
+          </div>
+        ) : (
+          <form 
+            ref={formRef} 
+            onSubmit={handleSubmit} 
+            className="space-y-4"
+            noValidate
+            id={formId}
+          >
+            {formErrors.form && (
+              <div 
+                className="bg-red-50 border border-red-200 rounded-lg p-3 text-red-700 text-sm mb-4"
+                role="alert"
+                aria-live="assertive"
               >
-                סגור
-              </Button>
-            </motion.div>
-          ) : (
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
-              <div className="grid grid-cols-2 gap-3">
-                <FormField
-                  id="name"
-                  label="שם מלא"
-                  icon={User}
-                  required
-                  register={register}
-                  errors={errors}
-                  placeholder="הכנס את שמך המלא"
-                  inputRef={nameInputRef}
-                />
-
-                <FormField
-                  id="phone"
-                  label="טלפון"
-                  icon={Phone}
-                  required
-                  register={register}
-                  errors={errors}
-                  placeholder="מספר טלפון"
-                />
+                {formErrors.form}
               </div>
-
-              <FormField
-                id="email"
-                label="אימייל"
-                icon={Mail}
-                register={register}
-                errors={errors}
-                type="email"
-                placeholder="כתובת אימייל"
-              />
-
-              <FormField
-                id="message"
-                label="הודעה"
-                icon={MessageSquare}
+            )}
+            
+            <div>
+              <label htmlFor={nameId} className="block text-sm font-medium text-gray-700 mb-1">שם מלא</label>
+              <input
+                ref={initialFocusRef}
+                type="text"
+                id={nameId}
+                name="name"
+                autoComplete="name"
+                className={`w-full px-4 py-2 border rounded-lg outline-none transition-all ${
+                  formErrors.name 
+                    ? 'border-red-500 focus:ring-red-500 focus:border-red-500' 
+                    : 'border-gray-300 focus:ring-[#d39a6a] focus:border-[#d39a6a]'
+                }`}
+                placeholder="שם מלא"
+                disabled={isSubmitting}
+                value={formData.name}
+                onChange={handleInputChange}
+                aria-invalid={!!formErrors.name}
+                aria-describedby={formErrors.name ? `${nameId}-error` : undefined}
                 required
-                register={register}
-                errors={errors}
-                placeholder="כתוב את הודעתך כאן"
               />
-
-              <div className="flex items-center space-x-2 space-x-reverse rtl:space-x-reverse pt-1">
-                <Checkbox
-                  id="notifications"
-                  {...register("notifications")}
-                  className="border-[#124A34] h-4 w-4 data-[state=checked]:bg-[#124A34] data-[state=checked]:text-white"
-                />
-                <Label
-                  htmlFor="notifications"
-                  className="text-[10px] text-gray-700 cursor-pointer flex-1 text-right"
+              {formErrors.name && (
+                <p 
+                  id={`${nameId}-error`}
+                  className="mt-1 text-sm text-red-600"
+                  aria-live="polite"
                 >
-                  אני מאשר/ת קבלת הודעות תזכורת ותוכן פרסומי
-                </Label>
-              </div>
-
-              <div className="pt-3 flex justify-center">
-                <Button
-                  type="submit"
-                  className="bg-gradient-to-r from-[#124A34] to-[#1a6349] hover:from-[#0f3e2c] hover:to-[#155a40] w-full py-2 text-sm font-medium rounded-lg shadow-lg transition-all duration-300 flex items-center justify-center gap-2 group"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? (
-                    <>
-                      <div className="h-3.5 w-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      <span>שולח...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Send className="h-3.5 w-3.5 group-hover:translate-x-[-4px] transition-transform duration-300" />
-                      <span>שלח פרטים</span>
-                    </>
-                  )}
-                </Button>
-              </div>
-
-              <div className="text-center text-[10px] text-gray-500 pt-1">
-                <p>
-                  המידע שתמסור ישמש אותנו ליצירת קשר בלבד ולא יועבר לצד שלישי
+                  {formErrors.name}
                 </p>
-              </div>
-            </form>
-          )}
-        </div>
-      </DialogContent>
-    </Dialog>
+              )}
+            </div>
+            
+            <div>
+              <label htmlFor={emailId} className="block text-sm font-medium text-gray-700 mb-1">אימייל</label>
+              <input
+                type="email"
+                id={emailId}
+                name="email"
+                autoComplete="email"
+                className={`w-full px-4 py-2 border rounded-lg outline-none transition-all ${
+                  formErrors.email 
+                    ? 'border-red-500 focus:ring-red-500 focus:border-red-500' 
+                    : 'border-gray-300 focus:ring-[#d39a6a] focus:border-[#d39a6a]'
+                }`}
+                placeholder="your@email.com"
+                disabled={isSubmitting}
+                dir="ltr"
+                value={formData.email}
+                onChange={handleInputChange}
+                aria-invalid={!!formErrors.email}
+                aria-describedby={formErrors.email ? `${emailId}-error` : undefined}
+                required
+              />
+              {formErrors.email && (
+                <p 
+                  id={`${emailId}-error`}
+                  className="mt-1 text-sm text-red-600"
+                  aria-live="polite"
+                >
+                  {formErrors.email}
+                </p>
+              )}
+            </div>
+            
+            <div>
+              <label htmlFor={phoneId} className="block text-sm font-medium text-gray-700 mb-1">טלפון</label>
+              <input
+                type="tel"
+                id={phoneId}
+                name="phone"
+                autoComplete="tel"
+                className={`w-full px-4 py-2 border rounded-lg outline-none transition-all ${
+                  formErrors.phone 
+                    ? 'border-red-500 focus:ring-red-500 focus:border-red-500' 
+                    : 'border-gray-300 focus:ring-[#d39a6a] focus:border-[#d39a6a]'
+                }`}
+                placeholder="050-0000000"
+                disabled={isSubmitting}
+                dir="ltr"
+                value={formData.phone}
+                onChange={handleInputChange}
+                aria-invalid={!!formErrors.phone}
+                aria-describedby={formErrors.phone ? `${phoneId}-error` : undefined}
+                required
+              />
+              {formErrors.phone && (
+                <p 
+                  id={`${phoneId}-error`}
+                  className="mt-1 text-sm text-red-600"
+                  aria-live="polite"
+                >
+                  {formErrors.phone}
+                </p>
+              )}
+            </div>
+            
+            <div>
+              <label htmlFor={messageId} className="block text-sm font-medium text-gray-700 mb-1">הודעה</label>
+              <textarea
+                id={messageId}
+                name="message"
+                rows={4}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-[#d39a6a] focus:border-[#d39a6a] outline-none transition-all"
+                placeholder="איך אוכל לעזור לך?"
+                disabled={isSubmitting}
+                value={formData.message}
+                onChange={handleInputChange}
+              />
+            </div>
+            
+            <div className="flex items-center space-x-2 space-x-reverse rtl:space-x-reverse pt-1">
+              <input
+                type="checkbox"
+                id={notificationsId}
+                name="notifications"
+                className="border-[#124A34] h-4 w-4 text-[#124A34] rounded focus:ring-[#124A34] focus:border-[#124A34]"
+                checked={formData.notifications}
+                onChange={handleInputChange}
+                tabIndex={0}
+                aria-label="אישור קבלת הודעות תזכורת ותוכן פרסומי"
+              />
+              <label htmlFor={notificationsId} className="text-[10px] text-gray-700 cursor-pointer flex-1 text-right select-none">
+                אני מאשר/ת קבלת הודעות תזכורת ותוכן פרסומי
+              </label>
+            </div>
+            
+            <button
+              type="submit"
+              className="mt-6 w-full bg-[#d39a6a] hover:bg-[#d39a6a]/90 text-white font-medium rounded-xl px-6 py-3 transition-colors focus:outline-none focus:ring-2 focus:ring-[#d39a6a] focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center"
+              disabled={isSubmitting}
+              aria-busy={isSubmitting}
+            >
+              {isSubmitting ? (
+                <>
+                  <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  שולח...
+                </>
+              ) : (
+                <>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true" className="mr-2">
+                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"></path>
+                  </svg>
+                  השאירו פרטים ואחזור אליכם
+                </>
+              )}
+            </button>
+            
+            <div className="text-center text-[10px] text-gray-500 pt-1">
+              <p>
+                המידע שתמסור ישמש אותנו ליצירת קשר בלבד ולא יועבר לצד שלישי
+              </p>
+            </div>
+          </form>
+        )}
+      </div>
+    </div>
   );
-}
+};
+
+export default ContactForm; 

@@ -440,13 +440,15 @@ body > [data-a11y-fixed="true"] {
    ULTIMATE WIDGET VISIBILITY FIX - מבטיח נראות מוחלטת של הוידג'ט
    ====================================================================== */
 
+/* Temporarily Commented Out for Debugging CTA Button */
+/*
 #a11y-widget-container {
   position: fixed !important;
   bottom: 1.5rem !important;
   right: 1.5rem !important;
   width: 60px !important;
   height: 60px !important;
-  z-index: 2147483647 !important; /* הערך המקסימלי האפשרי */
+  z-index: 2147483647 !important; // הערך המקסימלי האפשרי
   visibility: visible !important;
   opacity: 1 !important;
   pointer-events: auto !important;
@@ -517,7 +519,7 @@ body > [data-a11y-fixed="true"] {
   animation: none !important;
 }
 
-/* כאשר התפריט פתוח, הכפתור לא מבצע אנימציה */
+// כאשר התפריט פתוח, הכפתור לא מבצע אנימציה
 html[data-a11y-open="true"] #a11y-widget-container button {
   animation: none !important;
 }
@@ -550,6 +552,7 @@ html[data-a11y-open="true"] #a11y-widget-container button {
   pointer-events: auto !important;
   filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.25)) !important;
 }
+*/
 
 .accessibility-widget {
   position: fixed;
@@ -706,4 +709,9 @@ html[data-a11y-open="true"] #a11y-widget-container button {
 
 .accessibility-dark-mode .accessibility-widget-button:hover {
   background-color: #2563eb;
+}
+
+/* Hide the specific standalone contact button but allow the one in CTASection */
+#root > div > button[aria-label="פתיחת טופס יצירת קשר"] {
+  display: none !important;
 }

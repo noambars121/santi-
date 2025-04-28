@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ContactForm } from "./ContactForm";
+import ContactForm from "./ContactForm2";
 import { useContactForm } from "../components/ContactFormWrapper";
 
 const EmergencyBanner = () => {

@@ -7,17 +7,21 @@ import GallerySection from "./components/GallerySection";
 import TestimonialsSection from "./components/TestimonialsSection";
 import CTASection from "./components/CTASection";
 import Footer from "./components/Footer";
+import ContactForm from "./components/ContactForm";
 
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import AccessibilityStatement from "./components/AccessibilityStatement";
-import AccessibilityWidget, {
-  AccessibilityProvider,
-} from "./components/AccessibilityWidget";
-import { ContactFormWrapper } from "./components/ContactFormWrapper";
+import AccessibilityWidget from "./components/AccessibilityWidget";
+import AccessibilityProvider from "./components/AccessibilityProvider";
 
 function App() {
   const location = useLocation();
   const [showInitialContactForm, setShowInitialContactForm] = useState(false);
+
+  // Scroll to top on initial load
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   // Show contact form on initial load, but only on the home page
   useEffect(() => {
@@ -32,69 +36,61 @@ function App() {
     }
   }, [location.pathname]);
 
-  // Check for #contact hash in URL
-  useEffect(() => {
-    if (location.hash === "#contact") {
-      const { openContactForm } =
-        document.querySelector("[data-contact-wrapper]")?.[
-          "__CONTACT_FORM_API"
-        ] || {};
-      if (typeof openContactForm === "function") {
-        openContactForm();
-      }
-    }
-  }, [location.hash]);
-
   return (
     <AccessibilityProvider>
-      <ContactFormWrapper>
-        <div className="min-h-screen">
-          {/* Skip to main content link for keyboard users */}
-          <a
-            href="#main-content"
-            className="skip-link"
-            aria-label="דלג לתוכן העיקרי"
-          >
-            דלג לתוכן העיקרי
-          </a>
-          <Routes>
-            <Route
-              path="/accessibility-statement"
-              element={<AccessibilityStatement />}
-            />
-            <Route
-              path="/"
-              element={
-                <main id="main-content">
-                  <Navigation />
+      <>
+        {/* Skip to content link for keyboard users */}
+        <a 
+          href="#main-content" 
+          className="sr-only focus:not-sr-only focus:absolute focus:z-[9999] focus:top-4 focus:right-4 focus:p-4 focus:bg-white focus:text-[#124A34] focus:shadow-lg focus:rounded-md focus:text-lg focus:font-bold"
+          tabIndex={0}
+        >
+          דלג לתוכן העיקרי
+        </a>
+        <Navigation />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <main id="main-content" tabIndex={-1}>
                   <HeroSection />
+                  {showInitialContactForm && (
+                    <div className="fixed inset-0 flex items-center justify-center z-[9999]">
+                      <div 
+                        className="absolute inset-0 bg-black/50"
+                        onClick={() => setShowInitialContactForm(false)}
+                      />
+                      <div 
+                        className="relative bg-white rounded-lg shadow-xl p-4 max-w-md w-full z-10"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <button 
+                          onClick={() => setShowInitialContactForm(false)}
+                          className="absolute top-2 right-2 text-gray-500 bg-gray-200 rounded-full p-1 hover:bg-gray-300"
+                          aria-label="סגור טופס"
+                        >
+                          ×
+                        </button>
+                        <ContactForm formId="popup-contact-form" onSuccessSubmit={() => setShowInitialContactForm(false)} />
+                      </div>
+                    </div>
+                  )}
                   <PackagesSection />
                   <AboutSection />
                   <GallerySection />
-                  <TestimonialsSection />
                   <CTASection />
-                  <Footer />
                 </main>
-              }
-            />
-          </Routes>
-          
-          {/* בלוק div נפרד מהמבנה הקיים, ישירות תחת ה-AccessibilityProvider */}
-          <div 
-            className="a11y-container" 
-            style={{
-              position: 'fixed',
-              bottom: 0,
-              right: 0,
-              zIndex: 2147483647,
-              visibility: 'visible',
-              pointerEvents: 'none'
-            }}
-          >
-            <AccessibilityWidget />
-          </div>
-        </div>
-      </ContactFormWrapper>
+              </>
+            }
+          />
+          <Route path="/accessibility-statement" element={<AccessibilityStatement />} />
+          {/* Redirect from old path to new path */}
+          <Route path="/accessibility" element={<Navigate to="/accessibility-statement" replace />} />
+        </Routes>
+        <Footer />
+        <AccessibilityWidget />
+      </>
     </AccessibilityProvider>
   );
 }

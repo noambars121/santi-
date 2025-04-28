@@ -1,9 +1,9 @@
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
-import { useContactForm } from "../components/ContactFormWrapper";
+// import { useContactForm } from "../components/ContactFormWrapper";
 
 export default function Header() {
-  const { openContactForm } = useContactForm();
+  // const { openContactForm } = useContactForm();
   const menuItems = [
     { label: "בית", href: "/", isExternal: false },
     { label: "חבילות אימון", href: "#packages", isExternal: false },
@@ -16,13 +16,6 @@ export default function Header() {
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     }
-  };
-
-  const handleContactClick = () => {
-    console.log("Header: Contact button clicked");
-    setTimeout(() => {
-      openContactForm();
-    }, 0);
   };
 
   return (
@@ -59,13 +52,25 @@ export default function Header() {
             )}
           </div>
 
-          <Button
-            className="bg-[#d39a6a] hover:bg-[#d39a6a]/90 text-white"
-            onClick={handleContactClick}
-            aria-label="פתיחת שיחת ייעוץ חינם בוואטסאפ"
+          <a
+            href="#contact"
+            className="bg-[#d39a6a] hover:bg-[#d39a6a]/90 text-white px-6 py-2 rounded-xl shadow-lg transition-all duration-300 text-lg font-medium"
+            aria-label="מעבר לטופס יצירת קשר"
+            tabIndex={0}
+            onClick={e => {
+              e.preventDefault();
+              const el = document.getElementById('contact');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }}
+            onKeyDown={e => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                const el = document.getElementById('contact');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
           >
             השאירו פרטים ואחזור אליכם
-          </Button>
+          </a>
         </nav>
       </div>
     </header>

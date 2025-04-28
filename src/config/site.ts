@@ -8,8 +8,9 @@ export const siteConfig = {
   email: "santiago@dogtraining.co.il",
   location: "נהריה, ישראל",
   social: {
-    facebook: "#",
-    instagram: "#",
+    facebook: "https://www.facebook.com/santi221",
+    instagram: "https://www.instagram.com/santi_dogtrainer/",
+    tiktok: "https://www.tiktok.com/@dog_trainer_santi?lang=he-IL",
     youtube: "#",
   },
   images: {
