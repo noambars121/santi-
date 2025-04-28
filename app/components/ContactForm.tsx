@@ -87,17 +87,37 @@ const ContactForm = () => {
     setSubmitMessage('');
     
     try {
-      const response = await fetch('/api/sendToTelegram', {
+      console.log('Sending form data:', formData);
+      
+      // Direct call to Telegram API
+      // NOTE: This exposes your bot token in client-side code, only use for personal projects
+      const TELEGRAM_TOKEN = '7696008604:AAGdsTP2G2yV2h-7f-4QOFQ2RN0xk0yruLE';
+      const TELEGRAM_CHAT_ID = '543254925';
+      
+      const messageText = `New Contact Form Submission:
+Name: ${formData.name}
+Email: ${formData.email}
+Phone: ${formData.phone}
+Message: ${formData.message || 'No message provided'}`;
+      
+      const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          chat_id: TELEGRAM_CHAT_ID,
+          text: messageText,
+          parse_mode: 'Markdown',
+        }),
       });
       
-      const data = await response.json();
+      console.log('Response status:', response.status);
       
-      if (response.ok) {
+      const data = await response.json();
+      console.log('Response data:', data);
+      
+      if (data.ok) {
         setSubmitStatus('success');
         setSubmitMessage('Thank you for your message! We will get back to you soon.');
         setFormData({
@@ -108,8 +128,7 @@ const ContactForm = () => {
           honeypot: '',
         });
       } else {
-        setSubmitStatus('error');
-        setSubmitMessage(data.error || 'Something went wrong. Please try again.');
+        throw new Error(data.description || 'Error sending message');
       }
     } catch (error) {
       setSubmitStatus('error');

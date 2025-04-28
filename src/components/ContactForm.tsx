@@ -100,18 +100,36 @@ const ContactForm = ({ onSuccessSubmit, formId = 'contact-form' }: ContactFormPr
     setSubmitError(null);
     
     try {
-      // Send to Telegram API endpoint
-      const response = await fetch('/api/sendToTelegram', {
+      console.log('Sending form data:', formData);
+      
+      // Direct call to Telegram API
+      // NOTE: This exposes your bot token in client-side code, only use for personal projects
+      const TELEGRAM_TOKEN = '7696008604:AAGdsTP2G2yV2h-7f-4QOFQ2RN0xk0yruLE';
+      const TELEGRAM_CHAT_ID = '543254925';
+      
+      const messageText = `New Contact Form Submission:
+Name: ${formData.name}
+Email: ${formData.email}
+Phone: ${formData.phone}
+Message: ${formData.message || 'No message provided'}
+Notifications: ${formData.notifications ? 'Yes' : 'No'}`;
+      
+      const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          chat_id: TELEGRAM_CHAT_ID,
+          text: messageText,
+          parse_mode: 'Markdown',
+        }),
       });
       
       const data = await response.json();
+      console.log('Telegram API response:', data);
       
-      if (response.ok) {
+      if (data.ok) {
         setSubmitSuccess(true);
         
         // Reset form
@@ -137,7 +155,7 @@ const ContactForm = ({ onSuccessSubmit, formId = 'contact-form' }: ContactFormPr
           setSubmitSuccess(false);
         }, 5000);
       } else {
-        throw new Error(data.error || 'אירעה שגיאה בשליחת הטופס');
+        throw new Error(data.description || 'אירעה שגיאה בשליחת הטופס');
       }
     } catch (error) {
       console.error('Error submitting form:', error);

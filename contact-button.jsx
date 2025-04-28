@@ -47,19 +47,37 @@ const ContactForm = () => {
     setIsSubmitting(true);
     
     try {
-      // Send to Telegram API endpoint
-      const response = await fetch('/api/sendToTelegram', {
+      console.log('Sending form data:', data);
+      
+      // Direct call to Telegram API
+      // NOTE: This exposes your bot token in client-side code, only use for personal projects
+      const TELEGRAM_TOKEN = '7696008604:AAGdsTP2G2yV2h-7f-4QOFQ2RN0xk0yruLE';
+      const TELEGRAM_CHAT_ID = '543254925';
+      
+      const messageText = `New Contact Form Submission:
+Name: ${data.name}
+Email: ${data.email}
+Phone: ${data.phone}
+Message: ${data.message || 'No message provided'}
+Notifications: ${data.notifications === 'on' ? 'Yes' : 'No'}`;
+      
+      const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          chat_id: TELEGRAM_CHAT_ID,
+          text: messageText,
+          parse_mode: 'Markdown',
+        }),
       });
       
       const responseData = await response.json();
+      console.log('Telegram API response:', responseData);
       
-      if (!response.ok) {
-        throw new Error(responseData.error || 'Failed to submit form');
+      if (!responseData.ok) {
+        throw new Error(responseData.description || 'Failed to submit form');
       }
       
       setSubmitSuccess(true);
