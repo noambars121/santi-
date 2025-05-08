@@ -1,4 +1,5 @@
 import { useState, useRef, FormEvent, ChangeEvent, FocusEvent, useEffect } from 'react';
+import { trackLead, trackContact } from '../lib/pixel';
 
 interface FormData {
   name: string;
@@ -162,6 +163,20 @@ END:VCARD`
       
       if (data.ok) {
         setSubmitSuccess(true);
+        
+        // Track Lead and Contact events with Facebook Pixel (PixelYourSite)
+        trackLead({
+          content_name: 'Contact Form Submission',
+          content_category: 'Contact',
+          value: 1,
+          currency: 'ILS',
+          status: 'submitted'
+        });
+        
+        trackContact({
+          content_name: 'Contact Form Submission',
+          content_category: 'Contact'
+        });
         
         // Reset form
         setFormData({

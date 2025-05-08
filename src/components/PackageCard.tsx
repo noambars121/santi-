@@ -8,6 +8,7 @@ import {
 } from "./ui/card";
 import { Button } from "./ui/button";
 import { motion } from "framer-motion";
+import { trackCustomPixelEvent } from "../lib/pixel";
 
 interface PackageCardProps {
   title: string;
@@ -29,6 +30,22 @@ const PackageCard = ({
     window.open("https://wa.me/message/JLTNWOHMONIZK1", "_blank"),
   badge,
 }: PackageCardProps) => {
+  
+  // Handle package selection with pixel tracking
+  const handlePackageSelect = () => {
+    // Track the package selection event with Facebook Pixel
+    trackCustomPixelEvent('PackageSelected', {
+      content_name: title,
+      content_category: 'Package',
+      value: parseFloat(price.replace(/[^\d.]/g, '')),
+      currency: 'ILS',
+      status: 'selected'
+    });
+    
+    // Call the original onSelect function
+    onSelect();
+  };
+  
   return (
     <Card
       className={`w-full relative ${highlight ? "border-accent border-2 md:scale-105 md:translate-y-[-10px] z-10" : "border border-primary/10"} 
@@ -94,7 +111,7 @@ const PackageCard = ({
       </CardContent>
       <CardFooter>
         <Button
-          onClick={onSelect}
+          onClick={handlePackageSelect}
           className={`w-full ${highlight ? "bg-primary" : "bg-accent"} 
             hover:opacity-90 text-white py-4 md:py-6 text-base md:text-lg font-semibold
             touch-manipulation active:scale-[0.98] transition-all duration-200 shadow-md hover:shadow-lg

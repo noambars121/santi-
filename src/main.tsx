@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, useLocation } from "react-router-dom";
 import { TempoDevtools } from "tempo-devtools";
 import { Analytics } from "@vercel/analytics/react";
 import App from "./App";
 import "./index.css";
 import { AccessibilityProvider } from "./components/AccessibilityWidget";
+import { trackPixelEvent } from "./lib/pixel";
 
 // Initialize Tempo Devtools
 TempoDevtools.init();
@@ -36,10 +37,23 @@ const removeContactButton = () => {
 removeContactButton();
 */
 
+// PixelYourSite route change tracker component
+function PixelRouteTracker() {
+  const location = useLocation();
+  
+  useEffect(() => {
+    // Track PageView on route change
+    trackPixelEvent('PageView');
+  }, [location]);
+  
+  return null;
+}
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter>
       <AccessibilityProvider>
+        <PixelRouteTracker />
         <App />
         <Analytics />
       </AccessibilityProvider>
