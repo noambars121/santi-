@@ -5,7 +5,6 @@ import { TempoDevtools } from "tempo-devtools";
 import { Analytics } from "@vercel/analytics/react";
 import App from "./App";
 import "./index.css";
-import { AccessibilityProvider } from "./components/AccessibilityWidget";
 import { trackPixelEvent } from "./lib/pixel";
 
 // Initialize Tempo Devtools
@@ -52,11 +51,9 @@ function PixelRouteTracker() {
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter>
-      <AccessibilityProvider>
-        <PixelRouteTracker />
-        <App />
-        <Analytics />
-      </AccessibilityProvider>
+      <PixelRouteTracker />
+      <App />
+      <Analytics />
     </BrowserRouter>
   </React.StrictMode>,
 );
