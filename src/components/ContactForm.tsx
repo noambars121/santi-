@@ -224,7 +224,7 @@ END:VCARD`
   return (
     <div className="bg-white rounded-2xl shadow-lg max-w-md w-full mx-auto p-6 rtl">
       <div className="text-right">
-        <h2 className="text-2xl font-bold mb-6 text-[#d39a6a]">השאירו פרטים</h2>
+        <h2 className="text-2xl font-bold mb-6 text-[#124A34]">השאירו פרטים</h2>
         
         {submitSuccess ? (
           <div 
@@ -267,7 +267,7 @@ END:VCARD`
                 className={`w-full px-4 py-2 border rounded-lg outline-none transition-all ${
                   formErrors.name 
                     ? 'border-red-500 focus:ring-red-500 focus:border-red-500' 
-                    : 'border-gray-300 focus:ring-[#d39a6a] focus:border-[#d39a6a]'
+                    : 'border-gray-300 focus:ring-[#124A34] focus:border-[#124A34]'
                 }`}
                 placeholder="שם מלא"
                 disabled={isSubmitting}
@@ -298,7 +298,7 @@ END:VCARD`
                 className={`w-full px-4 py-2 border rounded-lg outline-none transition-all ${
                   formErrors.email 
                     ? 'border-red-500 focus:ring-red-500 focus:border-red-500' 
-                    : 'border-gray-300 focus:ring-[#d39a6a] focus:border-[#d39a6a]'
+                    : 'border-gray-300 focus:ring-[#124A34] focus:border-[#124A34]'
                 }`}
                 placeholder="your@email.com"
                 disabled={isSubmitting}
@@ -330,7 +330,7 @@ END:VCARD`
                 className={`w-full px-4 py-2 border rounded-lg outline-none transition-all ${
                   formErrors.phone 
                     ? 'border-red-500 focus:ring-red-500 focus:border-red-500' 
-                    : 'border-gray-300 focus:ring-[#d39a6a] focus:border-[#d39a6a]'
+                    : 'border-gray-300 focus:ring-[#124A34] focus:border-[#124A34]'
                 }`}
                 placeholder="050-0000000"
                 disabled={isSubmitting}
@@ -358,7 +358,7 @@ END:VCARD`
                 id={messageId}
                 name="message"
                 rows={4}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-[#d39a6a] focus:border-[#d39a6a] outline-none transition-all"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-[#124A34] focus:border-[#124A34] outline-none transition-all"
                 placeholder="איך אוכל לעזור לך?"
                 disabled={isSubmitting}
                 value={formData.message}
@@ -384,7 +384,7 @@ END:VCARD`
             
             <button
               type="submit"
-              className="mt-6 w-full bg-[#d39a6a] hover:bg-[#d39a6a]/90 text-white font-medium rounded-xl px-6 py-3 transition-colors focus:outline-none focus:ring-2 focus:ring-[#d39a6a] focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center"
+              className="mt-6 w-full bg-[#124A34] hover:bg-[#1a6349] text-white font-medium rounded-xl px-6 py-3 transition-colors focus:outline-none focus:ring-2 focus:ring-[#124A34] focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center shadow-lg"
               disabled={isSubmitting}
               aria-busy={isSubmitting}
             >

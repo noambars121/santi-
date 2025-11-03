@@ -48,18 +48,25 @@ export default function Navigation() {
               בית
             </button>
             <button
-              onClick={() => scrollToSection("about")}
-              className="text-[#0B4619] hover:text-[#083612] px-3 py-2 rounded-md text-lg font-medium bg-transparent"
-              aria-label="אודות סנטיאגו מרזי"
-            >
-              עליי
-            </button>
-            <button
               onClick={() => scrollToSection("packages")}
               className="text-[#0B4619] hover:text-[#083612] px-3 py-2 rounded-md text-lg font-medium bg-transparent"
               aria-label="חבילות אילוף"
             >
               חבילות
+            </button>
+            <button
+              onClick={() => scrollToSection("b-rolls")}
+              className="text-[#0B4619] hover:text-[#083612] px-3 py-2 rounded-md text-lg font-medium bg-transparent"
+              aria-label="סרטוני אימונים"
+            >
+              סרטונים
+            </button>
+            <button
+              onClick={() => scrollToSection("about")}
+              className="text-[#0B4619] hover:text-[#083612] px-3 py-2 rounded-md text-lg font-medium bg-transparent"
+              aria-label="אודות סנטיאגו מרזי"
+            >
+              עליי
             </button>
 
             <a
@@ -110,6 +117,13 @@ export default function Navigation() {
               aria-label="חבילות אילוף"
             >
               חבילות
+            </button>
+            <button
+              onClick={() => scrollToSection("b-rolls")}
+              className="text-[#0B4619] hover:text-[#083612] block px-3 py-2 rounded-md text-base font-medium text-right w-full text-right bg-transparent"
+              aria-label="סרטוני אימונים"
+            >
+              סרטונים
             </button>
             <button
               onClick={() => scrollToSection("about")}

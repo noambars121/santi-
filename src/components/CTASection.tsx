@@ -15,7 +15,7 @@ const CTASection = () => {
   return (
     <section
       ref={ctaSectionRef}
-      className="w-full py-24 bg-gradient-to-br from-[#124A34] via-[#1a6349] to-[#124A34] relative overflow-hidden"
+      className="w-full py-24 bg-gradient-to-br from-[#d39a6a] via-[#c89060] to-[#d39a6a] relative overflow-hidden"
       id="contact"
       style={{ position: 'relative', zIndex: 2 }}
     >
@@ -40,15 +40,15 @@ const CTASection = () => {
           >
             <Badge
               variant="outline"
-              className="mb-6 px-4 py-1.5 text-sm md:text-base border-white/30 text-white uppercase tracking-wider bg-white/5 backdrop-blur-sm"
+              className="mb-6 px-4 py-1.5 text-sm md:text-base border-[#124A34] text-[#124A34] uppercase tracking-wider bg-white/80 backdrop-blur-sm"
             >
               בואו נתחיל
             </Badge>
 
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#124A34] mb-6">
               מוכנים להתחיל את המסע לאילוף מקצועי
             </h2>
-            <p className="text-lg md:text-xl text-white/90 mb-6">
+            <p className="text-lg md:text-xl text-[#124A34] mb-6">
               מלאו את הפרטים בטופס ונחזור אליכם בהקדם עם פתרונות מותאמים אישית לכלב שלכם
             </p>
           </motion.div>

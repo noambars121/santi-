@@ -14,7 +14,7 @@ export default function Footer() {
 
   return (
     <footer
-      className="py-8 border-t bg-[#d39a6a]"
+      className="py-8 border-t bg-gradient-to-br from-[#124A34] via-[#1a6349] to-[#124A34]"
       role="contentinfo"
       aria-label="פוטר"
     >
@@ -23,7 +23,7 @@ export default function Footer() {
           <div>
             <Link
               to="/"
-              className="text-white font-bold text-xl hover:text-[#124A34] transition-colors"
+              className="text-white font-bold text-xl hover:text-[#d39a6a] transition-colors"
             >
               סנטיאגו מרזי - אילוף כלבים מקצועי
             </Link>
@@ -31,21 +31,21 @@ export default function Footer() {
           <div className="flex flex-wrap justify-center gap-4">
             <button
               onClick={() => scrollToSection("about")}
-              className="text-white hover:text-[#124A34] transition-colors bg-transparent"
+              className="text-white hover:text-[#d39a6a] transition-colors bg-transparent"
               aria-label="מעבר לאודות"
             >
               עליי
             </button>
             <button
               onClick={() => scrollToSection("packages")}
-              className="text-white hover:text-[#124A34] transition-colors bg-transparent"
+              className="text-white hover:text-[#d39a6a] transition-colors bg-transparent"
               aria-label="מעבר לחבילות"
             >
               חבילות
             </button>
             <Link
               to="/accessibility-statement"
-              className="text-white hover:text-[#124A34] transition-colors"
+              className="text-white hover:text-[#d39a6a] transition-colors"
               aria-label="מעבר להצהרת נגישות"
             >
               הצהרת נגישות
@@ -58,7 +58,7 @@ export default function Footer() {
               href="https://www.facebook.com/santi221"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white hover:text-[#124A34] transition-colors"
+              className="text-white hover:text-[#d39a6a] transition-colors"
               aria-label="פייסבוק"
               tabIndex={0}
               onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') window.open('https://www.facebook.com/santi221', '_blank'); }}
@@ -69,7 +69,7 @@ export default function Footer() {
               href="https://www.instagram.com/santi_dogtrainer/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white hover:text-[#124A34] transition-colors"
+              className="text-white hover:text-[#d39a6a] transition-colors"
               aria-label="אינסטגרם"
               tabIndex={0}
               onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') window.open('https://www.instagram.com/santi_dogtrainer/', '_blank'); }}
@@ -80,7 +80,7 @@ export default function Footer() {
               href="https://www.tiktok.com/@dog_trainer_santi?lang=he-IL"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white hover:text-[#124A34] transition-colors"
+              className="text-white hover:text-[#d39a6a] transition-colors"
               aria-label="טיקטוק"
               tabIndex={0}
               onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') window.open('https://www.tiktok.com/@dog_trainer_santi?lang=he-IL', '_blank'); }}
@@ -102,7 +102,7 @@ export default function Footer() {
             </a>
             <a
               href="#contact"
-              className="text-white hover:text-[#124A34] transition-colors p-0 bg-transparent hover:bg-transparent flex items-center justify-center"
+              className="text-white hover:text-[#d39a6a] transition-colors p-0 bg-transparent hover:bg-transparent flex items-center justify-center"
               aria-label="מעבר לטופס יצירת קשר"
               tabIndex={0}
               onClick={e => {
@@ -131,6 +131,17 @@ export default function Footer() {
           </div>
           <p className="text-sm text-white">
             © 2024 סנטיאגו מרזי. כל הזכויות שמורות.
+          </p>
+          <p className="text-sm text-white mt-2">
+            האתר נבנה על ידי{" "}
+            <a
+              href="https://www.instagram.com/noambars/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#d39a6a] hover:text-[#c89060] transition-colors underline font-semibold"
+            >
+              Noam Barsheshet
+            </a>
           </p>
         </div>
       </div>

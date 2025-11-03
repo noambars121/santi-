@@ -47,7 +47,7 @@ export default function PackagesSection() {
 
   return (
     <section
-      className="w-full py-24 bg-gradient-to-br from-[#124A34] via-[#1a6349] to-[#124A34] relative overflow-hidden"
+      className="w-full py-24 bg-gradient-to-br from-[#d39a6a] via-[#c89060] to-[#d39a6a] relative overflow-hidden"
       id="packages"
       aria-label="חבילות אילוף"
       role="region"
@@ -83,7 +83,7 @@ export default function PackagesSection() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {packages.map((pkg, index) => (
             <motion.div
               key={pkg.title}
@@ -93,24 +93,24 @@ export default function PackagesSection() {
               transition={{ delay: index * 0.1 }}
               className="rtl"
             >
-              <div className="h-full bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden hover:border-white/30 transition-all duration-300 group shadow-[0_0_15px_rgba(255,255,255,0.07)]">
-                <div className="p-8 flex flex-col items-center">
-                  <div className="text-5xl mb-8" aria-hidden="true">
+              <div className="h-full bg-white/95 backdrop-blur-sm border-2 border-white/20 rounded-2xl overflow-hidden hover:border-white/40 transition-all duration-300 group shadow-2xl">
+                <div className="p-6 md:p-8 flex flex-col items-center">
+                  <div className="text-4xl md:text-5xl mb-6 md:mb-8" aria-hidden="true">
                     {pkg.icon}
                   </div>
-                  <h3 className="text-2xl font-semibold mb-6 text-[#d39a6a] text-center w-full">
+                  <h3 className="text-xl md:text-2xl font-semibold mb-4 md:mb-6 text-[#124A34] text-center w-full">
                     {pkg.title}
                   </h3>
-                  <p className="text-white mb-8 text-center leading-relaxed h-[124px] font-[600] mx-auto px-4 w-full">
+                  <p className="text-sm md:text-base text-[#124A34] mb-6 md:mb-8 text-center leading-relaxed font-[600] mx-auto px-2 md:px-4 w-full min-h-[160px] md:min-h-[124px]">
                     {pkg.description}
                   </p>
-                  <ul className="space-y-4 mb-8 w-full flex flex-col items-center">
+                  <ul className="space-y-3 md:space-y-4 mb-6 md:mb-8 w-full flex flex-col items-center">
                     {pkg.features.map((feature) => (
                       <li
                         key={feature}
-                        className="flex items-center justify-center gap-3 text-white w-full"
+                        className="flex items-center justify-center gap-2 md:gap-3 text-sm md:text-base text-[#124A34] w-full"
                       >
-                        <span className="text-[#d39a6a]" aria-hidden="true">
+                        <span className="text-[#d39a6a] text-base md:text-lg" aria-hidden="true">
                           ✓
                         </span>
                         <span>{feature}</span>
@@ -119,7 +119,7 @@ export default function PackagesSection() {
                   </ul>
                   <a
                     href="#contact"
-                    className="w-full bg-[#124A34] hover:bg-[#124A34]/90 text-white transition-colors font-semibold py-6 text-base flex items-center justify-center gap-2 rounded-md"
+                    className="w-full bg-[#124A34] hover:bg-[#1a6349] text-white transition-colors font-semibold py-4 md:py-6 text-sm md:text-base flex items-center justify-center gap-2 rounded-md shadow-lg"
                     aria-label={`מעבר לטופס יצירת קשר לחבילת ${pkg.title}`}
                     tabIndex={0}
                     onClick={e => {

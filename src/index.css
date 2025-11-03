@@ -33,7 +33,7 @@
   box-shadow: 0 0 0 3px rgba(211, 154, 106, 0.4);
 }
 
-/* Dyslexic font */
+/* Dyslexic font - will override the default Rubik font when active */
 .dyslexic-font,
 .dyslexic-font * {
   font-family: "OpenDyslexic", "Comic Sans MS", sans-serif !important;
@@ -345,6 +345,12 @@ body.dark-mode .a11y-widget-button,
 /* Ensure text is readable at different sizes */
 html {
   font-size: 100%;
+}
+
+/* Force Rubik font for all text elements */
+body,
+body * {
+  font-family: 'Rubik', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
 }
 
 /* Keyboard users get enhanced focus styles */
